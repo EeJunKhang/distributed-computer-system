@@ -9,5 +9,8 @@ package enums;
  * @author C
  */
 public enum UserRole {
-    CUSTOMER, RESTAURANT, DELIVERY_PERSON, ADMIN
+    CUSTOMER, 
+    RESTAURANT, 
+    DELIVERY_PERSON, 
+    ADMIN
 }

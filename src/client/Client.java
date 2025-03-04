@@ -10,7 +10,7 @@ package client;
  */
 import java.rmi.*;
 import java.net.MalformedURLException;
-import RMI.RMIInterface;
+import rmi.RMIInterface;
 import utils.ConfigReader;
 
 public class Client {
@@ -20,6 +20,6 @@ public class Client {
         
         RMIInterface Obj = (RMIInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/add");
         
-        System.out.println("The number babsba is "+ Obj.add(5, 9));
+        System.out.println("The number is "+ Obj.add(6, 9));
     }
 }

@@ -9,5 +9,5 @@ package model;
  * @author C
  */
 public class Item {
-    int id;
+    
 }
