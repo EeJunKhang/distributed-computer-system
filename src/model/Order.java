@@ -62,6 +62,26 @@ public class Order implements Serializable {
         this.status = status;
     }
 
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setOrderTime(Date orderTime) {
+        this.orderTime = orderTime;
+    }
+
     @Override
     public String toString() {
         return "Order{" +

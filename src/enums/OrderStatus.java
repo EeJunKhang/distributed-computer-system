@@ -9,5 +9,10 @@ package enums;
  * @author C
  */
 public enum OrderStatus {
-    PENDING, CONFIRMED, PREPARING, OUT_FOR_DELIVERY, DELIVERED, CANCELED
+    PENDING, 
+    CONFIRMED, 
+    PREPARING, 
+    OUT_FOR_DELIVERY, 
+    DELIVERED, 
+    CANCELED
 }

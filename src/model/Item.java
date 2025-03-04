@@ -10,4 +10,5 @@ package model;
  */
 public class Item {
     int id;
+    String itemName;
 }
