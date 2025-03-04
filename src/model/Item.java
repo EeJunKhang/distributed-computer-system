@@ -9,5 +9,6 @@ package model;
  * @author C
  */
 public class Item {
-    
+    int id;
+    String itemName;
 }
