@@ -1,0 +1,75 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package model;
+
+
+/**
+ *
+ * @author C
+ */
+import enums.OrderStatus;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+public class Order implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private int orderId;
+    private User customer;
+    private List<Item> items;
+    private double totalPrice;
+    private OrderStatus status;
+    private Date orderTime;
+
+    public Order(int orderId, User customer, List<Item> items, 
+            double totalPrice, OrderStatus status, Date orderTime) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.status = status;
+        this.orderTime = orderTime;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public User getCustomer() {
+        return customer;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public Date getOrderTime() {
+        return orderTime;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", customer=" + customer.getUsername() +
+                ", totalPrice=" + totalPrice +
+                ", status=" + status +
+                ", orderTime=" + orderTime +
+                '}';
+    }
+}
