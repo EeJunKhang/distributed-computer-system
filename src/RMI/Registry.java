@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package rmi;
+package RMI;
 
 /**
  *
@@ -20,7 +20,9 @@ public class Registry {
         System.setProperty("java.rmi.server.hostname", serverIP);
 
         java.rmi.registry.Registry reg = LocateRegistry.createRegistry(rmiPort);
-        reg.rebind("add", new Server());
+        reg.rebind("handleLogin", new AuthServer());
+        
+        reg.rebind("handleLogout", new AuthServer());
 
         System.out.println("Server is running on IP: " + serverIP 
                 + " \n Server is bound to port: " + rmiPort);
