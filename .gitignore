@@ -3,8 +3,8 @@ nbproject/private/
 nbproject/build-impl.xml
 
 # Build directories and compiled files
-build/
-dist/
+/build/
+/dist/
 nbbuild/
 nbdist/
 release/
