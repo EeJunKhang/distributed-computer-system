@@ -155,9 +155,6 @@
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                   <SubComponents>
                     <Component class="client.Components.PasswordField" name="passwordField">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="password"/>
-                      </Properties>
                     </Component>
                     <Component class="javax.swing.Box$Filler" name="filler8">
                       <Properties>

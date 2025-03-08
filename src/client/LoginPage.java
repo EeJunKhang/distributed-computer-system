@@ -118,8 +118,6 @@ public class LoginPage extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
-
-        passwordField.setText("password");
         jPanel2.add(passwordField);
         jPanel2.add(filler8);
 
