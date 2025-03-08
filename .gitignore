@@ -1,1 +1,19 @@
-/dist/
+# NetBeans-specific files
+nbproject/private/
+nbproject/build-impl.xml
+
+# Build directories and compiled files
+build/
+dist/
+nbbuild/
+nbdist/
+release/
+classes/
+test/build/
+test/dist/
+
+# Generated files
+*.class
+*.jar
+*.war
+*.ear
