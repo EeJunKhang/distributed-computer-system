@@ -1,12 +1,9 @@
 # NetBeans-specific files
 nbproject/private/
-nbproject/build-impl.xml
 
 # Build directories and compiled files
-/build/
 build/
 dist/
-/dist/
 nbbuild/
 nbdist/
 release/
