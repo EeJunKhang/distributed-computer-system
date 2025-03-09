@@ -4,13 +4,18 @@
  */
 package client;
 
+import model.LoginCredential;
 import RMI.CredentialsInterface;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import utils.ConfigReader;
-import utils.Serialization;
 
 public class AuthClient {
 
@@ -25,33 +30,80 @@ public class AuthClient {
     }
 
     // for login
-    private boolean sendCrentialToServer() throws RemoteException, NotBoundException, MalformedURLException {
+    private String sendCrentialToServer() throws RemoteException, NotBoundException, MalformedURLException {
         CredentialsInterface Obj = (CredentialsInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleLogin");
-
-        boolean response = Obj.handleLogin(loginCredential);
-        return response;
+        // get back response from server
+        return Obj.handleLogin(loginCredential);
     }
 
-    public String handleAuthLogin() {
-        Serialization ser = new Serialization(loginCredential);
-        var isSerSuccess = ser.serialize();
-        if (isSerSuccess) {
-            var isDesSuccess = ser.deserialize();
-            if (isDesSuccess != null) {
-                try {
-                    var response = this.sendCrentialToServer();
-                    if (response) {
-                        return null;
-                    } else {
-                        return "Credential Invalid";
+    public String handleAuthLogin(boolean isRememberMe) {
+        try {
+            var response = this.sendCrentialToServer();
+            // credential valid and return a token
+            if (response != null) {
+                if (isRememberMe) {
+                    try {
+                        //store token in local if user choose remember me
+                        saveToken(response);
+                    } catch (IOException ex) {
+                        System.out.println(ex);
+                        return "Error saving token";
                     }
-                } catch (RemoteException | NotBoundException | MalformedURLException ex) {
-                    System.out.println(ex);
-                    return "Something Went Wrong";
                 }
+                return null;
+            } else {
+                return "Credential Invalid";
             }
-            return "Deserialization Failed";
+        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+            System.out.println(ex);
+            return "Something Went Wrong";
         }
-        return "Serialization Failed";
     }
+
+    private static void saveToken(String token) throws IOException {
+        try (FileWriter writer = new FileWriter("token.dat")) {
+            writer.write(token);
+        }
+    }
+    
+    public static void removeToken() throws IOException {
+        File tokenFile = new File("token.dat");
+        if(tokenFile.exists()){
+            if(!tokenFile.delete()){
+                throw new IOException("Failed to delete token file: "+ tokenFile.getAbsolutePath());
+            }
+        }
+    }
+
+    private static String loadToken() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("token.dat"))) {
+            return reader.readLine();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static boolean verifyToken() {
+        String token = loadToken(); // get saved token from local
+        try {
+            return token != null && sendTokenToServer(token);
+        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+    
+    // further enhance, make token into a class and serialize it
+    private static boolean sendTokenToServer(String token) throws RemoteException, NotBoundException, MalformedURLException {
+        CredentialsInterface Obj = (CredentialsInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/verifyToken");
+        // get back response from server
+        return Obj.verifyToken(token);
+    }
+    
+    // depends on if logout process need send data to server, now logout only happen in client
+    public boolean handleAuthLogout() {
+        //send to server
+        return true;
+    }
+
 }

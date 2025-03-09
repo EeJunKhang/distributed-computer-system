@@ -30,9 +30,9 @@ public class FoodItemPanel extends JPanel {
         setBackground(Color.WHITE);
 
         // Image panel (placeholder for food image)
-        JPanel imagePanel = new ImagePanel("src/model/resources/burger.jpg", 20);
+        JPanel imagePanel = new ImagePanel("src/resources/medal.png", 20);
         imagePanel.setPreferredSize(new Dimension(180, 120));
-
+        
         imagePanel.setLayout(new BorderLayout());
 
         // Info panel

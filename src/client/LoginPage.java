@@ -4,11 +4,7 @@
  */
 package client;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import model.LoginCredential;
 import javax.swing.JOptionPane;
 
 /**
@@ -61,7 +57,7 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         passwordField = new client.Components.PasswordField();
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(32767, 32767));
-        jCheckBox1 = new javax.swing.JCheckBox();
+        rememberMeChkBox = new javax.swing.JCheckBox();
         loginBtn = new client.Components.Button();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(32767, 32767));
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 32767));
@@ -121,14 +117,14 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel2.add(passwordField);
         jPanel2.add(filler8);
 
-        jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setText("Remember Me");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        rememberMeChkBox.setBackground(new java.awt.Color(255, 255, 255));
+        rememberMeChkBox.setText("Remember Me");
+        rememberMeChkBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                rememberMeChkBoxActionPerformed(evt);
             }
         });
-        jPanel2.add(jCheckBox1);
+        jPanel2.add(rememberMeChkBox);
 
         jPanel1.add(jPanel2);
 
@@ -161,7 +157,6 @@ public class LoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-
         String username = usernameField.getTextValue().strip();
         String password = passwordField.getTextValue().strip();
 
@@ -175,23 +170,26 @@ public class LoginPage extends javax.swing.JFrame {
 
         LoginCredential loginCredential = new LoginCredential(username, password);
         AuthClient auth = new AuthClient(loginCredential);
-        var response = auth.handleAuthLogin();
-        
+        String response = auth.handleAuthLogin(rememberMeChkBox.isSelected());
+
         if (response == null) {
             // login success
-            
+            this.setVisible(false);
+            new HomePage().setVisible(true);
+            this.dispose();
+//            System.out.println("sd");
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Something went wrong in serielisation.",
+                    response,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_loginBtnActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void rememberMeChkBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rememberMeChkBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_rememberMeChkBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LoginPageTitle;
@@ -205,7 +203,6 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private client.Components.GradientPanel gradientPanel1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -213,6 +210,7 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private client.Components.Button loginBtn;
     private client.Components.PasswordField passwordField;
+    private javax.swing.JCheckBox rememberMeChkBox;
     private client.Components.RoundPanel roundPanel1;
     private client.Components.TextField usernameField;
     // End of variables declaration//GEN-END:variables

@@ -5,13 +5,14 @@
 package RMI;
 
 import java.rmi.*;
-import client.LoginCredential;
+import model.LoginCredential;
 import java.rmi.RemoteException;
 
 public interface CredentialsInterface extends Remote {
 
-    public boolean handleLogin(LoginCredential loginCredentialsBytes) throws RemoteException;
+    public String handleLogin(LoginCredential loginCredentialsBytes) throws RemoteException;
 
     public boolean handleLogout() throws RemoteException;
-
+    
+    public boolean verifyToken(String token) throws RemoteException;
 }

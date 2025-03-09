@@ -4,6 +4,9 @@
  */
 package client;
 
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ejunk
@@ -32,6 +35,7 @@ public class HomePage extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
         jPanel7 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 30), new java.awt.Dimension(32767, 32767));
         jLabel1 = new javax.swing.JLabel();
@@ -40,6 +44,9 @@ public class HomePage extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -69,15 +76,23 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel7.setPreferredSize(new java.awt.Dimension(1000, 600));
 
+        jButton1.setText("jButton1");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(504, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(421, 421, 421))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addComponent(jButton1)
+                .addContainerGap(504, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel7);
@@ -100,7 +115,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel9.setPreferredSize(new java.awt.Dimension(1000, 30));
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/model/resources/homeIcon.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/homeIcon.png"))); // NOI18N
         jPanel9.add(jLabel4);
 
         jLabel5.setText("Home");
@@ -108,13 +123,29 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel3.add(jPanel9);
 
+        jPanel10.setPreferredSize(new java.awt.Dimension(1000, 30));
+        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cartIcon.png"))); // NOI18N
+        jPanel10.add(jLabel7);
+
+        jLabel8.setText("Order");
+        jPanel10.add(jLabel8);
+
+        jPanel3.add(jPanel10);
+
         jPanel8.setPreferredSize(new java.awt.Dimension(1000, 30));
+        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel8MouseClicked(evt);
+            }
+        });
         jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/model/resources/cartIcon.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logout.png"))); // NOI18N
         jPanel8.add(jLabel2);
 
-        jLabel3.setText("Order");
+        jLabel3.setText("Logout");
         jPanel8.add(jLabel3);
 
         jPanel3.add(jPanel8);
@@ -153,40 +184,20 @@ public class HomePage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+        this.setVisible(false);
+        new LoginPage().setVisible(true);
+        this.dispose();
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            AuthClient.removeToken();
+        } catch (IOException ex) {
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(this,
+                    "Error logout",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HomePage().setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_jPanel8MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -195,13 +206,17 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

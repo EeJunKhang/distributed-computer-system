@@ -13,7 +13,8 @@ import java.rmi.registry.LocateRegistry;
 import utils.ConfigReader;
 
 public class Registry {
-    public static void main(String args[]) throws RemoteException{
+
+    public static void main(String args[]) throws RemoteException {
         String serverIP = ConfigReader.getServerIP();
         int rmiPort = ConfigReader.getRmiPort();
 
@@ -21,10 +22,12 @@ public class Registry {
 
         java.rmi.registry.Registry reg = LocateRegistry.createRegistry(rmiPort);
         reg.rebind("handleLogin", new AuthServer());
-        
-        reg.rebind("handleLogout", new AuthServer());
 
-        System.out.println("Server is running on IP: " + serverIP 
+        reg.rebind("handleLogout", new AuthServer());
+        
+        reg.rebind("verifyToken", new AuthServer());
+
+        System.out.println("Server is running on IP: " + serverIP
                 + " \n Server is bound to port: " + rmiPort);
     }
 }

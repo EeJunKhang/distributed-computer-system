@@ -149,10 +149,10 @@ public class MenuPanel extends JPanel {
 
 //        ImageIcon nearbyIcon = createIcon("location", 24);
 //        ImageIcon promotionIcon = createIcon("model/resources/", 24);
-        ImageIcon newcomersIcon = createIcon("src/model/resources/new.png", 24);
-        ImageIcon bestSellersIcon = createIcon("src/model/resources/star.png", 24);
-        ImageIcon topRatedIcon = createIcon("src/model/resources/medal.png", 24);
-        ImageIcon allIcon = createIcon("src/model/resources/menu.png", 24);
+        ImageIcon newcomersIcon = createIcon("src/resources/new.png", 24);
+        ImageIcon bestSellersIcon = createIcon("src/resources/star.png", 24);
+        ImageIcon topRatedIcon = createIcon("src/resources/medal.png", 24);
+        ImageIcon allIcon = createIcon("src/resources/menu.png", 24);
 
         // Add tabs with content
         this.addTab("All", allIcon, createAllItemsPanel());

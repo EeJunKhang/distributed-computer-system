@@ -169,7 +169,7 @@
                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.Glue"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+                    <Component class="javax.swing.JCheckBox" name="rememberMeChkBox">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -177,7 +177,7 @@
                         <Property name="text" type="java.lang.String" value="Remember Me"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rememberMeChkBoxActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
