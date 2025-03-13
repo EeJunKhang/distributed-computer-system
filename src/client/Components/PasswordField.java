@@ -8,11 +8,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 /**
@@ -27,7 +24,6 @@ public class PasswordField extends JPasswordField {
     private Color backgroundColor = new Color(245, 245, 245);
     private String placeholder = "";
     private Font textFont = new Font("Arial", Font.PLAIN, 14);
-    private List<TextFieldListener> listeners = new ArrayList<>();
     
     /**
      * Interface for listening to text changes
@@ -105,47 +101,6 @@ public class PasswordField extends JPasswordField {
                 }
             }
         });
-        
-        // Add document listener for text change events
-        getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-            @Override
-            public void insertUpdate(javax.swing.event.DocumentEvent e) {
-                notifyTextChanged();
-            }
-            
-            @Override
-            public void removeUpdate(javax.swing.event.DocumentEvent e) {
-                notifyTextChanged();
-            }
-            
-            @Override
-            public void changedUpdate(javax.swing.event.DocumentEvent e) {
-                notifyTextChanged();
-            }
-        });
-    }
-    
-    /**
-     * Add a listener for text change events
-     * @param listener the listener to add
-     */
-    public void addTextFieldListener(TextFieldListener listener) {
-        listeners.add(listener);
-    }
-    
-    /**
-     * Remove a text change listener
-     * @param listener the listener to remove
-     */
-    public void removeTextFieldListener(TextFieldListener listener) {
-        listeners.remove(listener);
-    }
-    
-    private void notifyTextChanged() {
-        String text = getText();
-        for (TextFieldListener listener : listeners) {
-            listener.onTextChanged(text);
-        }
     }
     
     /**

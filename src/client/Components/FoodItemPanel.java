@@ -4,14 +4,13 @@
  */
 package client.Components;
 
+import client.HomePage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -30,7 +29,7 @@ public class FoodItemPanel extends JPanel {
         setBackground(Color.WHITE);
 
         // Image panel (placeholder for food image)
-        JPanel imagePanel = new ImagePanel("src/resources/medal.png", 20);
+        JPanel imagePanel = new ImagePanel("src/resources/burger.jpg", 20);
         imagePanel.setPreferredSize(new Dimension(180, 120));
         
         imagePanel.setLayout(new BorderLayout());
@@ -80,6 +79,13 @@ public class FoodItemPanel extends JPanel {
             public void mouseExited(MouseEvent e) {
                 setBorder(new EmptyBorder(5, 5, 5, 5));
             }
+            
+            @Override
+            public void mouseClicked(MouseEvent e){
+                HomePage.mainTab.setSelectedIndex(1);
+            }
         });
+        
+        
     }
 }

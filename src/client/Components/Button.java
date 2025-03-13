@@ -22,9 +22,9 @@ import javax.swing.JButton;
  */
 public class Button extends JButton {
     
-    private Color normalBackgroundColor = new Color(66, 133, 244);
-    private Color hoverBackgroundColor = new Color(77, 144, 254);
-    private Color pressedBackgroundColor = new Color(55, 120, 229);
+    public Color normalBackgroundColor = new Color(66, 133, 244);
+    public Color hoverBackgroundColor = new Color(77, 144, 254);
+    public Color pressedBackgroundColor = new Color(55, 120, 229);
     private Color textColor = Color.WHITE;
     private boolean isHovered = false;
     private boolean isPressed = false;

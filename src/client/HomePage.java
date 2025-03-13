@@ -5,13 +5,18 @@
 package client;
 
 import java.io.IOException;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 /**
  *
  * @author ejunk
  */
 public class HomePage extends javax.swing.JFrame {
+
+    private int quantity = 1;
+    private JLabel quantityLabel;
 
     /**
      * Creates new form HomePage
@@ -34,8 +39,13 @@ public class HomePage extends javax.swing.JFrame {
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
         jLabel6 = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
+        jPanel11 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(100, 20), new java.awt.Dimension(32767, 32767));
+        jLabel10 = new javax.swing.JLabel();
+        button1 = new client.Components.Button();
+        cartPanel = new client.Components.CartPanel();
         jPanel3 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 30), new java.awt.Dimension(32767, 32767));
         jLabel1 = new javax.swing.JLabel();
@@ -55,47 +65,49 @@ public class HomePage extends javax.swing.JFrame {
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(2000, 10), new java.awt.Dimension(32767, 32767));
         textField1 = new client.Components.TextField();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(2000, 10), new java.awt.Dimension(32767, 32767));
-        jPanel4 = new javax.swing.JPanel();
+        mainTab = new javax.swing.JTabbedPane();
         menuPanel1 = new client.Components.MenuPanel();
+        jPanel4 = new javax.swing.JPanel();
+        foodItemSection1 = new client.Components.FoodItemSection();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 600));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 400));
-        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setPreferredSize(new java.awt.Dimension(1000, 70));
         jPanel6.add(filler4);
 
         jLabel6.setText("My Orders");
+        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         jPanel6.add(jLabel6);
         jPanel6.add(filler3);
 
-        jPanel2.add(jPanel6);
+        jPanel2.add(jPanel6, java.awt.BorderLayout.NORTH);
 
-        jPanel7.setPreferredSize(new java.awt.Dimension(1000, 600));
+        jPanel11.setPreferredSize(new java.awt.Dimension(1000, 70));
 
-        jButton1.setText("jButton1");
+        jPanel7.setPreferredSize(new java.awt.Dimension(200, 20));
+        java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0);
+        flowLayout2.setAlignOnBaseline(true);
+        jPanel7.setLayout(flowLayout2);
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(504, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(421, 421, 421))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(jButton1)
-                .addContainerGap(504, Short.MAX_VALUE))
-        );
+        jLabel9.setText("Total");
+        jPanel7.add(jLabel9);
+        jPanel7.add(filler7);
 
-        jPanel2.add(jPanel7);
+        jLabel10.setText("RM 100");
+        jPanel7.add(jLabel10);
+
+        jPanel11.add(jPanel7);
+
+        button1.setText("Check out");
+        jPanel11.add(button1);
+
+        jPanel2.add(jPanel11, java.awt.BorderLayout.SOUTH);
+        jPanel2.add(cartPanel, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.EAST);
 
@@ -113,6 +125,11 @@ public class HomePage extends javax.swing.JFrame {
         jPanel3.add(jSeparator1);
 
         jPanel9.setPreferredSize(new java.awt.Dimension(1000, 30));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/homeIcon.png"))); // NOI18N
@@ -166,18 +183,31 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel1.add(jPanel5, java.awt.BorderLayout.NORTH);
 
+        mainTab.setPreferredSize(new java.awt.Dimension(200, 200));
+        mainTab.setUI(new BasicTabbedPaneUI() {
+            @Override
+            protected int calculateTabAreaHeight(int tabPlacement, int horizRunCount, int maxTabHeight) {
+                return 0;
+            }
+        });
+        mainTab.addTab("tab1", menuPanel1);
+
+        jPanel4.setOpaque(true);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menuPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1330, Short.MAX_VALUE)
+            .addComponent(foodItemSection1, javax.swing.GroupLayout.DEFAULT_SIZE, 1456, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menuPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+            .addComponent(foodItemSection1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
+        mainTab.addTab("tab2", jPanel4);
+
+        jPanel1.add(mainTab, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -199,15 +229,23 @@ public class HomePage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jPanel8MouseClicked
 
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+        mainTab.setSelectedIndex(0);
+    }//GEN-LAST:event_jPanel9MouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private client.Components.Button button1;
+    public static client.Components.CartPanel cartPanel;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
-    private javax.swing.JButton jButton1;
+    private javax.swing.Box.Filler filler7;
+    private client.Components.FoodItemSection foodItemSection1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -215,8 +253,10 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -226,6 +266,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
+    public static javax.swing.JTabbedPane mainTab;
     private client.Components.MenuPanel menuPanel1;
     private client.Components.TextField textField1;
     // End of variables declaration//GEN-END:variables
