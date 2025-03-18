@@ -9,13 +9,13 @@ package model;
  * @author C
  */
 public class Item{
-    private int id;
-    private String itemName;
-    private String itemDescription;
-    private int price;
-    private String image;
+    private final int id;
+    private final String itemName;
+    private final String itemDescription;
+    private final double price;
+    private final String image;
 
-    public Item(int id, String itemName, String itemDescription, int price, String image) {
+    public Item(int id, String itemName, String itemDescription, double price, String image) {
         this.id = id;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
@@ -27,7 +27,7 @@ public class Item{
         return itemDescription;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -37,10 +37,6 @@ public class Item{
 
     public String getItemName() {
         return itemName;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getImage() {

@@ -4,6 +4,8 @@
  */
 package client;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,14 +19,21 @@ public class HomePage extends javax.swing.JFrame {
 
     private int quantity = 1;
     private JLabel quantityLabel;
+    private Cursor originalCursor;
 
     /**
      * Creates new form HomePage
      */
     public HomePage() {
         initComponents();
+        postInitComponents(); 
     }
 
+    private void postInitComponents() {
+        // Re-inject the now-initialized foodItemSection1 into menuPanel1
+        menuPanel1.setFoodItemSection(foodItemSection1);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,7 +52,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(100, 20), new java.awt.Dimension(32767, 32767));
-        jLabel10 = new javax.swing.JLabel();
+        totalPriceCart = new javax.swing.JLabel();
         button1 = new client.Components.Button();
         cartPanel = new client.Components.CartPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -69,12 +78,16 @@ public class HomePage extends javax.swing.JFrame {
         menuPanel1 = new client.Components.MenuPanel();
         jPanel4 = new javax.swing.JPanel();
         foodItemSection1 = new client.Components.FoodItemSection();
+        jPanel12 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 600));
+        setPreferredSize(new java.awt.Dimension(1120, 600));
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(200, 400));
+        jPanel2.setPreferredSize(new java.awt.Dimension(200, 600));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setPreferredSize(new java.awt.Dimension(1000, 70));
@@ -87,7 +100,7 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel2.add(jPanel6, java.awt.BorderLayout.NORTH);
 
-        jPanel11.setPreferredSize(new java.awt.Dimension(1000, 70));
+        jPanel11.setPreferredSize(new java.awt.Dimension(1000, 80));
 
         jPanel7.setPreferredSize(new java.awt.Dimension(200, 20));
         java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0);
@@ -98,8 +111,8 @@ public class HomePage extends javax.swing.JFrame {
         jPanel7.add(jLabel9);
         jPanel7.add(filler7);
 
-        jLabel10.setText("RM 100");
-        jPanel7.add(jLabel10);
+        totalPriceCart.setText("RM 0");
+        jPanel7.add(totalPriceCart);
 
         jPanel11.add(jPanel7);
 
@@ -112,7 +125,8 @@ public class HomePage extends javax.swing.JFrame {
         getContentPane().add(jPanel2, java.awt.BorderLayout.EAST);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(120, 400));
+        jPanel3.setPreferredSize(new java.awt.Dimension(120, 600));
+        jPanel3.setRequestFocusEnabled(false);
         jPanel3.add(filler1);
 
         jLabel1.setText("SYStem Name");
@@ -124,10 +138,17 @@ public class HomePage extends javax.swing.JFrame {
         jSeparator1.setPreferredSize(new java.awt.Dimension(1000, 5));
         jPanel3.add(jSeparator1);
 
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setPreferredSize(new java.awt.Dimension(1000, 30));
         jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel9MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel9MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel9MouseExited(evt);
             }
         });
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
@@ -140,21 +161,40 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel3.add(jPanel9);
 
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setPreferredSize(new java.awt.Dimension(1000, 30));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel10MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel10MouseExited(evt);
+            }
+        });
         jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cartIcon.png"))); // NOI18N
         jPanel10.add(jLabel7);
 
-        jLabel8.setText("Order");
+        jLabel8.setText("History");
         jPanel10.add(jLabel8);
 
         jPanel3.add(jPanel10);
 
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setPreferredSize(new java.awt.Dimension(1000, 30));
         jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel8MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel8MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel8MouseExited(evt);
             }
         });
         jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
@@ -169,6 +209,7 @@ public class HomePage extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.WEST);
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 600));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -207,6 +248,22 @@ public class HomePage extends javax.swing.JFrame {
 
         mainTab.addTab("tab2", jPanel4);
 
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel12.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        mainTab.addTab("tab3", jPanel12);
+
         jPanel1.add(mainTab, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -233,6 +290,43 @@ public class HomePage extends javax.swing.JFrame {
         mainTab.setSelectedIndex(0);
     }//GEN-LAST:event_jPanel9MouseClicked
 
+    private void jPanel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseEntered
+        jPanel9.setBackground(new Color(160, 160, 160));
+        originalCursor = jPanel9.getCursor(); // Save current cursor
+        jPanel9.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_jPanel9MouseEntered
+
+    private void jPanel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseExited
+        jPanel9.setBackground(Color.white);
+        jPanel9.setCursor(originalCursor);
+    }//GEN-LAST:event_jPanel9MouseExited
+
+    private void jPanel8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseEntered
+        jPanel8.setBackground(new Color(160, 160, 160));
+        originalCursor = jPanel8.getCursor(); // Save current cursor
+        jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_jPanel8MouseEntered
+
+    private void jPanel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseExited
+        jPanel8.setBackground(Color.white);
+        jPanel8.setCursor(originalCursor);
+    }//GEN-LAST:event_jPanel8MouseExited
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+        mainTab.setSelectedIndex(2);
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void jPanel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseEntered
+        jPanel10.setBackground(new Color(160, 160, 160));
+        originalCursor = jPanel10.getCursor(); // Save current cursor
+        jPanel10.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_jPanel10MouseEntered
+
+    private void jPanel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseExited
+        jPanel10.setBackground(Color.white);
+        jPanel10.setCursor(originalCursor);
+    }//GEN-LAST:event_jPanel10MouseExited
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private client.Components.Button button1;
     public static client.Components.CartPanel cartPanel;
@@ -245,7 +339,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private client.Components.FoodItemSection foodItemSection1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -257,6 +350,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -265,9 +359,12 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
     public static javax.swing.JTabbedPane mainTab;
     private client.Components.MenuPanel menuPanel1;
     private client.Components.TextField textField1;
+    public static javax.swing.JLabel totalPriceCart;
     // End of variables declaration//GEN-END:variables
 }

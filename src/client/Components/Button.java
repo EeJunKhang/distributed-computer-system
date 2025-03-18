@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package client.Components;
 
 import java.awt.Color;
@@ -16,10 +12,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
-/**
- *
- * @author ejunk
- */
 public class Button extends JButton {
     
     public Color normalBackgroundColor = new Color(66, 133, 244);
@@ -70,7 +62,8 @@ public class Button extends JButton {
         setOpaque(false);
         setForeground(textColor);
         setFont(new Font("Arial", Font.BOLD, 14));
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+//        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         // Set preferred size for a nicer button
         setPreferredSize(new Dimension(120, 40));

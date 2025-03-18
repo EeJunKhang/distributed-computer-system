@@ -11,7 +11,7 @@ import model.Item;
 
 public class CartCard2 extends JPanel {
     
-    private int quantity;
+    private int quantity = 1;
     private BufferedImage image;
     private Item item;
     private JLabel quantityLabel;
@@ -94,7 +94,7 @@ public class CartCard2 extends JPanel {
         styleButton(minusButton, 10);
         JButton plusButton = new JButton("+");
         styleButton(plusButton, 10);
-        quantityLabel = new JLabel("1");
+        quantityLabel = new JLabel(String.valueOf(quantity));
         quantityLabel.setFont(new Font("Arial", Font.BOLD, 12));
         quantityLabel.setBorder(new EmptyBorder(0, 4, 0, 4));
 
@@ -164,6 +164,10 @@ public class CartCard2 extends JPanel {
     
     public Item getItem() {
         return item;
+    }
+    
+    public int getQuantity(){
+        return quantity;
     }
     
     public void setQuantityChangeListener(QuantityChangeListener listener) {
