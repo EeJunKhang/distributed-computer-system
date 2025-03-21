@@ -4,35 +4,37 @@
  */
 package client.Components;
 
+import client.HomePage;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import model.Item;
 
 /**
  *
  * @author ejunk
  */
 public class FoodItemPanel extends JPanel {
-    public FoodItemPanel(String name, String price, String restaurant) {
+
+    public FoodItemPanel(Item item, FoodItemSection page) {
         setLayout(new BorderLayout(5, 5));
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setBackground(Color.WHITE);
 
         // Image panel (placeholder for food image)
-        JPanel imagePanel = new ImagePanel("src/resources/medal.png", 20);
+        JPanel imagePanel = new ImagePanel(item.getImage(), 20);
         imagePanel.setPreferredSize(new Dimension(180, 120));
-        
+
         imagePanel.setLayout(new BorderLayout());
 
         // Info panel
@@ -40,16 +42,17 @@ public class FoodItemPanel extends JPanel {
         infoPanel.setOpaque(false);
 
         // Name label
-        JLabel nameLabel = new JLabel(name);
+        JLabel nameLabel = new JLabel(item.getItemName());
         nameLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 
         // Price label
-        JLabel priceLabel = new JLabel("$" + price);
+        JLabel priceLabel = new JLabel("$" + item.getPrice());
         priceLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        // Restaurant label
-        JLabel restaurantLabel = new JLabel(restaurant);
+        // description label
+        String text = (item.getItemDescription().length() > 20) ? item.getItemDescription().substring(0, 17) + "..." : item.getItemDescription();
+        JLabel restaurantLabel = new JLabel(text);
         restaurantLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
         restaurantLabel.setForeground(new Color(120, 120, 120));
 
@@ -74,12 +77,21 @@ public class FoodItemPanel extends JPanel {
                         new LineBorder(new Color(230, 230, 230), 1),
                         new EmptyBorder(4, 4, 4, 4)
                 ));
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 setBorder(new EmptyBorder(5, 5, 5, 5));
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)); 
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                page.loadItemData(item);
+                HomePage.mainTab.setSelectedIndex(1);
             }
         });
+
     }
 }

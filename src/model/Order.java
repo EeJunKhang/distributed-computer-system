@@ -1,30 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-
-/**
- *
- * @author C
- */
 import enums.OrderStatus;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 public class Order implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private int orderId;
-    private User customer;
+    private Customer customer;
     private List<Item> items;
     private double totalPrice;
     private OrderStatus status;
     private Date orderTime;
 
-    public Order(int orderId, User customer, List<Item> items, 
+    public Order(int orderId, Customer customer, List<Item> items,
             double totalPrice, OrderStatus status, Date orderTime) {
         this.orderId = orderId;
         this.customer = customer;
@@ -38,7 +30,7 @@ public class Order implements Serializable {
         return orderId;
     }
 
-    public User getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
@@ -66,7 +58,7 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    public void setCustomer(User customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
@@ -84,12 +76,12 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", customer=" + customer.getUsername() +
-                ", totalPrice=" + totalPrice +
-                ", status=" + status +
-                ", orderTime=" + orderTime +
-                '}';
+        return "Order{"
+                + "orderId=" + orderId
+                + ", customer=" + customer.getUsername()
+                + ", totalPrice=" + totalPrice
+                + ", status=" + status
+                + ", orderTime=" + orderTime
+                + '}';
     }
 }

@@ -16,3 +16,6 @@ test/dist/
 *.jar
 *.war
 *.ear
+
+# local auth token file
+*.dat

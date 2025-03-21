@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import model.Item;
 
 /**
  * CustomTabbedPanel - A JPanel that mimics JTabbedPane functionality but with
@@ -35,7 +34,28 @@ public class MenuPanel extends JPanel {
     private Color selectedTabColor = new Color(255, 128, 0);
     private Color unselectedTabColor = new Color(120, 120, 120);
     private Color indicatorColor = new Color(255, 128, 0);
+    private FoodItemSection page;
 
+    // Add setter method
+    public void setFoodItemSection(FoodItemSection foodItemSection) {
+        this.page = foodItemSection;
+        initializeDependentComponents();
+    }
+
+    private void initializeDependentComponents() {
+        //        ImageIcon nearbyIcon = createIcon("location", 24);
+//        ImageIcon promotionIcon = createIcon("model/resources/", 24);
+        ImageIcon newcomersIcon = createIcon("src/resources/new.png", 24);
+        ImageIcon bestSellersIcon = createIcon("src/resources/star.png", 24);
+        ImageIcon topRatedIcon = createIcon("src/resources/medal.png", 24);
+        ImageIcon allIcon = createIcon("src/resources/menu.png", 24);
+        
+        // Add tabs with content
+        this.addTab("All", allIcon, createAllItemsPanel());
+        this.addTab("Newcomers", newcomersIcon, createNewcomersPanel());
+        this.addTab("Best Sellers", bestSellersIcon, createBestSellersPanel());
+        this.addTab("Top Rated", topRatedIcon, createTopRatedPanel());
+    }
     /**
      * Class representing a tab item with its header and content
      */
@@ -86,6 +106,7 @@ public class MenuPanel extends JPanel {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     if (!indicatorPanel.isVisible()) {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                         titleLabel.setForeground(new Color(80, 80, 80));
                     }
                 }
@@ -93,6 +114,7 @@ public class MenuPanel extends JPanel {
                 @Override
                 public void mouseExited(MouseEvent e) {
                     if (!indicatorPanel.isVisible()) {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         titleLabel.setForeground(unselectedTabColor);
                     }
                 }
@@ -117,11 +139,13 @@ public class MenuPanel extends JPanel {
             return contentComponent;
         }
     }
-
+    
     /**
      * Constructor
      */
     public MenuPanel() {
+//        System.out.println(page.toString());
+//        this.page = page;
         tabItems = new ArrayList<>();
         setLayout(new BorderLayout());
 
@@ -146,21 +170,10 @@ public class MenuPanel extends JPanel {
                 new Color(120, 120, 120), // unselected tab
                 new Color(255, 128, 0) // indicator
         );
-
-//        ImageIcon nearbyIcon = createIcon("location", 24);
-//        ImageIcon promotionIcon = createIcon("model/resources/", 24);
-        ImageIcon newcomersIcon = createIcon("src/resources/new.png", 24);
-        ImageIcon bestSellersIcon = createIcon("src/resources/star.png", 24);
-        ImageIcon topRatedIcon = createIcon("src/resources/medal.png", 24);
-        ImageIcon allIcon = createIcon("src/resources/menu.png", 24);
-
-        // Add tabs with content
-        this.addTab("All", allIcon, createAllItemsPanel());
-//        this.addTab("Promotion", promotionIcon, createPromotionPanel());
-        this.addTab("Newcomers", newcomersIcon, createNewcomersPanel());
-        this.addTab("Best Sellers", bestSellersIcon, createBestSellersPanel());
-        this.addTab("Top Rated", topRatedIcon, createTopRatedPanel());
+        
     }
+
+    
 
     /**
      * Add a new tab with the specified title and content
@@ -276,23 +289,23 @@ public class MenuPanel extends JPanel {
     }
 
     private ImageIcon createIcon(String imagePath, int size) {
-    try {
-        // Load image from file
-        BufferedImage originalImage = ImageIO.read(new File(imagePath));
-        
-        // Scale the image to the requested size
-        Image scaledImage = originalImage.getScaledInstance(size, size, Image.SCALE_SMOOTH);
-        
-        return new ImageIcon(scaledImage);
-    } catch (IOException e) {
-        return null; // Return null or a default icon if loading fails
+        try {
+            // Load image from file
+            BufferedImage originalImage = ImageIO.read(new File(imagePath));
+
+            // Scale the image to the requested size
+            Image scaledImage = originalImage.getScaledInstance(size, size, Image.SCALE_SMOOTH);
+
+            return new ImageIcon(scaledImage);
+        } catch (IOException e) {
+            return null; // Return null or a default icon if loading fails
+        }
     }
-}
 
     /**
      * Create a grid panel with food items
      */
-    private JPanel createFoodGridPanel(String[] itemNames, String[] prices, String[] restaurants) {
+    private JPanel createFoodGridPanel(Item[] foodItems) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(245, 245, 245));
 
@@ -302,8 +315,8 @@ public class MenuPanel extends JPanel {
         gridPanel.setBackground(new Color(245, 245, 245));
 
         // Add food items to the grid
-        for (int i = 0; i < itemNames.length; i++) {
-            gridPanel.add(new FoodItemPanel(itemNames[i], prices[i], restaurants[i]));
+        for (int i = 0; i < foodItems.length; i++) {
+            gridPanel.add(new FoodItemPanel(foodItems[i], this.page));
         }
 
         // Add the grid to a scroll pane
@@ -332,7 +345,6 @@ public class MenuPanel extends JPanel {
 //
 //        return createFoodGridPanel(names, prices, restaurants);
 //    }
-
 //    private JPanel createPromotionPanel() {
 //        String[] names = {
 //            "Double Cheeseburger", "Chicken Wings", "Taco Platter",
@@ -348,70 +360,54 @@ public class MenuPanel extends JPanel {
 //
 //        return createFoodGridPanel(names, prices, restaurants);
 //    }
-
     private JPanel createNewcomersPanel() {
-        String[] names = {
-            "Truffle Fries", "Dragon Noodles", "Stuffed Mushrooms",
-            "Caramel Latte", "Açai Bowl", "Fancy Toast"
-        };
-
-        String[] prices = {"12", "24", "19", "8", "14", "11"};
-
-        String[] restaurants = {
-            "Fry Factory", "Noodle House", "Mushroom Manor",
-            "Coffee Corner", "Healthy Hut", "Toasty Times"
-        };
-
-        return createFoodGridPanel(names, prices, restaurants);
+        Item[] items = {
+            new Item(1, "Truffle Fries", "Fry Factory", 31.3, "src/resources/burger.jpg"),
+            new Item(2, "Dragon Noodles", "Noodle House", 1.3, "src/resources/burger.jpg"),
+            new Item(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "src/resources/burger.jpg"),
+            new Item(4, "Caramel Latte", "Coffee Corner", 21.3, "src/resources/burger.jpg"),
+            new Item(5, "Açai Bowl", "Healthy Hut", 17.0, "src/resources/burger.jpg"),
+            new Item(6, "Fancy Toast", "Toasty Times", 9.9, "src/resources/burger.jpg"),};
+        return createFoodGridPanel(items);
     }
 
     private JPanel createBestSellersPanel() {
-        String[] names = {
-            "Signature Burger", "Pepperoni Pizza", "Chicken Tikka",
-            "Beef Burrito", "Pad Thai", "Chocolate Cake"
-        };
+        Item[] items = {
+            new Item(1, "Truffle Fries", "Fry Factory", 31.3, "src/resources/burger.jpg"),
+            new Item(2, "Dragon Noodles", "Noodle House", 1.3, "src/resources/burger.jpg"),
+            new Item(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "src/resources/burger.jpg"),
+            new Item(4, "Caramel Latte", "Coffee Corner", 21.3, "src/resources/burger.jpg"),
+            new Item(5, "Açai Bowl", "Healthy Hut", 17.0, "src/resources/burger.jpg"),
+            new Item(6, "Fancy Toast", "Toasty Times", 9.9, "src/resources/burger.jpg"),};
 
-        String[] prices = {"22", "26", "28", "19", "21", "15"};
-
-        String[] restaurants = {
-            "Burger Bros", "Pizza Pro", "Tikka House",
-            "Burrito Bar", "Thai Taste", "Cake Corner"
-        };
-
-        return createFoodGridPanel(names, prices, restaurants);
+        return createFoodGridPanel(items);
     }
 
     private JPanel createTopRatedPanel() {
-        String[] names = {
-            "Wagyu Steak", "Lobster Risotto", "Truffle Pasta",
-            "Prime Rib", "Seafood Platter", "Cheesecake Supreme"
+        Item[] items = {
+            new Item(1, "Truffle Fries", "Fry Factory", 31.3, "src/resources/burger.jpg"),
+            new Item(2, "Dragon Noodles", "Noodle House", 1.3, "src/resources/burger.jpg"),
+            new Item(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "src/resources/burger.jpg"),
+            new Item(4, "Caramel Latte", "Coffee Corner", 21.3, "src/resources/burger.jpg"),
+            new Item(5, "Açai Bowl", "Healthy Hut", 17.0, "src/resources/burger.jpg"),
+            new Item(6, "Fancy Toast", "Toasty Times", 9.9, "src/resources/burger.jpg")
         };
 
-        String[] prices = {"65", "49", "38", "55", "79", "18"};
-
-        String[] restaurants = {
-            "Steak House", "Risotto Restaurant", "Pasta Place",
-            "Prime Meats", "Seafood Shack", "Cheesecake Factory"
-        };
-
-        return createFoodGridPanel(names, prices, restaurants);
+        return createFoodGridPanel(items);
     }
 
     private JPanel createAllItemsPanel() {
-        String[] names = {
-            "Classic Burger", "Veggie Pizza", "Chicken Wings",
-            "Caesar Salad", "French Fries", "Chocolate Milkshake",
-            "Fish & Chips", "Apple Pie", "Fried Rice"
+        Item[] items = {
+            new Item(1, "Truffle Fries", "Fry Factory", 31.3, "src/resources/burger.jpg"),
+            new Item(2, "Dragon Noodles", "Noodle House", 1.3, "src/resources/burger.jpg"),
+            new Item(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "src/resources/burger.jpg"),
+            new Item(4, "Caramel Latte", "Coffee Corner", 21.3, "src/resources/burger.jpg"),
+            new Item(5, "Açai Bowl", "Healthy Hut", 17.0, "src/resources/burger.jpg"),
+            new Item(6, "Fancy Toast", "Toasty Times", 9.9, "src/resources/burger.jpg"),
+            new Item(7, "Fancy Toast1", "Toasty Times2", 19.9, "src/resources/burger.jpg"),
+            new Item(8, "Fancy Toast2", "Toasty Times3", 29.9, "src/resources/burger.jpg")
         };
 
-        String[] prices = {"18", "24", "16", "14", "8", "10", "22", "12", "19"};
-
-        String[] restaurants = {
-            "Burger Barn", "Pizza Place", "Wing Stop",
-            "Salad Station", "Fry Factory", "Shake Shack",
-            "Fish Fry", "Pie Palace", "Rice Republic"
-        };
-
-        return createFoodGridPanel(names, prices, restaurants);
+        return createFoodGridPanel(items);
     }
 }

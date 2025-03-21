@@ -8,27 +8,27 @@ package model;
  *
  * @author C
  */
-import enums.UserRole;
-import java.io.Serializable;
 
-public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+// modal mapping class, dont use directly, (inheriented)
+public class User{
+//    private static final long serialVersionUID = 1L;
 
     private int userId;
     private String username;
     private String passwordHash;
     private String address;
     private String contactNumber;
-    private UserRole role;
-
+//    private UserRole role;
+    
+    // 
     public User(int userId, String username, String passwordHash, 
-            String address, String contactNumber, UserRole role) {
+            String address, String contactNumber) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
         this.address = address;
         this.contactNumber = contactNumber;
-        this.role = role;
+//        this.role = role;
     }
 
     public int getUserId() {
@@ -50,21 +50,21 @@ public class User implements Serializable {
     public String getContactNumber() {
         return contactNumber;
     }
+//
+//    public UserRole getRole() {
+//        return role;
+//    }
 
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
+//    public void setRole(UserRole role) {
+//        this.role = role;
+//    }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
-                ", role=" + role +
+//                ", role=" + role +
                 '}';
     }
 }

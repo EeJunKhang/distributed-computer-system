@@ -35,12 +35,13 @@ public class AuthServer extends UnicastRemoteObject implements CredentialsInterf
         System.out.println(credential.getPassword());
         System.out.println(credential.getUsername());
         // check for db, if user found, validate credentail
-        if(true){
+        if("a".equals(credential.getPassword()) && "a".equals(credential.getUsername())){
+            // generate token with this credential, need change to user id (fetch from db)
             String token = TokenUtil.generateToken(credential);
             return token;
         }
         
-        // only return null or token (null = wrong credential)
+        // only return null or token (null = wrong credential, token = ssuccess)
         return null;
     }
 
