@@ -10,16 +10,18 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int orderId;
-    private Customer customer;
-    private List<Item> items;
-    private double totalPrice;
+    private User user;
+    private String orderTime;
     private OrderStatus status;
-    private Date orderTime;
+    private double totalPrice;
+    private List<OrderItem> items;
 
-    public Order(int orderId, Customer customer, List<Item> items,
-            double totalPrice, OrderStatus status, Date orderTime) {
+    
+    public Order(int orderId, User user, String orderTime, 
+            OrderStatus status,
+            double totalPrice, List<OrderItem> items) {
         this.orderId = orderId;
-        this.customer = customer;
+        this.user = user;
         this.items = items;
         this.totalPrice = totalPrice;
         this.status = status;
@@ -30,11 +32,11 @@ public class Order implements Serializable {
         return orderId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public User getUser() {
+        return user;
     }
 
-    public List<Item> getItems() {
+    public List<OrderItem> getItems() {
         return items;
     }
 
@@ -46,7 +48,7 @@ public class Order implements Serializable {
         return status;
     }
 
-    public Date getOrderTime() {
+    public String getOrderTime() {
         return orderTime;
     }
 
@@ -58,11 +60,11 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<OrderItem> items) {
         this.items = items;
     }
 
@@ -70,7 +72,7 @@ public class Order implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public void setOrderTime(Date orderTime) {
+    public void setOrderTime(String orderTime) {
         this.orderTime = orderTime;
     }
 
@@ -78,7 +80,7 @@ public class Order implements Serializable {
     public String toString() {
         return "Order{"
                 + "orderId=" + orderId
-                + ", customer=" + customer.getUsername()
+                + ", customer=" + user.getUsername()
                 + ", totalPrice=" + totalPrice
                 + ", status=" + status
                 + ", orderTime=" + orderTime
