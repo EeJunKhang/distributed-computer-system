@@ -7,17 +7,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import model.Item;
+import model.Items;
 
 public class CartCard2 extends JPanel {
     
     private int quantity = 1;
     private BufferedImage image;
-    private Item item;
+    private Items item;
     private JLabel quantityLabel;
     private QuantityChangeListener listener;
     
-    public CartCard2(Item item) {
+    public CartCard2(Items item) {
         try {
             this.image = ImageIO.read(new File(item.getImage()));
         } catch (IOException ex) {
@@ -162,7 +162,7 @@ public class CartCard2 extends JPanel {
         return new Dimension(180, 100); // Fixed 180px width
     }
     
-    public Item getItem() {
+    public Items getItem() {
         return item;
     }
     

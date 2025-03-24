@@ -24,7 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import model.Item;
+import model.Items;
 
 public class FoodItemSection extends JPanel {
 
@@ -38,7 +38,7 @@ public class FoodItemSection extends JPanel {
     private JPanel controlsPanel;
     private JPanel quantityPanel;
     private JButton addToCartButton;
-    private Item currentItem;
+    private Items currentItem;
 
     public FoodItemSection() {
         initializeUI();
@@ -160,7 +160,7 @@ public class FoodItemSection extends JPanel {
         return new ImageIcon(image);
     }
 
-    public void loadItemData(Item item) {
+    public void loadItemData(Items item) {
         this.currentItem = item;
         addToCartButton.setEnabled(true);
         quantity = 1;
@@ -191,12 +191,15 @@ public class FoodItemSection extends JPanel {
             addToCartButton.removeActionListener(addToCartButton.getActionListeners()[0]);
         }
         addToCartButton.addActionListener(e -> {
-            Item cartItem = new Item(
+            Items cartItem = new Items(
                     currentItem.getId(),
                     currentItem.getItemName(),
                     currentItem.getItemDescription(),
                     currentItem.getPrice(),
-                    currentItem.getImage()
+                    currentItem.getCategory(),
+                    currentItem.getImage(),
+                    currentItem.getStockQuantity(),
+                    currentItem.getLastUpdated()
             );
 //            cartItem.setQuantity(quantity);
 

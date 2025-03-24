@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import model.Item;
+import model.Items;
 
 /**
  *
@@ -26,7 +26,7 @@ import model.Item;
  */
 public class FoodItemPanel extends JPanel {
 
-    public FoodItemPanel(Item item, FoodItemSection page) {
+    public FoodItemPanel(Items item, FoodItemSection page) {
         setLayout(new BorderLayout(5, 5));
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setBackground(Color.WHITE);
