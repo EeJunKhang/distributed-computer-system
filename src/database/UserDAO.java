@@ -19,7 +19,7 @@ public class UserDAO {
             stmt.setString(5, user.getEmail());
             stmt.setString(6, user.getAddress());
             stmt.setString(7, user.getContactNumber());
-            stmt.setString(8, user.getRole().toString());
+//            stmt.setString(8, user.getRole().toString());
             stmt.executeUpdate();
          }
     }
@@ -35,18 +35,18 @@ public class UserDAO {
         ResultSet rs = stmt.executeQuery();
         
         if (rs.next()) {
-            UserRole role = UserRole.valueOf(rs.getString("role"));
+//            UserRole role = UserRole.valueOf(rs.getString("role"));
             user = new User(
-                rs.getInt("user_id"),
-                rs.getString("first_name"),
-                rs.getString("last_name"),
-                rs.getString("username"),
-                rs.getString("password_hash"),
-                rs.getString("email"),
-                rs.getString("address"),
-                rs.getString("phone_number"),
-                role,
-                rs.getString("created_at")
+//                rs.getInt("user_id"),
+//                rs.getString("first_name"),
+//                rs.getString("last_name"),
+//                rs.getString("username"),
+//                rs.getString("password_hash"),
+//                rs.getString("email"),
+//                rs.getString("address"),
+//                rs.getString("phone_number"),
+//                role,
+//                rs.getString("created_at")
             );
         }
     } catch (SQLException e) {

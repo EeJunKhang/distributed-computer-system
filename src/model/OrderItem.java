@@ -9,6 +9,11 @@ public class OrderItem {
 
     public OrderItem() {
     }
+    
+    public OrderItem(Items item, int quantity){
+        this.item = item;
+        this.quantity = quantity;
+    }
 
     public OrderItem(int orderItemId, Order order, Items item, int quantity, double pricePerUnit) {
         this.orderItemId = orderItemId;

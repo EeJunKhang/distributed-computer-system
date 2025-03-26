@@ -16,15 +16,14 @@ public class test {
     /**
      * @param args the command line arguments
      */
-   public static void main(String[] args) throws SQLException {
-        
+   public static void main(String[] args) throws SQLException{
 //*************************ITEM********************* 
         //***********get All Item
-//        ItemDAO itemDAO = new ItemDAO();
-//        List<Items> items = itemDAO.getAllProducts();
-//        for (Items item : items) {
-//            System.out.println(item);
-//        }
+        ItemDAO itemDAO = new ItemDAO();
+        List<Items> items = itemDAO.getAllProducts();
+        for (Items item : items) {
+            System.out.println(item);
+        }
         
         //*************update item
 //        Items item = itemDAO.getProductById(1); 

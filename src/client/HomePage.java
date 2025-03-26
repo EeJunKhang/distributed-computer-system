@@ -4,12 +4,22 @@
  */
 package client;
 
+import client.Components.CartCard2;
+import client.Components.PaymentDialog;
+import enums.OrderStatus;
+import enums.UserRole;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import model.Customer;
+import model.Items;
+import model.Order;
+import model.OrderItem;
 
 /**
  *
@@ -26,14 +36,14 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage() {
         initComponents();
-        postInitComponents(); 
+        postInitComponents();
     }
 
     private void postInitComponents() {
         // Re-inject the now-initialized foodItemSection1 into menuPanel1
         menuPanel1.setFoodItemSection(foodItemSection1);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +63,10 @@ public class HomePage extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(100, 20), new java.awt.Dimension(32767, 32767));
         totalPriceCart = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(50, 20), new java.awt.Dimension(32767, 32767));
+        totalPriceCart1 = new javax.swing.JLabel();
         button1 = new client.Components.Button();
         cartPanel = new client.Components.CartPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -83,7 +97,6 @@ public class HomePage extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1120, 600));
         setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -100,7 +113,7 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel2.add(jPanel6, java.awt.BorderLayout.NORTH);
 
-        jPanel11.setPreferredSize(new java.awt.Dimension(1000, 80));
+        jPanel11.setPreferredSize(new java.awt.Dimension(400, 110));
 
         jPanel7.setPreferredSize(new java.awt.Dimension(200, 20));
         java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0);
@@ -116,7 +129,26 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel11.add(jPanel7);
 
+        jPanel13.setPreferredSize(new java.awt.Dimension(200, 20));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel13.setLayout(flowLayout1);
+
+        jLabel10.setText("Delivery Fees");
+        jPanel13.add(jLabel10);
+        jPanel13.add(filler8);
+
+        totalPriceCart1.setText("RM 5");
+        jPanel13.add(totalPriceCart1);
+
+        jPanel11.add(jPanel13);
+
         button1.setText("Check out");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
         jPanel11.add(button1);
 
         jPanel2.add(jPanel11, java.awt.BorderLayout.SOUTH);
@@ -327,6 +359,31 @@ public class HomePage extends javax.swing.JFrame {
         jPanel10.setCursor(originalCursor);
     }//GEN-LAST:event_jPanel10MouseExited
 
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        var cards = cartPanel.getItemMap();
+        if (cards.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Your Card is Empty", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<OrderItem> items = new ArrayList<>();
+        double totalPrice = 0;
+        for (var card : cards.entrySet()) {
+            CartCard2 cartcard = card.getValue();
+            Items item = cartcard.getItem();
+            OrderItem newOrderItem = new OrderItem(item, cartcard.getQuantity());
+            double cardPrice = item.getPrice() * cartcard.getQuantity();
+            totalPrice = totalPrice + cardPrice;
+            items.add(newOrderItem);
+        }
+        // get current logined user, now don have user
+        Customer u = new Customer(1, "s","s","s","s","s","s", "s", "s");
+        
+        Order newOrder = new Order(u,OrderStatus.PENDING, totalPrice, items);
+        PaymentDialog dialog = new PaymentDialog(this, newOrder);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_button1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private client.Components.Button button1;
     public static client.Components.CartPanel cartPanel;
@@ -337,8 +394,10 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
     private client.Components.FoodItemSection foodItemSection1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -351,6 +410,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -366,5 +426,6 @@ public class HomePage extends javax.swing.JFrame {
     private client.Components.MenuPanel menuPanel1;
     private client.Components.TextField textField1;
     public static javax.swing.JLabel totalPriceCart;
+    public static javax.swing.JLabel totalPriceCart1;
     // End of variables declaration//GEN-END:variables
 }

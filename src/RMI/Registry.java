@@ -26,6 +26,8 @@ public class Registry {
         reg.rebind("handleLogout", new AuthServer());
         
         reg.rebind("verifyToken", new AuthServer());
+        
+        reg.rebind("handleRegister", new AuthServer());
 
         System.out.println("Server is running on IP: " + serverIP
                 + " \n Server is bound to port: " + rmiPort);

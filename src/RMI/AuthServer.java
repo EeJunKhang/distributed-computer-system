@@ -11,6 +11,7 @@ package RMI;
 import model.LoginCredential;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
+import model.RegisterCredential;
 import utils.IPIdentifier;
 import utils.TokenUtil;
 
@@ -57,6 +58,16 @@ public class AuthServer extends UnicastRemoteObject implements CredentialsInterf
         showClientIP();
         String username = TokenUtil.validateToken(token);
         return username != null;
+    }
+
+    @Override
+    public String handleRegister(RegisterCredential credential) throws RemoteException {
+        showClientIP();
+        
+        // insert into db here, get user back to generate token and pass token back to client
+        // change to generate token based on id
+        String token = TokenUtil.generateToken(new LoginCredential("s","s") );
+        return token;
     }
 
 }
