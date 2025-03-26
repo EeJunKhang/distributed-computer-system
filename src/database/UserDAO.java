@@ -25,7 +25,6 @@ public class UserDAO extends DBOperation<User> {
             rs.getString("email"),
             rs.getString("address"),
             rs.getString("phone_number"),        
-            UserRole.valueOf(rs.getString("role")),  
             rs.getString("created_at")     
         );
     }
@@ -51,12 +50,13 @@ public class UserDAO extends DBOperation<User> {
 
             if (rs.next()) {
                 User user = mapResultSetToEntity(rs);
+                var role = UserRole.valueOf(rs.getString("role"));
                
-                if (user.getRole() == UserRole.CUSTOMER) {
+                if (role == UserRole.CUSTOMER) {
                     return new Customer(user.getUserId(), user.getFirstName(), user.getLastName(), 
                                         user.getUsername(), user.getPasswordHash(), user.getEmail(), 
                                         user.getAddress(), user.getContactNumber(), user.getCreatedTime());
-                } else if (user.getRole() == UserRole.ADMIN) {
+                } else if (role == UserRole.ADMIN) {
                     return new Admin(user.getUserId(), user.getFirstName(), user.getLastName(),
                                      user.getUsername(), user.getPasswordHash(), user.getEmail(),
                                      user.getAddress(), user.getContactNumber(), user.getCreatedTime());

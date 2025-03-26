@@ -10,14 +10,24 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int orderId;
-    private User user;
+    private Customer user;
     private String orderTime;
     private OrderStatus status;
     private double totalPrice;
     private List<OrderItem> items;
-
     
-    public Order(int orderId, User user, String orderTime, 
+    public Order(){
+        
+    }
+    
+    public Order(Customer user, OrderStatus status, double totalPrice, List<OrderItem> items){
+        this.user = user;
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.status = status;
+    }
+    
+    public Order(int orderId, Customer user, String orderTime, 
             OrderStatus status,
             double totalPrice, List<OrderItem> items) {
         this.orderId = orderId;
@@ -32,7 +42,7 @@ public class Order implements Serializable {
         return orderId;
     }
 
-    public User getUser() {
+    public Customer getUser() {
         return user;
     }
 
@@ -60,7 +70,7 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    public void setUser(User user) {
+    public void setUser(Customer user) {
         this.user = user;
     }
 

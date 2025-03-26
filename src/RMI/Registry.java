@@ -21,11 +21,20 @@ public class Registry {
         System.setProperty("java.rmi.server.hostname", serverIP);
 
         java.rmi.registry.Registry reg = LocateRegistry.createRegistry(rmiPort);
+        
+        // auth
         reg.rebind("handleLogin", new AuthServer());
 
         reg.rebind("handleLogout", new AuthServer());
-        
+
         reg.rebind("verifyToken", new AuthServer());
+
+        reg.rebind("handleRegister", new AuthServer());
+        
+        // dashboard
+        reg.rebind("fetchAllProducts", new DashboardServer());
+        
+        // order
 
         System.out.println("Server is running on IP: " + serverIP
                 + " \n Server is bound to port: " + rmiPort);

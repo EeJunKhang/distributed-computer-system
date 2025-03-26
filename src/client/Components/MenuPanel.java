@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
-import model.Items;
+import model.Products;
 
 /**
  * CustomTabbedPanel - A JPanel that mimics JTabbedPane functionality but with
@@ -305,7 +305,7 @@ public class MenuPanel extends JPanel {
     /**
      * Create a grid panel with food items
      */
-    private JPanel createFoodGridPanel(Items[] foodItems) {
+    private JPanel createFoodGridPanel(Products[] foodItems) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(245, 245, 245));
 
@@ -361,50 +361,50 @@ public class MenuPanel extends JPanel {
 //        return createFoodGridPanel(names, prices, restaurants);
 //    }
     private JPanel createNewcomersPanel() {
-        Items[] items = {
-            new Items(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-            new Items(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-            new Items(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-            new Items(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-            new Items(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Items(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
+        Products[] items = {
+            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
+            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
+            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
+            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
+            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
+            new Products(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
         return createFoodGridPanel(items);
     }
 
     private JPanel createBestSellersPanel() {
-         Items[] items = {
-            new Items(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-            new Items(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-            new Items(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-            new Items(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-            new Items(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Items(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
+         Products[] items = {
+            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
+            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
+            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
+            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
+            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
+            new Products(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
 
         return createFoodGridPanel(items);
     }
 
     private JPanel createTopRatedPanel() {
-        Items[] items = {
-            new Items(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-            new Items(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-            new Items(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-            new Items(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-            new Items(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Items(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
+        Products[] items = {
+            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
+            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
+            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
+            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
+            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
+            new Products(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
 
         return createFoodGridPanel(items);
     }
 
     private JPanel createAllItemsPanel() {
-         Items[] items = {
-            new Items(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-            new Items(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-            new Items(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-            new Items(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-            new Items(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Items(6, "Açai Bowl123213", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Items(7, "Açai bow base", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Items(8, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
+         Products[] items = {
+            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
+            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
+            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
+            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
+            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
+            new Products(6, "Açai Bowl123213", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
+            new Products(7, "Açai bow base", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
+            new Products(8, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
 
         return createFoodGridPanel(items);
     }

@@ -24,21 +24,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import model.Items;
+import model.Products;
 
 public class FoodItemSection extends JPanel {
 
-    private int quantity = 1;
-    private JLabel quantityLabel;
+//    private int quantity = 1;
+    private JLabel categoryLabel;
     private JLabel imageLabel;
     private JPanel detailsPanel;
     private JLabel nameLabel;
     private JLabel descriptionLabel;
     private JLabel priceLabel;
     private JPanel controlsPanel;
-    private JPanel quantityPanel;
+//    private JPanel quantityPanel;
     private JButton addToCartButton;
-    private Items currentItem;
+    private Products currentItem;
 
     public FoodItemSection() {
         initializeUI();
@@ -51,12 +51,14 @@ public class FoodItemSection extends JPanel {
 
         // Image placeholder
         imageLabel = new JLabel();
+        imageLabel.setBackground(Color.white);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(300, 200));
         add(imageLabel, BorderLayout.NORTH);
 
         // Details panel
         detailsPanel = new JPanel();
+        detailsPanel.setBackground(Color.white);
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
 
         // Name placeholder
@@ -75,41 +77,47 @@ public class FoodItemSection extends JPanel {
         priceLabel.setForeground(Color.RED);
         priceLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        // Category placeholder
+        categoryLabel = new JLabel();
+        categoryLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        categoryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         detailsPanel.add(nameLabel);
         detailsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         detailsPanel.add(descriptionLabel);
         detailsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         detailsPanel.add(priceLabel);
+        detailsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        detailsPanel.add(categoryLabel);
 
         add(detailsPanel, BorderLayout.CENTER);
 
         // Quantity controls
-        quantityPanel = new JPanel();
-        quantityPanel.setLayout(new BoxLayout(quantityPanel, BoxLayout.X_AXIS));
-
-        JButton minusButton = new JButton("-");
-        JButton plusButton = new JButton("+");
-        quantityLabel = new JLabel("1");
-        quantityLabel.setFont(new Font("Arial", Font.BOLD, 16));
-
-        minusButton.addActionListener(e -> {
-            if (quantity > 1) {
-                quantity--;
-                quantityLabel.setText(Integer.toString(quantity));
-            }
-        });
-
-        plusButton.addActionListener(e -> {
-            quantity++;
-            quantityLabel.setText(Integer.toString(quantity));
-        });
-
-        quantityPanel.add(minusButton);
-        quantityPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        quantityPanel.add(quantityLabel);
-        quantityPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        quantityPanel.add(plusButton);
-
+//        quantityPanel = new JPanel();
+//        quantityPanel.setLayout(new BoxLayout(quantityPanel, BoxLayout.X_AXIS));
+//
+//        JButton minusButton = new JButton("-");
+//        JButton plusButton = new JButton("+");
+//        quantityLabel = new JLabel("1");
+//        quantityLabel.setFont(new Font("Arial", Font.BOLD, 16));
+//
+//        minusButton.addActionListener(e -> {
+//            if (quantity > 1) {
+//                quantity--;
+//                quantityLabel.setText(Integer.toString(quantity));
+//            }
+//        });
+//
+//        plusButton.addActionListener(e -> {
+//            quantity++;
+//            quantityLabel.setText(Integer.toString(quantity));
+//        });
+//
+//        quantityPanel.add(minusButton);
+//        quantityPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+//        quantityPanel.add(quantityLabel);
+//        quantityPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+//        quantityPanel.add(plusButton);
         // Add to Cart button
         addToCartButton = new JButton("Add to Cart");
         addToCartButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -119,7 +127,8 @@ public class FoodItemSection extends JPanel {
 
         // Control panel
         controlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        controlsPanel.add(quantityPanel);
+        controlsPanel.setBackground(Color.white);
+//        controlsPanel.add(quantityPanel);
         controlsPanel.add(addToCartButton);
         add(controlsPanel, BorderLayout.SOUTH);
     }
@@ -133,6 +142,7 @@ public class FoodItemSection extends JPanel {
         nameLabel.setText("Select an Item");
         descriptionLabel.setText("Please choose a food item from the menu");
         priceLabel.setText("$0.00");
+        categoryLabel.setText("Category");
 
         // Grey out text
         nameLabel.setForeground(Color.GRAY);
@@ -160,11 +170,11 @@ public class FoodItemSection extends JPanel {
         return new ImageIcon(image);
     }
 
-    public void loadItemData(Items item) {
+    public void loadItemData(Products item) {
         this.currentItem = item;
         addToCartButton.setEnabled(true);
-        quantity = 1;
-        quantityLabel.setText("1");
+//        quantity = 1;
+//        quantityLabel.setText("1");
 
         // Load image
         try {
@@ -180,18 +190,19 @@ public class FoodItemSection extends JPanel {
         nameLabel.setText(item.getItemName());
         descriptionLabel.setText(item.getItemDescription());
         priceLabel.setText(String.format("$%.2f", item.getPrice()));
+        categoryLabel.setText(item.getCategory());
 
         // Reset colors
         nameLabel.setForeground(Color.BLACK);
         descriptionLabel.setForeground(Color.BLACK);
 
         // Update cart button action
-        if(addToCartButton.getActionListeners().length > 0){
-            
+        if (addToCartButton.getActionListeners().length > 0) {
+
             addToCartButton.removeActionListener(addToCartButton.getActionListeners()[0]);
         }
         addToCartButton.addActionListener(e -> {
-            Items cartItem = new Items(
+            Products cartItem = new Products(
                     currentItem.getId(),
                     currentItem.getItemName(),
                     currentItem.getItemDescription(),

@@ -8,7 +8,7 @@ package model;
  *
  * @author C
  */
-public class Items{
+public class Products{
     private int id;
     private String itemName;
     private String itemDescription;
@@ -18,7 +18,7 @@ public class Items{
     private int stockQuantity;
     private String lastUpdated;
 
-    public Items(int id, String itemName, String itemDescription, double price, 
+    public Products(int id, String itemName, String itemDescription, double price, 
                    String category, String image, int stockQuantity, String lastUpdated) {
         this.id = id;
         this.itemName = itemName;
@@ -30,7 +30,7 @@ public class Items{
         this.lastUpdated = lastUpdated;
     }
 
-    public Items() {
+    public Products() {
     }
 
     public int getId() {

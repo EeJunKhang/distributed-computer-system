@@ -4,12 +4,22 @@
  */
 package client;
 
+import client.Components.CartCard2;
+import client.Components.PaymentDialog;
+import enums.OrderStatus;
+import enums.UserRole;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import model.Customer;
+import model.Order;
+import model.OrderItem;
+import model.Products;
 
 /**
  *
@@ -17,23 +27,23 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
  */
 public class HomePage extends javax.swing.JFrame {
 
-    private int quantity = 1;
-    private JLabel quantityLabel;
-    private Cursor originalCursor;
+//    private int quantity = 1;
+//    private JLabel quantityLabel;
+//    private Cursor originalCursor;
 
     /**
      * Creates new form HomePage
      */
     public HomePage() {
         initComponents();
-        postInitComponents(); 
+        postInitComponents();
     }
 
     private void postInitComponents() {
         // Re-inject the now-initialized foodItemSection1 into menuPanel1
         menuPanel1.setFoodItemSection(foodItemSection1);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +63,10 @@ public class HomePage extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(100, 20), new java.awt.Dimension(32767, 32767));
         totalPriceCart = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(50, 20), new java.awt.Dimension(32767, 32767));
+        totalPriceCart1 = new javax.swing.JLabel();
         button1 = new client.Components.Button();
         cartPanel = new client.Components.CartPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -83,13 +97,13 @@ public class HomePage extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1120, 600));
         setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 600));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
+        jPanel6.setOpaque(false);
         jPanel6.setPreferredSize(new java.awt.Dimension(1000, 70));
         jPanel6.add(filler4);
 
@@ -100,8 +114,10 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel2.add(jPanel6, java.awt.BorderLayout.NORTH);
 
-        jPanel11.setPreferredSize(new java.awt.Dimension(1000, 80));
+        jPanel11.setOpaque(false);
+        jPanel11.setPreferredSize(new java.awt.Dimension(400, 110));
 
+        jPanel7.setOpaque(false);
         jPanel7.setPreferredSize(new java.awt.Dimension(200, 20));
         java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0);
         flowLayout2.setAlignOnBaseline(true);
@@ -116,10 +132,32 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel11.add(jPanel7);
 
+        jPanel13.setOpaque(false);
+        jPanel13.setPreferredSize(new java.awt.Dimension(200, 20));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel13.setLayout(flowLayout1);
+
+        jLabel10.setText("Delivery Fees");
+        jPanel13.add(jLabel10);
+        jPanel13.add(filler8);
+
+        totalPriceCart1.setText("RM 5");
+        jPanel13.add(totalPriceCart1);
+
+        jPanel11.add(jPanel13);
+
         button1.setText("Check out");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
         jPanel11.add(button1);
 
         jPanel2.add(jPanel11, java.awt.BorderLayout.SOUTH);
+
+        cartPanel.setOpaque(false);
         jPanel2.add(cartPanel, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.EAST);
@@ -224,6 +262,7 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel1.add(jPanel5, java.awt.BorderLayout.NORTH);
 
+        mainTab.setOpaque(true);
         mainTab.setPreferredSize(new java.awt.Dimension(200, 200));
         mainTab.setUI(new BasicTabbedPaneUI() {
             @Override
@@ -234,6 +273,10 @@ public class HomePage extends javax.swing.JFrame {
         mainTab.addTab("tab1", menuPanel1);
 
         jPanel4.setOpaque(true);
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setOpaque(false);
+
+        foodItemSection1.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -248,6 +291,7 @@ public class HomePage extends javax.swing.JFrame {
 
         mainTab.addTab("tab2", jPanel4);
 
+        jPanel12.setOpaque(false);
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -292,24 +336,24 @@ public class HomePage extends javax.swing.JFrame {
 
     private void jPanel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseEntered
         jPanel9.setBackground(new Color(160, 160, 160));
-        originalCursor = jPanel9.getCursor(); // Save current cursor
+//        originalCursor = jPanel9.getCursor(); // Save current cursor
         jPanel9.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel9MouseEntered
 
     private void jPanel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseExited
         jPanel9.setBackground(Color.white);
-        jPanel9.setCursor(originalCursor);
+        jPanel9.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel9MouseExited
 
     private void jPanel8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseEntered
         jPanel8.setBackground(new Color(160, 160, 160));
-        originalCursor = jPanel8.getCursor(); // Save current cursor
+//        originalCursor = jPanel8.getCursor(); // Save current cursor
         jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel8MouseEntered
 
     private void jPanel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseExited
         jPanel8.setBackground(Color.white);
-        jPanel8.setCursor(originalCursor);
+        jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel8MouseExited
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
@@ -318,14 +362,39 @@ public class HomePage extends javax.swing.JFrame {
 
     private void jPanel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseEntered
         jPanel10.setBackground(new Color(160, 160, 160));
-        originalCursor = jPanel10.getCursor(); // Save current cursor
+//        originalCursor = jPanel10.getCursor(); // Save current cursor
         jPanel10.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel10MouseEntered
 
     private void jPanel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseExited
         jPanel10.setBackground(Color.white);
-        jPanel10.setCursor(originalCursor);
+        jPanel10.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel10MouseExited
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        var cards = cartPanel.getItemMap();
+        if (cards.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Your Card is Empty", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<OrderItem> items = new ArrayList<>();
+        double totalPrice = 0;
+        for (var card : cards.entrySet()) {
+            CartCard2 cartcard = card.getValue();
+            Products item = cartcard.getItem();
+            OrderItem newOrderItem = new OrderItem(item, cartcard.getQuantity());
+            double cardPrice = item.getPrice() * cartcard.getQuantity();
+            totalPrice = totalPrice + cardPrice;
+            items.add(newOrderItem);
+        }
+        // get current logined user, now don have user
+        Customer u = new Customer(1, "s","s","s","s","s","s", "s", "s");
+        
+        Order newOrder = new Order(u,OrderStatus.PENDING, totalPrice, items);
+        PaymentDialog dialog = new PaymentDialog(this, newOrder);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_button1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private client.Components.Button button1;
@@ -337,8 +406,10 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
     private client.Components.FoodItemSection foodItemSection1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -351,6 +422,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -366,5 +438,6 @@ public class HomePage extends javax.swing.JFrame {
     private client.Components.MenuPanel menuPanel1;
     private client.Components.TextField textField1;
     public static javax.swing.JLabel totalPriceCart;
+    public static javax.swing.JLabel totalPriceCart1;
     // End of variables declaration//GEN-END:variables
 }

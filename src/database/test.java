@@ -39,8 +39,7 @@ public class test {
                 System.out.println("Order Items:");
                 for (OrderItem item : order.getItems()) {
                     System.out.println("- " + item.getProduct().getItemName() + 
-                                       " | Quantity: " + item.getQuantity() + 
-                                       " | Price per unit: $" + item.getPricePerUnit());
+                                       " | Quantity: " + item.getQuantity());
                 }
             } else {
                 System.out.println("Order not found.");

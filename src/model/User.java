@@ -23,13 +23,10 @@ public class User{
     private String email;
     private String address;
     private String contactNumber;
-    private UserRole role;
     private String createdTime;
-//    private UserRole role;
-    
     
     public User(int userId,String firstName,String lastName, String username, String passwordHash, 
-            String email,String address, String contactNumber,UserRole role,String createdTime) {
+            String email,String address, String contactNumber,String createdTime) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,7 +35,19 @@ public class User{
         this.email = email;
         this.address = address;
         this.contactNumber = contactNumber;
-        this.role = role;
+        this.createdTime = createdTime;
+    }
+    
+    //for register
+    public User(String firstName,String lastName, String username, String passwordHash, 
+            String email,String address, String contactNumber,String createdTime) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.address = address;
+        this.contactNumber = contactNumber;
         this.createdTime = createdTime;
     }
     
@@ -79,9 +88,9 @@ public class User{
         return contactNumber;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
+//    public UserRole getRole() {
+//        return role;
+//    }
     
     public String getCreatedTime() {
         return createdTime;
@@ -120,17 +129,17 @@ public class User{
         this.contactNumber = contactNumber;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
+//    public void setRole(UserRole role) {
+//        this.role = role;
+//    }
     
     public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
     }
-
-//    public void setRole(UserRole role) {
-//        this.role = role;
-//    }
+    
+    public String getFullName(){
+        return this.firstName + " " + this.lastName;
+    }
 
     @Override
     public String toString() {

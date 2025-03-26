@@ -2,20 +2,25 @@ package model;
 
 public class OrderItem {
     private int orderItemId;
-    private Order order;
-    private Items item;
+//    private Order order;
+    private Products item;
     private int quantity;
-    private double pricePerUnit;
+//    private double pricePerUnit;
 
     public OrderItem() {
     }
-
-    public OrderItem(int orderItemId, Order order, Items item, int quantity, double pricePerUnit) {
-        this.orderItemId = orderItemId;
-        this.order = order;
+    
+    public OrderItem(Products item, int quantity){
         this.item = item;
         this.quantity = quantity;
-        this.pricePerUnit = pricePerUnit;
+    }
+
+    public OrderItem(int orderItemId, Products item, int quantity) {
+        this.orderItemId = orderItemId;
+//        this.order = order;
+        this.item = item;
+        this.quantity = quantity;
+//        this.pricePerUnit = pricePerUnit;
     }
 
     public int getOrderItemId() {
@@ -26,19 +31,19 @@ public class OrderItem {
         this.orderItemId = orderItemId;
     }
 
-    public Order getOrder() {
-        return order;
-    }
+//    public Order getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrderId(Order order) {
+//        this.order = order;
+//    }
 
-    public void setOrderId(Order order) {
-        this.order = order;
-    }
-
-    public Items getItem() {
+    public Products getProduct() {
         return item;
     }
 
-    public void setItem(Items item) {
+    public void setProduct(Products item) {
         this.item = item;
     }
 
@@ -50,11 +55,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public double getPricePerUnit() {
-        return pricePerUnit;
-    }
-
-    public void setPricePerUnit(double pricePerUnit) {
-        this.pricePerUnit = pricePerUnit;
-    }
+//    public double getPricePerUnit() {
+//        return pricePerUnit;
+//    }
+//
+//    public void setPricePerUnit(double pricePerUnit) {
+//        this.pricePerUnit = pricePerUnit;
+//    }
 }

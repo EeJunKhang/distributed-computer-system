@@ -7,9 +7,13 @@ public class Client {
         //check if session/token is correct
         boolean isSuccess = AuthClient.verifyToken();
         if (isSuccess) {
+
+            // check user role, from 2 class
             new HomePage().setVisible(true);
             return;
         }
         new LoginPage().setVisible(true);
+        
+        
     }
 }

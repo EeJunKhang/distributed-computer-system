@@ -23,8 +23,7 @@ public class OrderItemDAO extends DBOperation<OrderItem> {
         return new OrderItem(
             rs.getInt("order_item_id"),
             product,
-            rs.getInt("quantity"),
-            rs.getDouble("price_per_unit")
+            rs.getInt("quantity")
         );
     }
 

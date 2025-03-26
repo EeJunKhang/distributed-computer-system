@@ -157,4 +157,8 @@ public class CartPanel extends JScrollPane implements QuantityChangeListener {
         }
         updateTotalPrice();
     }
+
+    public Map<String, CartCard2> getItemMap() {
+        return itemMap;
+    }
 }

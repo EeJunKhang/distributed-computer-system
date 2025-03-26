@@ -4,8 +4,11 @@
  */
 package client;
 
+import java.awt.Cursor;
+import java.awt.Dimension;
 import model.LoginCredential;
 import javax.swing.JOptionPane;
+import model.RegisterCredential;
 
 /**
  *
@@ -16,6 +19,8 @@ public class LoginPage extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    private Cursor originalCursor;
+
     public LoginPage() {
         initComponents();
         try {
@@ -46,7 +51,8 @@ public class LoginPage extends javax.swing.JFrame {
     private void initComponents() {
 
         gradientPanel1 = new client.Components.GradientPanel();
-        roundPanel1 = new client.Components.RoundPanel();
+        jPanel7 = new javax.swing.JPanel();
+        loginPanel = new client.Components.RoundPanel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(32767, 32767));
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -58,10 +64,41 @@ public class LoginPage extends javax.swing.JFrame {
         passwordField = new client.Components.PasswordField();
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(32767, 32767));
         rememberMeChkBox = new javax.swing.JCheckBox();
+        jPanel8 = new javax.swing.JPanel();
+        filler15 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        registerBtn = new javax.swing.JLabel();
         loginBtn = new client.Components.Button();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(32767, 32767));
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 32767));
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 32767));
+        registerPanel = new client.Components.RoundPanel();
+        filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(32767, 32767));
+        jPanel9 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        LoginPageTitle2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        usernameField2 = new client.Components.TextField();
+        jLabel3 = new javax.swing.JLabel();
+        firstNameField = new client.Components.TextField();
+        jLabel4 = new javax.swing.JLabel();
+        lastNameField = new client.Components.TextField();
+        jLabel6 = new javax.swing.JLabel();
+        emailField = new client.Components.TextField();
+        jLabel7 = new javax.swing.JLabel();
+        contactNumberField = new client.Components.TextField();
+        jLabel8 = new javax.swing.JLabel();
+        addressField = new client.Components.TextField();
+        jLabel9 = new javax.swing.JLabel();
+        passwordField2 = new client.Components.PasswordField();
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 10), new java.awt.Dimension(32767, 32767));
+        jPanel3 = new javax.swing.JPanel();
+        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        loginPageBtn = new javax.swing.JLabel();
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 10), new java.awt.Dimension(32767, 32767));
+        registerButton = new client.Components.Button();
+        filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(32767, 32767));
+        filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 32767));
+        filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 32767));
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(300, 400), new java.awt.Dimension(32767, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(300, 400), new java.awt.Dimension(32767, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 110), new java.awt.Dimension(32767, 32767));
@@ -75,17 +112,20 @@ public class LoginPage extends javax.swing.JFrame {
         gradientPanel1.setColor2(new java.awt.Color(255, 133, 89));
         gradientPanel1.setLayout(new java.awt.BorderLayout());
 
-        roundPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel1.setPreferredSize(new java.awt.Dimension(100, 100));
-        roundPanel1.setRoundBottomLeft(30);
-        roundPanel1.setRoundBottomRight(30);
-        roundPanel1.setRoundTopLeft(30);
-        roundPanel1.setRoundTopRight(30);
-        roundPanel1.setLayout(new java.awt.BorderLayout());
-        roundPanel1.add(filler5, java.awt.BorderLayout.EAST);
+        jPanel7.setOpaque(false);
+        jPanel7.setLayout(new javax.swing.OverlayLayout(jPanel7));
+
+        loginPanel.setBackground(new java.awt.Color(255, 255, 255));
+        loginPanel.setPreferredSize(new java.awt.Dimension(100, 100));
+        loginPanel.setRoundBottomLeft(30);
+        loginPanel.setRoundBottomRight(30);
+        loginPanel.setRoundTopLeft(30);
+        loginPanel.setRoundTopRight(30);
+        loginPanel.setLayout(new java.awt.BorderLayout());
+        loginPanel.add(filler5, java.awt.BorderLayout.EAST);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new java.awt.GridLayout(6, 1, 0, 15));
+        jPanel1.setLayout(new java.awt.GridLayout(7, 1, 0, 15));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -128,6 +168,27 @@ public class LoginPage extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2);
 
+        jPanel8.setOpaque(false);
+        jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel8.add(filler15);
+
+        registerBtn.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        registerBtn.setText("Register");
+        registerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registerBtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                registerBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                registerBtnMouseExited(evt);
+            }
+        });
+        jPanel8.add(registerBtn);
+
+        jPanel1.add(jPanel8);
+
         loginBtn.setText("Login");
         loginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,12 +197,150 @@ public class LoginPage extends javax.swing.JFrame {
         });
         jPanel1.add(loginBtn);
 
-        roundPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
-        roundPanel1.add(filler6, java.awt.BorderLayout.WEST);
-        roundPanel1.add(filler7, java.awt.BorderLayout.SOUTH);
-        roundPanel1.add(filler10, java.awt.BorderLayout.NORTH);
+        loginPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
+        loginPanel.add(filler6, java.awt.BorderLayout.WEST);
+        loginPanel.add(filler7, java.awt.BorderLayout.SOUTH);
+        loginPanel.add(filler10, java.awt.BorderLayout.NORTH);
 
-        gradientPanel1.add(roundPanel1, java.awt.BorderLayout.CENTER);
+        jPanel7.add(loginPanel);
+
+        registerPanel.setBackground(new java.awt.Color(255, 255, 255));
+        registerPanel.setPreferredSize(new java.awt.Dimension(100, 100));
+        registerPanel.setRoundBottomLeft(30);
+        registerPanel.setRoundBottomRight(30);
+        registerPanel.setRoundTopLeft(30);
+        registerPanel.setRoundTopRight(30);
+        registerPanel.setLayout(new java.awt.BorderLayout());
+        registerPanel.setVisible(false);
+        registerPanel.add(filler16, java.awt.BorderLayout.EAST);
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setLayout(new java.awt.GridLayout(19, 1, 0, 1));
+
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+
+        LoginPageTitle2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LoginPageTitle2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LoginPageTitle2.setText("Register");
+        jPanel10.add(LoginPageTitle2);
+
+        jPanel9.add(jPanel10);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setText("Username");
+        jPanel9.add(jLabel5);
+
+        usernameField.setPlaceholder("Enter your username");
+        usernameField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameField2ActionPerformed(evt);
+            }
+        });
+        jPanel9.add(usernameField2);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setText("First Name");
+        jPanel9.add(jLabel3);
+
+        usernameField.setPlaceholder("Enter your username");
+        firstNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firstNameFieldActionPerformed(evt);
+            }
+        });
+        jPanel9.add(firstNameField);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setText("Last Name");
+        jPanel9.add(jLabel4);
+
+        usernameField.setPlaceholder("Enter your username");
+        lastNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lastNameFieldActionPerformed(evt);
+            }
+        });
+        jPanel9.add(lastNameField);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setText("Email");
+        jPanel9.add(jLabel6);
+
+        usernameField.setPlaceholder("Enter your username");
+        emailField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailFieldActionPerformed(evt);
+            }
+        });
+        jPanel9.add(emailField);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setText("Contact Number");
+        jPanel9.add(jLabel7);
+
+        usernameField.setPlaceholder("Enter your username");
+        contactNumberField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactNumberFieldActionPerformed(evt);
+            }
+        });
+        jPanel9.add(contactNumberField);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel8.setText("Address");
+        jPanel9.add(jLabel8);
+
+        usernameField.setPlaceholder("Enter your username");
+        addressField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressFieldActionPerformed(evt);
+            }
+        });
+        jPanel9.add(addressField);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel9.setText("Password");
+        jPanel9.add(jLabel9);
+        jPanel9.add(passwordField2);
+        jPanel9.add(filler11);
+
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel3.add(filler12);
+
+        loginPageBtn.setText("Login");
+        loginPageBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginPageBtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                loginPageBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                loginPageBtnMouseExited(evt);
+            }
+        });
+        jPanel3.add(loginPageBtn);
+
+        jPanel9.add(jPanel3);
+        jPanel9.add(filler9);
+
+        registerButton.setText("Register");
+        registerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerButtonActionPerformed(evt);
+            }
+        });
+        jPanel9.add(registerButton);
+
+        registerPanel.add(jPanel9, java.awt.BorderLayout.CENTER);
+        registerPanel.add(filler17, java.awt.BorderLayout.WEST);
+        registerPanel.add(filler18, java.awt.BorderLayout.SOUTH);
+        registerPanel.add(filler19, java.awt.BorderLayout.NORTH);
+
+        jPanel7.add(registerPanel);
+
+        gradientPanel1.add(jPanel7, java.awt.BorderLayout.CENTER);
         gradientPanel1.add(filler1, java.awt.BorderLayout.EAST);
         gradientPanel1.add(filler2, java.awt.BorderLayout.WEST);
         gradientPanel1.add(filler3, java.awt.BorderLayout.NORTH);
@@ -169,7 +368,8 @@ public class LoginPage extends javax.swing.JFrame {
         }
 
         LoginCredential loginCredential = new LoginCredential(username, password);
-        AuthClient auth = new AuthClient(loginCredential);
+        AuthClient auth = new AuthClient();
+        auth.setLoginCredential(loginCredential);
         String response = auth.handleAuthLogin(rememberMeChkBox.isSelected());
 
         if (response == null) {
@@ -191,10 +391,135 @@ public class LoginPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rememberMeChkBoxActionPerformed
 
+    private void registerBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerBtnMouseEntered
+//        originalCursor = registerBtn.getCursor(); // Save current cursor
+        registerBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_registerBtnMouseEntered
+
+    private void registerBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerBtnMouseExited
+//       originalCursor = registerBtn.getCursor(); // Save current cursor
+        registerBtn.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_registerBtnMouseExited
+
+    private void registerBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerBtnMouseClicked
+        loginPanel.setVisible(false);
+        registerPanel.setVisible(true);
+//        filler3.setSize(filler3.getWidth(), 110);
+//        filler4.setSize(filler4.getWidth(), 110);
+        filler4.setPreferredSize(new Dimension(filler4.getWidth(), 20));
+        filler3.setPreferredSize(new Dimension(filler3.getWidth(), 20));
+
+    }//GEN-LAST:event_registerBtnMouseClicked
+
+    private void usernameField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameField2ActionPerformed
+
+    }//GEN-LAST:event_usernameField2ActionPerformed
+
+    private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_firstNameFieldActionPerformed
+
+    private void lastNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lastNameFieldActionPerformed
+
+    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailFieldActionPerformed
+
+    private void contactNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactNumberFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contactNumberFieldActionPerformed
+
+    private void addressFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addressFieldActionPerformed
+
+    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+        String username = usernameField.getTextValue().strip();
+        String password = passwordField.getTextValue().strip();
+        String firstName = firstNameField.getTextValue().strip();
+        String lastName = lastNameField.getTextValue().strip();
+        String contact = contactNumberField.getTextValue().strip();
+        String address = addressField.getTextValue().strip();
+        String email = emailField.getTextValue().strip();
+
+        if (username.isEmpty() || username.isBlank()) {
+            return;
+        }
+
+        if (password.isEmpty() || password.isBlank()) {
+            return;
+        }
+
+        if (firstName.isEmpty() || firstName.isBlank()) {
+            return;
+        }
+
+        if (lastName.isEmpty() || lastName.isBlank()) {
+            return;
+        }
+
+        if (contact.isEmpty() || contact.isBlank()) {
+            return;
+        }
+
+        if (address.isEmpty() || address.isBlank()) {
+            return;
+        }
+
+        if (email.isEmpty() || email.isBlank()) {
+            return;
+        }
+
+        RegisterCredential registerCredential = new RegisterCredential(username, password, firstName, lastName, address, contact, email);
+        AuthClient auth = new AuthClient();
+        auth.setRegisterCredential(registerCredential);
+        String response = auth.handleAuthRegister();
+
+        if (response == null) {
+            // login success
+            this.setVisible(false);
+            new HomePage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    response,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_registerButtonActionPerformed
+
+    private void loginPageBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginPageBtnMouseClicked
+        loginPanel.setVisible(true);
+        registerPanel.setVisible(false);
+        filler4.setPreferredSize(new Dimension(filler4.getWidth(), 110));
+        filler3.setPreferredSize(new Dimension(filler3.getWidth(), 110));
+    }//GEN-LAST:event_loginPageBtnMouseClicked
+
+    private void loginPageBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginPageBtnMouseEntered
+        loginPageBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_loginPageBtnMouseEntered
+
+    private void loginPageBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginPageBtnMouseExited
+        loginPageBtn.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_loginPageBtnMouseExited
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LoginPageTitle;
+    private javax.swing.JLabel LoginPageTitle2;
+    private client.Components.TextField addressField;
+    private client.Components.TextField contactNumberField;
+    private client.Components.TextField emailField;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
+    private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler12;
+    private javax.swing.Box.Filler filler15;
+    private javax.swing.Box.Filler filler16;
+    private javax.swing.Box.Filler filler17;
+    private javax.swing.Box.Filler filler18;
+    private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
@@ -202,16 +527,37 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
+    private client.Components.TextField firstNameField;
     private client.Components.GradientPanel gradientPanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private client.Components.TextField lastNameField;
     private client.Components.Button loginBtn;
+    private javax.swing.JLabel loginPageBtn;
+    private client.Components.RoundPanel loginPanel;
     private client.Components.PasswordField passwordField;
+    private client.Components.PasswordField passwordField2;
+    private javax.swing.JLabel registerBtn;
+    private client.Components.Button registerButton;
+    private client.Components.RoundPanel registerPanel;
     private javax.swing.JCheckBox rememberMeChkBox;
-    private client.Components.RoundPanel roundPanel1;
     private client.Components.TextField usernameField;
+    private client.Components.TextField usernameField2;
     // End of variables declaration//GEN-END:variables
 }
