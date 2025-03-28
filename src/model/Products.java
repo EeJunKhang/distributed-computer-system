@@ -17,7 +17,8 @@ public class Products{
     private String category;
     private int stockQuantity;
     private String lastUpdated;
-
+    
+    // for fetching data
     public Products(int id, String itemName, String itemDescription, double price, 
                    String category, String image, int stockQuantity, String lastUpdated) {
         this.id = id;
@@ -29,7 +30,18 @@ public class Products{
         this.stockQuantity = stockQuantity;
         this.lastUpdated = lastUpdated;
     }
-
+        
+    // for add new products
+    public Products(String itemName,String itemDescription, double price, 
+                   String category, String image, int stockQuantity){
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.price = price;
+        this.category = category;
+        this.image = image;
+        this.stockQuantity = stockQuantity;
+    }
+    
     public Products() {
     }
 

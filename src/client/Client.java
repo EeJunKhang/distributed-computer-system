@@ -7,7 +7,9 @@ public class Client {
         //check if session/token is correct
         boolean isSuccess = AuthClient.verifyToken();
         if (isSuccess) {
-
+            
+//            new AdminPage().setVisible(true);
+//            return;
             // check user role, from 2 class
             new HomePage().setVisible(true);
             return;

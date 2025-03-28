@@ -8,15 +8,14 @@ package client.Components;
  *
  * @author ejunk
  */
-import enums.OrderStatus;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import javax.swing.border.EmptyBorder;
 import model.Order;
 import model.OrderItem;
-import model.User;
 
 public class ReportSection extends JPanel {
 
@@ -24,13 +23,11 @@ public class ReportSection extends JPanel {
     private DefaultTableModel tableModel;
 
     public ReportSection() {
-        setLayout(new BorderLayout());
         initializeUI();
     }
 
     public ReportSection(List<Order> orders) {
         this.orders = orders;
-        setLayout(new BorderLayout());
         initializeUI();
     }
 
@@ -39,6 +36,14 @@ public class ReportSection extends JPanel {
     }
 
     private void initializeUI() {
+        setLayout(new BorderLayout(10, 10));
+        setBorder(new EmptyBorder(20, 20, 20, 20));
+        
+        // Title
+        JLabel titleLabel = new JLabel("Order Management");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+        add(titleLabel, BorderLayout.NORTH);
+        
         // Create table model
         String[] columns = {"Order ID", "User", "Order Time", "Status", "Total Price"};
         tableModel = new DefaultTableModel(columns, 0) {

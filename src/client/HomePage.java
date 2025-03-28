@@ -30,7 +30,6 @@ public class HomePage extends javax.swing.JFrame {
 //    private int quantity = 1;
 //    private JLabel quantityLabel;
 //    private Cursor originalCursor;
-
     /**
      * Creates new form HomePage
      */
@@ -57,7 +56,9 @@ public class HomePage extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
         jLabel6 = new javax.swing.JLabel();
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
+        jLabel11 = new javax.swing.JLabel();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
         jPanel11 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -90,11 +91,9 @@ public class HomePage extends javax.swing.JFrame {
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(2000, 10), new java.awt.Dimension(32767, 32767));
         mainTab = new javax.swing.JTabbedPane();
         menuPanel1 = new client.Components.MenuPanel();
-        jPanel4 = new javax.swing.JPanel();
         foodItemSection1 = new client.Components.FoodItemSection();
-        jPanel12 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        orderHistorySection1 = new client.Components.OrderHistorySection();
+        userProfileSection1 = new client.Components.UserProfileSection();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -105,12 +104,29 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel6.setOpaque(false);
         jPanel6.setPreferredSize(new java.awt.Dimension(1000, 70));
+        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
         jPanel6.add(filler4);
 
         jLabel6.setText("My Orders");
         jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         jPanel6.add(jLabel6);
-        jPanel6.add(filler3);
+        jPanel6.add(filler9);
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/user.png"))); // NOI18N
+        jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel11MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel11MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel11MouseExited(evt);
+            }
+        });
+        jPanel6.add(jLabel11);
+        jPanel6.add(filler10);
 
         jPanel2.add(jPanel6, java.awt.BorderLayout.NORTH);
 
@@ -272,41 +288,10 @@ public class HomePage extends javax.swing.JFrame {
         });
         mainTab.addTab("tab1", menuPanel1);
 
-        jPanel4.setOpaque(true);
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setOpaque(false);
-
         foodItemSection1.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(foodItemSection1, javax.swing.GroupLayout.DEFAULT_SIZE, 1456, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(foodItemSection1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
-        );
-
-        mainTab.addTab("tab2", jPanel4);
-
-        jPanel12.setOpaque(false);
-        jPanel12.setLayout(new java.awt.BorderLayout());
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel12.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        mainTab.addTab("tab3", jPanel12);
+        mainTab.addTab("tab4", foodItemSection1);
+        mainTab.addTab("tab3", orderHistorySection1);
+        mainTab.addTab("tab4", userProfileSection1);
 
         jPanel1.add(mainTab, java.awt.BorderLayout.CENTER);
 
@@ -389,27 +374,41 @@ public class HomePage extends javax.swing.JFrame {
             items.add(newOrderItem);
         }
         // get current logined user, now don have user
-        Customer u = new Customer(1, "s","s","s","s","s","s", "s", "s");
-        
-        Order newOrder = new Order(u,OrderStatus.PENDING, totalPrice, items);
+        Customer u = new Customer(1, "s", "s", "s", "s", "s", "s", "s", "s");
+
+        Order newOrder = new Order(u, OrderStatus.PENDING, totalPrice, items);
         PaymentDialog dialog = new PaymentDialog(this, newOrder);
         dialog.setVisible(true);
     }//GEN-LAST:event_button1ActionPerformed
+
+    private void jLabel11MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseEntered
+        jLabel11.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_jLabel11MouseEntered
+
+    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+        mainTab.setSelectedIndex(3);
+    }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void jLabel11MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseExited
+        jLabel11.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_jLabel11MouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private client.Components.Button button1;
     public static client.Components.CartPanel cartPanel;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
     private client.Components.FoodItemSection foodItemSection1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -421,23 +420,21 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     public static javax.swing.JTabbedPane mainTab;
     private client.Components.MenuPanel menuPanel1;
+    private client.Components.OrderHistorySection orderHistorySection1;
     private client.Components.TextField textField1;
     public static javax.swing.JLabel totalPriceCart;
     public static javax.swing.JLabel totalPriceCart1;
+    private client.Components.UserProfileSection userProfileSection1;
     // End of variables declaration//GEN-END:variables
 }

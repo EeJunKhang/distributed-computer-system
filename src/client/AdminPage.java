@@ -42,6 +42,9 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -53,6 +56,7 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         dashboardSection1 = new client.Components.DashboardSection();
         reportSection1 = new client.Components.ReportSection();
+        productsSection1 = new client.Components.ProductsSection();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -93,6 +97,29 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel9.add(jLabel5);
 
         jPanel3.add(jPanel9);
+
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel11.setPreferredSize(new java.awt.Dimension(1000, 30));
+        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel11MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel11MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel11MouseExited(evt);
+            }
+        });
+        jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/box.png"))); // NOI18N
+        jPanel11.add(jLabel9);
+
+        jLabel10.setText("Products");
+        jPanel11.add(jLabel10);
+
+        jPanel3.add(jPanel11);
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setPreferredSize(new java.awt.Dimension(1000, 30));
@@ -156,7 +183,8 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel2.add(dashboardSection1);
 
         mainTab.addTab("tab1", jPanel2);
-        mainTab.addTab("tab3", reportSection1);
+        mainTab.addTab("tab2", reportSection1);
+        mainTab.addTab("tab3", productsSection1);
 
         jPanel1.add(mainTab);
 
@@ -181,18 +209,18 @@ public class AdminPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel9MouseExited
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
-        mainTab.setSelectedIndex(2);
+        mainTab.setSelectedIndex(1);
     }//GEN-LAST:event_jPanel10MouseClicked
 
     private void jPanel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseEntered
         jPanel10.setBackground(new Color(160, 160, 160));
-        originalCursor = jPanel10.getCursor(); // Save current cursor
+//        originalCursor = jPanel10.getCursor(); // Save current cursor
         jPanel10.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel10MouseEntered
 
     private void jPanel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseExited
         jPanel10.setBackground(Color.white);
-        jPanel10.setCursor(originalCursor);
+        jPanel10.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel10MouseExited
 
     private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
@@ -212,14 +240,30 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jPanel8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseEntered
         jPanel8.setBackground(new Color(160, 160, 160));
-        originalCursor = jPanel8.getCursor(); // Save current cursor
+//        originalCursor = jPanel8.getCursor(); // Save current cursor
         jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel8MouseEntered
 
     private void jPanel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseExited
         jPanel8.setBackground(Color.white);
-        jPanel8.setCursor(originalCursor);
+        jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel8MouseExited
+
+    private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
+        mainTab.setSelectedIndex(2);
+        
+    }//GEN-LAST:event_jPanel11MouseClicked
+
+    private void jPanel11MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseEntered
+        jPanel11.setBackground(new Color(160, 160, 160));
+//        originalCursor = jPanel8.getCursor(); // Save current cursor
+        jPanel11.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_jPanel11MouseEntered
+
+    private void jPanel11MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseExited
+        jPanel11.setBackground(Color.white);
+        jPanel11.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_jPanel11MouseExited
 
 //    /**
 //     * @param args the command line arguments
@@ -261,20 +305,24 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane mainTab;
+    private client.Components.ProductsSection productsSection1;
     private client.Components.ReportSection reportSection1;
     // End of variables declaration//GEN-END:variables
 }

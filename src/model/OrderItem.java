@@ -2,10 +2,8 @@ package model;
 
 public class OrderItem {
     private int orderItemId;
-//    private Order order;
     private Products item;
     private int quantity;
-//    private double pricePerUnit;
 
     public OrderItem() {
     }

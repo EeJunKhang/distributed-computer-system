@@ -26,7 +26,7 @@ public class test {
 
         try {
             
-             int orderId = 1; // Example order ID
+             int orderId = 15; // Example order ID
             Order order = orderDAO.searchByColumn("order_id", orderId,false).get(0); 
 
             if (order != null) {
