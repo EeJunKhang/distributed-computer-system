@@ -4,12 +4,67 @@
  */
 package RMI;
 
-import java.rmi.*;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-import model.Order;
-import model.Products;
 
-interface OrderInterface extends Remote{
-    
+import model.Order;
+import model.AuthToken;
+import enums.OrderStatus;
+
+public interface OrderInterface extends Remote {
+
+    /**
+     * Gets an order by its ID.
+     * @param token Authentication token.
+     * @param orderId The ID of the order.
+     * @return The Order object or null if not found or unauthorized.
+     * @throws RemoteException If a remote error occurs.
+     */
+    Order getOrderById(AuthToken token, int orderId) throws RemoteException;
+
+    /**
+     * Gets all orders in the system (admin only).
+     * @param token Authentication token.
+     * @return List of all orders or null if unauthorized.
+     * @throws RemoteException If a remote error occurs.
+     */
+    List<Order> getAllOrders(AuthToken token) throws RemoteException;
+
+    /**
+     * Gets all orders for a specific user.
+     * @param token Authentication token.
+     * @param userId The ID of the user.
+     * @return List of orders for the specified user or null if unauthorized.
+     * @throws RemoteException If a remote error occurs.
+     */
+    List<Order> getOrdersByUserId(AuthToken token, int userId) throws RemoteException;
+
+    /**
+     * Creates a new order.
+     * @param token Authentication token.
+     * @param order The Order object to create.
+     * @return true if the order was created successfully, false otherwise.
+     * @throws RemoteException If a remote error occurs.
+     */
+    boolean createOrder(AuthToken token, Order order) throws RemoteException;
+
+    /**
+     * Updates the status of an order (admin only).
+     * @param token Authentication token.
+     * @param orderId The ID of the order to update.
+     * @param status The new status of the order.
+     * @return true if the order status was updated successfully, false otherwise.
+     * @throws RemoteException If a remote error occurs.
+     */
+    boolean updateOrderStatus(AuthToken token, int orderId, OrderStatus status) throws RemoteException;
+
+    /**
+     * Deletes an order by its ID (admin only).
+     * @param token Authentication token.
+     * @param orderId The ID of the order to delete.
+     * @return true if the order was deleted successfully, false otherwise.
+     * @throws RemoteException If a remote error occurs.
+     */
+    boolean deleteOrder(AuthToken token, int orderId) throws RemoteException;
 }

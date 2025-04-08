@@ -5,7 +5,7 @@
 package client;
 
 import javax.swing.JOptionPane;
-import model.RegisterCredential;
+import model._RegisterCredential;
 
 public class RegisterPage extends javax.swing.JFrame {
 
@@ -239,7 +239,7 @@ public class RegisterPage extends javax.swing.JFrame {
             return;
         }
 
-        RegisterCredential registerCredential = new RegisterCredential(username, password, firstName, lastName, address, contact, email);
+        _RegisterCredential registerCredential = new _RegisterCredential(username, password, firstName, lastName, address, contact, email);
         AuthClient auth = new AuthClient();
         auth.setRegisterCredential(registerCredential);
         String response = auth.handleAuthRegister();

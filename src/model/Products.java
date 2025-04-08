@@ -4,11 +4,15 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author C
  */
-public class Products{
+public class Products implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String itemName;
     private String itemDescription;
@@ -45,69 +49,24 @@ public class Products{
     public Products() {
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public String getItemName() { return itemName; }
+    public String getItemDescription() { return itemDescription; }
+    public double getPrice() { return price; }
+    public String getCategory() { return category; }
+    public String getImage() { return image; }
+    public int getStockQuantity() { return stockQuantity; }
+    public String getLastUpdated() { return lastUpdated; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
+    public void setItemName(String itemName) { this.itemName = itemName; }
+    public void setItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
+    public void setPrice(double price) { this.price = price; }
+    public void setCategory(String category) { this.category = category; }
+    public void setImageUrl(String image) { this.image = image; }
+    public void setStockQuantity(int stockQuantity) { this.stockQuantity = stockQuantity; }
+    public void setLastUpdated(String lastUpdated) { this.lastUpdated = lastUpdated; }
 
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getItemDescription() {
-        return itemDescription;
-    }
-
-    public void setItemDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImageUrl(String image) {
-        this.image = image;
-    }
-
-    public int getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
-    }
-
-    public String getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
     
     @Override
     public String toString() {

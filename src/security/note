@@ -1,0 +1,51 @@
+java -Djavax.net.ssl.keyStore=path/to/server.jks \
+     -Djavax.net.ssl.keyStorePassword=serverpass \
+     -Djavax.net.ssl.trustStore=path/to/server.jks \
+     -Djavax.net.ssl.trustStorePassword=serverpass \
+     -Djava.rmi.server.hostname=your_server_ip \
+     -Djava.rmi.server.RMIClientSocketFactory=security.RMISSLClientSocketFactory \
+     -Djava.rmi.server.RMIServerSocketFactory=security.RMISSLServerSocketFactory \
+     -cp your_classpath RMI.Registry
+
+javax.net.ssl.keyStore: Path to the server's keystore file.
+javax.net.ssl.keyStorePassword: Password for the server's keystore.
+javax.net.ssl.trustStore: Path to the truststore file. For the server, this often can be the same as the keystore if you trust your own certificate. For client authentication, it would contain trusted client certificates.
+javax.net.ssl.trustStorePassword: Password for the truststore.
+java.rmi.server.hostname: The hostname or IP address the server will use for RMI connections.
+java.rmi.server.RMIClientSocketFactory: Specifies the client socket factory to be used by the server when making callbacks to clients.
+java.rmi.server.RMIServerSocketFactory: Specifies the server socket factory to be used by the server to accept incoming connections.
+
+// Sample Client.java
+
+import security.RMISSLClientSocketFactory;
+
+public class Client {
+    private static OrderInterface orderService;
+    private static AuthToken authToken = null;
+    private static int loggedInUserId = 0;
+
+    public static void main(String[] args) {
+        try {
+            connectToServer();
+            // ... rest of your client code ...
+        } catch (Exception e) {
+            System.err.println("Client exception: " + e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    private static void connectToServer() throws RemoteException, NotBoundException {
+        String serverIP = ConfigReader.getServerIP();
+        int rmiPort = ConfigReader.getRmiPort();
+        int sslPort = 1041; // Use the SSL port of the server
+
+        System.out.println("Connecting to server at " + serverIP + ":" + sslPort + " (SSL)");
+
+        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort, new RMISSLClientSocketFactory());
+        orderService = (OrderInterface) registry.lookup("OrderService");
+
+        System.out.println("Connected to order service (SSL)");
+    }
+
+    // ... rest of your client methods ...
+}
