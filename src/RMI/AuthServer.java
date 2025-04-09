@@ -1,74 +1,88 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package RMI;
 
-/**
- *
- * @author C
- */
-import model.LoginCredential;
+import model._LoginCredential;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
-import model.RegisterCredential;
+import model._RegisterCredential;
+import model.User;
+import model.AuthToken;
 import utils.IPIdentifier;
-import utils.TokenUtil;
+import manager.AuthManager;
 
-/**
- *
- * @author ejunk
- */
-public class AuthServer extends UnicastRemoteObject  implements CredentialsInterface {
+public class AuthServer extends UnicastRemoteObject implements AuthInterface {
+    
+    private final AuthManager authManager;
+    
     public AuthServer() throws RemoteException {
         super();
+        this.authManager = AuthManager.getInstance();
     }
     
-    // make a abstract that this cclass extends
     private void showClientIP() {
         String clientIP = IPIdentifier.getClientIP();
-        System.out.println("Client Called /add from IP: " + clientIP);
+        System.out.println("Client Call from IP: " + clientIP);
     }
 
     @Override
-    public String handleLogin(LoginCredential credential) throws RemoteException {
+    public AuthToken handleLogin(_LoginCredential credential) throws RemoteException {
         showClientIP();
-        // access username and password like this
-        System.out.println(credential.getPassword());
-        System.out.println(credential.getUsername());
-        // check for db, if user found, validate credentail
-        if("a".equals(credential.getPassword()) && "a".equals(credential.getUsername())){
-            // generate token with this credential, need change to user id (fetch from db)
-            String token = TokenUtil.generateToken(credential);
-            return token;
+        System.out.println("Login attempt: " + credential.getUsername());
+        
+        String tokenStr = authManager.authenticateUser(credential.getUsername(), credential.getPassword());
+        return (tokenStr != null) ? new AuthToken(tokenStr) : null;
+    }
+
+    @Override
+    public boolean handleLogout(AuthToken token) throws RemoteException {
+        showClientIP();
+        if (token == null) {
+            System.out.println("Logout attempt with null token");
+            return false;
         }
         
-        // only return null or token (null = wrong credential, token = ssuccess)
-        return null;
+        System.out.println("Logout attempt with token: " + token.getToken());
+        return authManager.logout(token.getToken());
     }
 
     @Override
-    public boolean handleLogout() throws RemoteException {
+    public boolean verifyToken(AuthToken token) throws RemoteException {
         showClientIP();
-        //handle db logout process here
-        return true;
+        if (token == null) {
+            return false;
+        }
+        return authManager.validateToken(token.getToken());
     }
 
     @Override
-    public boolean verifyToken(String token) throws RemoteException{
-        showClientIP();
-        String username = TokenUtil.validateToken(token);
-        return username != null;
-    }
-
-    @Override
-    public String handleRegister(RegisterCredential credential) throws RemoteException {
+    public AuthToken handleRegister(_RegisterCredential credential) throws RemoteException {
         showClientIP();
         
-        // insert into db here, get user back to generate token and pass token back to client
-        // change to generate token based on id
-        String token = TokenUtil.generateToken(new LoginCredential("s","s") );
-        return token;
+        boolean registered = authManager.registerUser(
+            credential.getFirstName(),
+            credential.getLastName(),
+            credential.getUsername(),
+            credential.getPassword(),
+            credential.getEmail(),
+            credential.getAddress(),
+            credential.getContactNumber(),
+            false  // Not an admin by default
+        );
+        
+        if (registered) {
+            // immediately log them in
+            String tokenStr = authManager.authenticateUser(credential.getUsername(), credential.getPassword());
+            return (tokenStr != null) ? new AuthToken(tokenStr) : null;
+        }
+        
+        return null;
     }
-
+    
+    @Override
+    public User getUserByToken(AuthToken token) throws RemoteException {
+        showClientIP();
+        if (token == null) {
+            return null;
+        }
+        return authManager.getUserByToken(token.getToken());
+    }
 }

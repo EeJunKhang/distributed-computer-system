@@ -1,12 +1,13 @@
 package model;
 
-public class OrderItem {
+import java.io.Serializable;
+
+public class OrderItem implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     private int orderItemId;
     private Products item;
     private int quantity;
-
-    public OrderItem() {
-    }
     
     public OrderItem(Products item, int quantity){
         this.item = item;
@@ -15,49 +16,19 @@ public class OrderItem {
 
     public OrderItem(int orderItemId, Products item, int quantity) {
         this.orderItemId = orderItemId;
-//        this.order = order;
         this.item = item;
         this.quantity = quantity;
-//        this.pricePerUnit = pricePerUnit;
     }
 
-    public int getOrderItemId() {
-        return orderItemId;
+    public OrderItem() {
     }
 
-    public void setOrderItemId(int orderItemId) {
-        this.orderItemId = orderItemId;
-    }
+    public int getOrderItemId() { return orderItemId; }
+    public Products getProduct() { return item; }
+    public int getQuantity() { return quantity; }
 
-//    public Order getOrder() {
-//        return order;
-//    }
-//
-//    public void setOrderId(Order order) {
-//        this.order = order;
-//    }
+    public void setOrderItemId(int orderItemId) { this.orderItemId = orderItemId; }
+    public void setProduct(Products item) { this.item = item; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public Products getProduct() {
-        return item;
-    }
-
-    public void setProduct(Products item) {
-        this.item = item;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-//    public double getPricePerUnit() {
-//        return pricePerUnit;
-//    }
-//
-//    public void setPricePerUnit(double pricePerUnit) {
-//        this.pricePerUnit = pricePerUnit;
-//    }
 }

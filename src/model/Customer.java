@@ -2,18 +2,33 @@ package model;
 
 import enums.UserRole;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class Customer extends User implements Serializable {
     private static final long serialVersionUID = 1L;
-    
-    public Customer(int userId, String firstName, String lastName, String username, String passwordHash, 
-                 String email, String address, String contactNumber, String createdTime) {
-        super(userId, firstName, lastName, username, passwordHash, email, address, contactNumber, createdTime);
+
+    public Customer(int userId, String firstName, String lastName, String username,
+                 String passwordHash, String passwordSalt, String email, String address,
+                 String contactNumber, LocalDateTime createdTime) {
+        super(userId, firstName, lastName, username, passwordHash, passwordSalt,
+              email, address, contactNumber, createdTime);
+        setRole(UserRole.CUSTOMER);
     }
     
-    // for register
-    public Customer(String firstName, String lastName, String username, String passwordHash, 
-                 String email, String address, String contactNumber, String createdTime) {
-        super(firstName, lastName, username, passwordHash, email, address, contactNumber, createdTime);
+    // Register use ?
+    public Customer(String firstName, String lastName, String username,
+                    String passwordHash, String passwordSalt, String email, String address,
+                    String contactNumber, LocalDateTime createdTime) {
+        super(firstName, lastName, username, passwordHash, passwordSalt,
+              email, address, contactNumber, createdTime);
+        setRole(UserRole.CUSTOMER);
+    }
+
+    // default or placeholder for errors
+    public Customer() {
+        super(-1, "Temp", "Customer", "tempUser", "", "", 
+                "temp@placeholder.com", "Unknown Address", 
+                "0000000000", LocalDateTime.now());
+        setRole(UserRole.CUSTOMER);
     }
 }

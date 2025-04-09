@@ -1,15 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package RMI;
 
-/**
- *
- * @author C
- */
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.server.UnicastRemoteObject;
+
+import security.RMISSLServerSocketFactory;
 import utils.ConfigReader;
 
 public class Registry {
@@ -21,22 +16,67 @@ public class Registry {
         System.setProperty("java.rmi.server.hostname", serverIP);
 
         java.rmi.registry.Registry reg = LocateRegistry.createRegistry(rmiPort);
+
+        // Create server instances
+        AuthServer authServer = new AuthServer();
+        OrderServer orderServer = new OrderServer();
+        UserServer userServer = new UserServer();
+        ProductServer productServer = new ProductServer(); 
+        DashboardServer dashboardServer = new DashboardServer();
+
+        // int sslPort = 1041;
+        // RMISSLServerSocketFactory ssf = new RMISSLServerSocketFactory();
         
-        // auth
-        reg.rebind("handleLogin", new AuthServer());
+        // // associating SSL socket factory
+        // AuthServer authServer = (AuthServer) UnicastRemoteObject.exportObject(
+        //     new AuthServer(), sslPort, null, ssf);
+        // OrderServer orderServer = (OrderServer) UnicastRemoteObject.exportObject(n
+        // ew OrderServer(), sslPort, null, ssf);
+        // UserServer userServer = (UserServer) UnicastRemoteObject.exportObject(
+        //     new UserServer(), sslPort, null, ssf);
+        // ProductServer productServer = (ProductServer) UnicastRemoteObject.exportObject(
+        //     new ProductServer(), sslPort, null, ssf);
+        // DashboardServer dashboardServer = (DashboardServer) UnicastRemoteObject.exportObject(
+        //     new DashboardServer(), sslPort, null, ssf);
 
-        reg.rebind("handleLogout", new AuthServer());
 
-        reg.rebind("verifyToken", new AuthServer());
+        // Authentication services
+        reg.rebind("handleLogin", authServer);
+        reg.rebind("handleLogout", authServer);
+        reg.rebind("verifyToken", authServer);
+        reg.rebind("handleRegister", authServer);
 
-        reg.rebind("handleRegister", new AuthServer());
-        
-        // dashboard
-        reg.rebind("fetchAllProducts", new DashboardServer());
-        
-        // order
+        // Order management services
+        reg.rebind("OrderService", orderServer); 
+        // reg.rebind("getOrderById", orderServer); // Redundent?
+        // reg.rebind("getAllOrders", orderServer);
+        // reg.rebind("getOrdersByUserId", orderServer);
+        // reg.rebind("createOrder", orderServer);
+        // reg.rebind("updateOrderStatus", orderServer);
+        // reg.rebind("deleteOrder", orderServer);
 
+        // User management services
+        reg.rebind("UserService", userServer);
+        // reg.rebind("getUserById", userServer); // Redundent?
+        // reg.rebind("getUserByUsername", userServer);
+        // reg.rebind("getAllUsers", userServer);
+        // reg.rebind("getAllCustomers", userServer);
+        // reg.rebind("getAllAdmins", userServer);
+        // reg.rebind("updateUserProfile", userServer);
+        // reg.rebind("changePassword", userServer);
+        // reg.rebind("deleteUser", userServer);
+        // reg.rebind("promoteToAdmin", userServer);
+
+        // Product management services
+        reg.rebind("ProductService", productServer);
+
+        // Dashboard services
+        reg.rebind("fetchAllProducts", dashboardServer);
+
+        // System.out.println("SSL RMI Server is running on IP: " + serverIP
+        // + " and SSL port: " + sslPort);
+        // System.out.println("RMI Registry is running on port: " + rmiPort);
         System.out.println("Server is running on IP: " + serverIP
-                + " \n Server is bound to port: " + rmiPort);
+                + " \nServer is bound to port: " + rmiPort);
     }
 }

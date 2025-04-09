@@ -4,8 +4,7 @@
  */
 package client;
 
-import model.LoginCredential;
-import RMI.CredentialsInterface;
+import model._LoginCredential;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,8 +15,9 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import model.Customer;
-import model.RegisterCredential;
+import model._RegisterCredential;
 import utils.ConfigReader;
+import RMI.AuthInterface;
 
 public class AuthClient {
 
@@ -25,27 +25,27 @@ public class AuthClient {
     public static String serverIP = ConfigReader.getServerIP();
     public static int rmiPort = ConfigReader.getRmiPort();
 
-    private LoginCredential loginCredential;
-    private RegisterCredential registerCredential;
+    private _LoginCredential loginCredential;
+    private _RegisterCredential registerCredential;
 
-//    public AuthClient(LoginCredential loginCredential) {
+//    public AuthClient(_LoginCredential loginCredential) {
 //        this.loginCredential = loginCredential;
 //    }
     public AuthClient() {
 
     }
 
-    public void setLoginCredential(LoginCredential loginCredential) {
+    public void setLoginCredential(_LoginCredential loginCredential) {
         this.loginCredential = loginCredential;
     }
 
-    public void setRegisterCredential(RegisterCredential registerCredential) {
+    public void setRegisterCredential(_RegisterCredential registerCredential) {
         this.registerCredential = registerCredential;
     }
 
     // for login
     private String sendCrentialToServer() throws RemoteException, NotBoundException, MalformedURLException {
-        CredentialsInterface Obj = (CredentialsInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleLogin");
+        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleLogin");
         // get back response from server
         return Obj.handleLogin(loginCredential);
     }
@@ -76,7 +76,7 @@ public class AuthClient {
 
     // register
     private String sendUserToServer() throws RemoteException, NotBoundException, MalformedURLException {
-        CredentialsInterface Obj = (CredentialsInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleRegister");
+        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleRegister");
         // get back response from server
         return Obj.handleRegister(registerCredential);
     }
@@ -132,7 +132,7 @@ public class AuthClient {
 
     // further enhance, make token into a class and serialize it
     private static boolean sendTokenToServer(String token) throws RemoteException, NotBoundException, MalformedURLException {
-        CredentialsInterface Obj = (CredentialsInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/verifyToken");
+        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/verifyToken");
         // get back response from server
         return Obj.verifyToken(token);
     }

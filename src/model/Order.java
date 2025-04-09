@@ -19,7 +19,8 @@ public class Order implements Serializable {
         
     }
     
-    public Order(Customer user, OrderStatus status, double totalPrice, List<OrderItem> items){
+    public Order(Customer user, OrderStatus status, double totalPrice, 
+            List<OrderItem> items){
         this.user = user;
         this.items = items;
         this.totalPrice = totalPrice;
@@ -37,53 +38,20 @@ public class Order implements Serializable {
         this.orderTime = orderTime;
     }
 
-    public int getOrderId() {
-        return orderId;
-    }
+    public int getOrderId() { return orderId; }
+    public Customer getUser() { return user; }
+    public List<OrderItem> getItems() { return items; }
+    public double getTotalPrice() { return totalPrice; }
+    public OrderStatus getStatus() { return status; }
+    public String getOrderTime() { return orderTime; }
 
-    public Customer getUser() {
-        return user;
-    }
+    public void setStatus(OrderStatus status) { this.status = status; }
+    public void setOrderId(int orderId) { this.orderId = orderId; }
+    public void setUser(Customer user) { this.user = user; }
+    public void setItems(List<OrderItem> items) { this.items = items; }
+    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
+    public void setOrderTime(String orderTime) { this.orderTime = orderTime; }
 
-    public List<OrderItem> getItems() {
-        return items;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public String getOrderTime() {
-        return orderTime;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public void setUser(Customer user) {
-        this.user = user;
-    }
-
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public void setOrderTime(String orderTime) {
-        this.orderTime = orderTime;
-    }
 
     @Override
     public String toString() {

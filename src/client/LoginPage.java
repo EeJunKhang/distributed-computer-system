@@ -6,9 +6,9 @@ package client;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
-import model.LoginCredential;
+import model._LoginCredential;
 import javax.swing.JOptionPane;
-import model.RegisterCredential;
+import model._RegisterCredential;
 
 /**
  *
@@ -367,7 +367,7 @@ public class LoginPage extends javax.swing.JFrame {
             return;
         }
 
-        LoginCredential loginCredential = new LoginCredential(username, password);
+        _LoginCredential loginCredential = new _LoginCredential(username, password);
         AuthClient auth = new AuthClient();
         auth.setLoginCredential(loginCredential);
         String response = auth.handleAuthLogin(rememberMeChkBox.isSelected());
@@ -472,7 +472,7 @@ public class LoginPage extends javax.swing.JFrame {
             return;
         }
 
-        RegisterCredential registerCredential = new RegisterCredential(username, password, firstName, lastName, address, contact, email);
+        _RegisterCredential registerCredential = new _RegisterCredential(username, password, firstName, lastName, address, contact, email);
         AuthClient auth = new AuthClient();
         auth.setRegisterCredential(registerCredential);
         String response = auth.handleAuthRegister();

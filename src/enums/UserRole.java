@@ -10,7 +10,7 @@ package enums;
  */
 public enum UserRole {
     CUSTOMER, 
-    RESTAURANT, 
-    DELIVERY_PERSON, 
+//    RESTAURANT, 
+//    DELIVERY_PERSON, 
     ADMIN
 }
