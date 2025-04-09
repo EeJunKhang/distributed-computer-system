@@ -1,6 +1,11 @@
 CREATE SCHEMA `food_ordering_database` ;
 
 USE `food_ordering_database` ;
+
+/*
+-- Create --
+*/
+
 CREATE TABLE Users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -10,9 +15,9 @@ CREATE TABLE Users (
     password_salt VARCHAR(255) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     address VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(20) NOT NULL,
+    contact_number VARCHAR(20) NOT NULL,
     role ENUM('CUSTOMER', 'RESTAURANT', 'DELIVERY_PERSON', 'ADMIN') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Products (
@@ -29,12 +34,11 @@ CREATE TABLE Products (
 CREATE TABLE Orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('PENDING', 'COMFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY','DELIVERED','CANCELED') NOT NULL DEFAULT 'Pending',
+    order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('PENDING', 'CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELED') NOT NULL DEFAULT 'PENDING',
     total_price DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE Order_Items (
     order_item_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -65,18 +69,19 @@ CREATE TABLE Logs (
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
-INSERT INTO Users (first_name, last_name, username, password_hash, password_salt, email, address, phone_number, role)
+/*
+-- Insert --
+*/
+
+INSERT INTO Users (first_name, last_name, username, password_hash, password_salt, email, address, contact_number, role)
 VALUES
 ('John', 'Doe', 'johndoe', 'hashedpassword1', 'randomsalt1', 'john.doe@email.com', '123 Main St, City, Country', '555-1234', 'customer'),
 ('Jane', 'Smith', 'janesmith', 'hashedpassword2', 'randomsalt2', 'jane.smith@email.com', '456 Elm St, City, Country', '555-5678', 'admin');
 
-INSERT INTO Users (user_id, first_name, last_name, username, password_hash, password_salt, email, address, phone_number, role)
-VALUES (0, 'asd', 'asd', 'asd', '0BPOcr38l/MBYsmYGsoz36OuzhWqMI6yK7VvPn2QhQk=', 'fNKLgZ78ad22ODnIboqpFw==', 'asd@email.com', 'N/A', '000-0000', 'admin');
-
-INSERT INTO Orders (user_id, total_price, status)
+INSERT INTO Orders (user_id, total_price, status, order_time)
 VALUES
-(1, 25.50, 'Pending'),
-(2, 49.99, 'Completed');
+(1, 25.50, 'PENDING', CURRENT_TIMESTAMP),
+(2, 49.99, 'DELIVERED', CURRENT_TIMESTAMP);
 
 INSERT INTO Products (name, description, price, category, image_url, stock_quantity)
 VALUES
@@ -101,18 +106,18 @@ VALUES
 
 
 -- Drop tables
-SET FOREIGN_KEY_CHECKS = 0; -- Disable foreign key checks
 SELECT CONCAT('DROP TABLE IF EXISTS `', table_name, '`;') -- Get the command and run
 	FROM information_schema.tables
 	WHERE table_schema = 'food_ordering_database';
-SET FOREIGN_KEY_CHECKS = 1; -- Re-enable foreign key checks
 
+SET FOREIGN_KEY_CHECKS = 0; -- Disable foreign key checks
 DROP TABLE IF EXISTS `Users`;
 DROP TABLE IF EXISTS `Products`;
 DROP TABLE IF EXISTS `Orders`;
 DROP TABLE IF EXISTS `Order_Items`;
 DROP TABLE IF EXISTS `Payments`;
 DROP TABLE IF EXISTS `Logs`;
+SET FOREIGN_KEY_CHECKS = 1; -- Re-enable foreign key checks
 
 
 DROP DATABASE food_ordering_database;

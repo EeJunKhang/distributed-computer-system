@@ -151,7 +151,7 @@ public abstract class DBOperation<T, K> {
     }
     
     protected <R> R executeTransaction(DatabaseTransaction<R> transaction) {
-        return executeTransaction(true, transaction); 
+        return executeTransaction(false, transaction); 
         // false = default to non-transactional (auto-commit mode)
     }
     

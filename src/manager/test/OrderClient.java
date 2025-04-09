@@ -21,7 +21,6 @@ import model.AuthToken;
 import model.Products;
 import enums.OrderStatus;
 import utils.ConfigReader;
-import security.RMISSLClientSocketFactory;
 
 public class OrderClient {
 
