@@ -70,46 +70,79 @@ CREATE TABLE Logs (
 );
 
 /*
--- Insert --
+-- Insert --users
 */
+-- Inserting Users
+INSERT INTO Users (user_id, first_name, last_name, username, password_hash, password_salt, email, address, contact_number, role)
+VALUES
+(0, 'asd', 'asd', 'asd', 'wXCqjyAV0PfhvFXYtqB+JCU+otdv2khuTxUvUlbMABU=', 'B1+UNw+BdM+AjTflj7i1NA==', 'asd@email.com', 'Cyber , City, Country', '000-000', 'admin');
 
 INSERT INTO Users (first_name, last_name, username, password_hash, password_salt, email, address, contact_number, role)
 VALUES
-('John', 'Doe', 'johndoe', 'hashedpassword1', 'randomsalt1', 'john.doe@email.com', '123 Main St, City, Country', '555-1234', 'customer'),
-('Jane', 'Smith', 'janesmith', 'hashedpassword2', 'randomsalt2', 'jane.smith@email.com', '456 Elm St, City, Country', '555-5678', 'admin');
-
-INSERT INTO Orders (user_id, total_price, status, order_time)
-VALUES
-(1, 25.50, 'PENDING', CURRENT_TIMESTAMP),
-(2, 49.99, 'DELIVERED', CURRENT_TIMESTAMP);
+('Andy', 'Andrew', 'andrew', 'wXCqjyAV0PfhvFXYtqB+JCU+otdv2khuTxUvUlbMABU=', 'B1+UNw+BdM+AjTflj7i1NA==', 'andy.andrew@email.com', '123 Oak St, City, Country', '555-1111', 'customer'),
+('Leyley', 'Ashley', 'ashley', 'wXCqjyAV0PfhvFXYtqB+JCU+otdv2khuTxUvUlbMABU=', 'B1+UNw+BdM+AjTflj7i1NA==', 'leyley.ashley@email.com', '123 Oak St, City, Country', '555-1111', 'customer'),
+('Barbara', 'Baker', 'barbara', 'wXCqjyAV0PfhvFXYtqB+JCU+otdv2khuTxUvUlbMABU=', 'B1+UNw+BdM+AjTflj7i1NA==', 'barbara.baker@email.com', '456 Birch St, City, Country', '555-2222', 'customer'),
+('Clara', 'Carter', 'clara', 'wXCqjyAV0PfhvFXYtqB+JCU+otdv2khuTxUvUlbMABU=', 'B1+UNw+BdM+AjTflj7i1NA==', 'clara.carter@email.com', '789 Cedar St, City, Country', '555-3333', 'customer'),
+('David', 'Davis', 'david', 'wXCqjyAV0PfhvFXYtqB+JCU+otdv2khuTxUvUlbMABU=', 'B1+UNw+BdM+AjTflj7i1NA==', 'david.davis@email.com', '101 Pine St, City, Country', '555-4444', 'customer');
 
 INSERT INTO Products (name, description, price, category, image_url, stock_quantity)
 VALUES
-('Bagel', 'Freshly baked sesame bagel', 2.50, 'Bakery', 'http://example.com/images/bagel.jpg', 100),
-('Coffee', 'Hot brewed coffee with milk', 3.00, 'Beverages', 'http://example.com/images/coffee.jpg', 50);
+('Apple', 'Fresh and juicy red apple', 1.50, 'Fruits', 'src/resources/images/temp.png', 200),
+('Banana', 'Ripe and sweet yellow banana', 0.75, 'Fruits', 'src/resources/images/temp.png', 150),
+('Carrot', 'Crunchy and nutritious carrot', 1.20, 'Vegetables', 'src/resources/images/temp.png', 180),
+('Date', 'Sweet and chewy dates', 2.50, 'Fruits', 'src/resources/images/temp.png', 80),
+('Eggplant', 'Fresh purple eggplant', 1.75, 'Vegetables', 'src/resources/images/temp.png', 100);
 
+INSERT INTO Orders (user_id, total_price, status, order_time)
+VALUES
+(1, 30.00, 'PENDING', CURRENT_TIMESTAMP),
+(2, 35.50, 'CONFIRMED', CURRENT_TIMESTAMP),
+(3, 12.50, 'PREPARING', CURRENT_TIMESTAMP),
+(4, 45.00, 'OUT_FOR_DELIVERY', CURRENT_TIMESTAMP),
+(5, 47.50, 'DELIVERED', CURRENT_TIMESTAMP),  -- Order 5: DELIVERED
+(5, 50.00, 'CANCELED', CURRENT_TIMESTAMP);   -- Order 6: CANCELED
+
+-- Inserting Order Items (make sure each order has corresponding items)
 INSERT INTO Order_Items (order_id, product_id, quantity, price_per_unit)
 VALUES
-(1, 1, 3, 2.50),  -- 3 bagels in order 1
-(2, 2, 2, 3.00);  -- 2 coffees in order 2
+(1, 1, 10, 1.50),  -- 10 apples in order 1
+(2, 2, 15, 0.75),  -- 15 bananas in order 2
+(3, 3, 5, 1.20),   -- 5 carrots in order 3
+(4, 4, 6, 2.50),   -- 6 dates in order 4
+(5, 4, 7, 2.50),   -- 6 dates in order 5 (DELIVERED)
+(6, 4, 8, 2.50);   -- 6 dates in order 6 (CANCELED)
 
+-- Inserting Payments (one for each order)
 INSERT INTO Payments (order_id, amount_paid, payment_method, transaction_id, payment_status)
 VALUES
-(1, 25.50, 'Credit Card', 'trans123abc', 'Completed'),
-(2, 49.99, 'PayPal', 'trans456xyz', 'Completed');
+(1, 30.00, 'Credit Card', 'trans123abc', 'Completed'),
+(2, 35.50, 'PayPal', 'trans456xyz', 'Completed'),
+(3, 12.50, 'Credit Card', 'trans789xyz', 'Failed'),
+(4, 45.00, 'PayPal', 'trans987abc', 'Pending'),
+(5, 45.00, 'PayPal', 'trans987abac', 'Completed'),  -- Payment for DELIVERED order
+(6, 45.00, 'Credit Card', 'trans987xyz', 'Completed'); -- Payment for CANCELED order
 
+-- Inserting Logs (user actions for both orders of user_id = 5)
 INSERT INTO Logs (user_id, action)
 VALUES
 (1, 'Placed order #1'),
-(2, 'Placed order #2');
+(2, 'Placed order #2'),
+(3, 'Placed order #3'),
+(4, 'Placed order #4'),
+(5, 'Placed order #5'),  -- Action for DELIVERED order
+(5, 'Order #5 marked as DELIVERED'),  -- Status change to DELIVERED
+(5, 'Placed order #6'),  -- Action for CANCELED order
+(5, 'Order #6 marked as CANCELED'); -- Status change to CANCELED
+
 
 
 
 -- Drop tables
-SELECT CONCAT('DROP TABLE IF EXISTS `', table_name, '`;') -- Get the command and run
+SELECT CONCAT('DROP TABLE IF EXISTS `', table_name, '`;') 
 	FROM information_schema.tables
 	WHERE table_schema = 'food_ordering_database';
 
+USE `food_ordering_database` ;
 SET FOREIGN_KEY_CHECKS = 0; -- Disable foreign key checks
 DROP TABLE IF EXISTS `Users`;
 DROP TABLE IF EXISTS `Products`;

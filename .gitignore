@@ -19,3 +19,4 @@ test/dist/
 
 # local auth token file
 *.dat
+*.ser
