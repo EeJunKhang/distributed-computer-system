@@ -33,6 +33,14 @@ public class ProductManager {
     }
 
     /**
+     * Gets all unique product categories.
+     * @return List of all categories.
+     */
+    public List<String> getAllCategories() {
+        return productsDAO.getAllCategories();
+    }
+
+    /**
      * Gets all products.
      * @return List of all products.
      */

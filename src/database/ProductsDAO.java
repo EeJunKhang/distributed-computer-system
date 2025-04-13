@@ -105,6 +105,29 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
         return read(productId);
     }
 
+    /**
+     * Get all distinct product categories
+     * @return List of all unique categories
+     */
+    public List<String> getAllCategories() {
+        String sql = "SELECT DISTINCT category FROM products ORDER BY category";
+        
+        return executeTransaction(conn -> {
+            List<String> categories = new ArrayList<>();
+            
+            try (Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+                
+                while (rs.next()) {
+                    String category = rs.getString("category");
+                    categories.add(category);
+                }
+                
+                return categories;
+            }
+        });
+    }
+
     @Override
     public boolean update(Products product) {
         String sql = "UPDATE products SET name = ?, description = ?, price = ?, " +

@@ -48,6 +48,17 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
     }
 
     @Override
+    public List<String> getAllCategories(AuthToken token) throws RemoteException {
+        showClientIP();
+        User tokenUser = validateTokenAndGetUser(token);
+        if (tokenUser == null) {
+            System.out.println("Authentication failed for getAllCategories from " + IPIdentifier.getClientIP());
+            return null;
+        }
+        return productManager.getAllCategories();
+    }
+
+    @Override
     public List<Products> getAllProducts(AuthToken token) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);

@@ -24,6 +24,14 @@ public interface ProductInterface extends Remote {
      * @throws RemoteException If a remote error occurs.
      */
     List<Products> getAllProducts(AuthToken token) throws RemoteException;
+    
+    /**
+     * Gets all unique product categories
+     * @param token Authentication token
+     * @return List of all categories or null if authentication fails
+     * @throws RemoteException If a remote error occurs
+     */
+    List<String> getAllCategories(AuthToken token) throws RemoteException;
 
     /**
      * Gets products by category.
