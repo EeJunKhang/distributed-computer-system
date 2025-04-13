@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package manager.test;
+package manager.testclient;
 
-import RMI.OrderInterface;
+import rmi.OrderInterface;
 import utils.TokenStorage;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

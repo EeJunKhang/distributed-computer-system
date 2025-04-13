@@ -17,7 +17,7 @@ import java.rmi.RemoteException;
 import model.Customer;
 import model._RegisterCredential;
 import utils.ConfigReader;
-import RMI.AuthInterface;
+import rmi.AuthInterface;
 
 public class AuthClient {
 

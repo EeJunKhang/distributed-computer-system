@@ -1,6 +1,6 @@
-package manager.test;
+package manager.testclient;
 
-import RMI.UserInterface;
+import rmi.UserInterface;
 import utils.TokenStorage;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

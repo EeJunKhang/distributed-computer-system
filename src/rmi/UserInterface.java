@@ -1,4 +1,4 @@
-package RMI;
+package rmi;
 
 import java.rmi.*;
 import java.util.List;

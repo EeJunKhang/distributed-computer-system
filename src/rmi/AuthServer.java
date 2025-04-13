@@ -1,4 +1,4 @@
-package RMI;
+package rmi;
 
 import model._LoginCredential;
 import java.rmi.*;

@@ -1,4 +1,4 @@
-package manager.test;
+package manager.testclient;
 
 public class ProductClient {
     
