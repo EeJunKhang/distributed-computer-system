@@ -1,4 +1,4 @@
-package rmi;
+package rmi.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,6 +10,7 @@ import model.AuthToken;
 import model.Products;
 import model.User;
 import enums.UserRole;
+import rmi.ProductInterface;
 import utils.IPIdentifier;
 
 public class ProductServer extends UnicastRemoteObject implements ProductInterface {

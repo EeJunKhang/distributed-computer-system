@@ -1,5 +1,6 @@
-package rmi;
+package rmi.server;
 
+import enums.UserRole;
 import model._LoginCredential;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
@@ -8,6 +9,7 @@ import model.User;
 import model.AuthToken;
 import utils.IPIdentifier;
 import manager.AuthManager;
+import rmi.AuthInterface;
 
 public class AuthServer extends UnicastRemoteObject implements AuthInterface {
     
@@ -84,5 +86,13 @@ public class AuthServer extends UnicastRemoteObject implements AuthInterface {
             return null;
         }
         return authManager.getUserByToken(token.getToken());
+    }
+    @Override
+    public UserRole getUserRoleByToken (AuthToken token) throws RemoteException {
+        showClientIP();
+        if (token == null) {
+            return null;
+        }
+        return authManager.getUserRole(token.getToken());
     }
 }

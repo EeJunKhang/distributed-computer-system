@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 // RMI/OrderServer.java
-package rmi;
+package rmi.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -15,6 +15,7 @@ import model.AuthToken;
 import model.Order;
 import model.User;
 import enums.OrderStatus;
+import rmi.OrderInterface;
 import utils.IPIdentifier;
 
 public class OrderServer extends UnicastRemoteObject implements OrderInterface {

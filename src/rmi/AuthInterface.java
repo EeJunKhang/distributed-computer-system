@@ -1,5 +1,6 @@
 package rmi;
 
+import enums.UserRole;
 import java.rmi.*;
 import model.User;
 import model._LoginCredential;
@@ -48,4 +49,6 @@ public interface AuthInterface extends Remote {
      * @throws RemoteException If a remote error occurs.
      */
     User getUserByToken(AuthToken token) throws RemoteException;
+    
+    UserRole getUserRoleByToken(AuthToken token) throws RemoteException;
 }

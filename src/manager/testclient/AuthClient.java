@@ -1,5 +1,6 @@
 package manager.testclient;
 
+import enums.UserRole;
 import rmi.AuthInterface;
 import utils.TokenStorage;
 import java.rmi.NotBoundException;
@@ -64,9 +65,10 @@ public class AuthClient {
                 // fetch user info here
                 // == if needed
                 User user = authService.getUserByToken(authToken);
+                UserRole userrole = authService.getUserRoleByToken(authToken);
                 if (user != null) {
-                    System.out.println("Welcome back, " + user.getUsername() + "!");
-                }
+                    System.out.println("Welcome back, " + userrole + " "+ user.getUsername() + "!");
+                }       
             }
             return isValid;
         } catch (RemoteException e) {

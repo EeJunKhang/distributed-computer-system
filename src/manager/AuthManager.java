@@ -163,6 +163,7 @@ public class AuthManager {
      * @param token The authentication token
      * @return The user ID or -1 if the token is invalid
      */
+    // Currently Not in RMI Interface
     public int getUserId(String token) {
         if (validateToken(token)) {
             return activeSessions.get(token).getUserId();

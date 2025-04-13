@@ -1,4 +1,4 @@
-package rmi;
+package rmi.server;
 
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,6 +10,7 @@ import model.User;
 import model.Customer;
 import model.Admin;
 import model.AuthToken;
+import rmi.UserInterface;
 import utils.IPIdentifier;
 
 public class UserServer extends UnicastRemoteObject implements UserInterface {
