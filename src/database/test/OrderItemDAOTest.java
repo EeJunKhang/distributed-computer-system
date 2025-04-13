@@ -52,8 +52,7 @@ public class OrderItemDAOTest {
             System.out.println(item.getProduct().getItemName() + " - Quantity: " + item.getQuantity());
         }
         
-        // Test delete order item (optional - uncomment if you want to test deletion)
-        /*
+        // Test delete order item
         System.out.println("\nTesting delete order item:");
         boolean deleted = orderItemDAO.delete(newItem.getOrderItemId());
         System.out.println("Order item deleted: " + deleted);
@@ -61,6 +60,6 @@ public class OrderItemDAOTest {
         // Verify deletion
         OrderItem deletedItem = orderItemDAO.read(newItem.getOrderItemId());
         System.out.println("Order item after deletion: " + (deletedItem == null ? "Not found" : deletedItem));
-        */
+        
     }
 }

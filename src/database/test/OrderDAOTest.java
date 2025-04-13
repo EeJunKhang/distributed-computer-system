@@ -122,8 +122,7 @@ public class OrderDAOTest {
             System.out.println(order);
         }
         
-        // Test delete order (optional - uncomment if you want to test deletion)
-        /*
+        // Test delete order
         System.out.println("\nTesting delete order:");
         boolean deleted = orderDAO.delete(newOrder.getOrderId());
         System.out.println("Order deleted: " + deleted);
@@ -131,6 +130,6 @@ public class OrderDAOTest {
         // Verify deletion
         Order deletedOrder = orderDAO.read(newOrder.getOrderId());
         System.out.println("Order after deletion: " + (deletedOrder == null ? "Not found" : deletedOrder));
-        */
+        
     }
 }

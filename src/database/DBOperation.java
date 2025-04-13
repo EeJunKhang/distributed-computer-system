@@ -142,7 +142,7 @@ public abstract class DBOperation<T, K> {
                         conn.setAutoCommit(originalAutoCommit);
                     }
                     conn.close();
-                    System.out.println("Connection closed.");
+                    // System.out.println("Connection closed.");
                 }
             } catch (SQLException e) {
                 System.out.println("Failed to close connection: " + e.getMessage());

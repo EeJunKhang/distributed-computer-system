@@ -75,7 +75,7 @@ CREATE TABLE Logs (
 -- Inserting Users
 INSERT INTO Users (user_id, first_name, last_name, username, password_hash, password_salt, email, address, contact_number, role)
 VALUES
-(0, 'asd', 'asd', 'asd', 'wXCqjyAV0PfhvFXYtqB+JCU+otdv2khuTxUvUlbMABU=', 'B1+UNw+BdM+AjTflj7i1NA==', 'asd@email.com', 'Cyber , City, Country', '000-000', 'admin');
+(-1, 'asd', 'asd', 'asd', 'wXCqjyAV0PfhvFXYtqB+JCU+otdv2khuTxUvUlbMABU=', 'B1+UNw+BdM+AjTflj7i1NA==', 'asd@email.com', 'Cyber , City, Country', '000-000', 'admin');
 
 INSERT INTO Users (first_name, last_name, username, password_hash, password_salt, email, address, contact_number, role)
 VALUES
