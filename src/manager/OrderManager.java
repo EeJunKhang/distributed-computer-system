@@ -61,6 +61,15 @@ public class OrderManager {
     }
 
     /**
+     * Gets all orders with a specific status.
+     * @param status The status to filter by.
+     * @return List of orders with the specified status.
+     */
+    public List<Order> getOrdersByStatus(OrderStatus status) {
+        return orderDAO.getOrdersByStatus(status);
+    }
+
+    /**
      * Creates a new order.
      * @param order The Order object to create.
      * @return true if the order was created successfully, false otherwise.

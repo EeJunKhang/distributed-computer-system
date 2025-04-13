@@ -179,11 +179,11 @@ public class OrderClient {
             System.out.println("No authentication token available!");
             return;
         }
-
-        System.out.println("Available statuses: PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED");
+    
+        System.out.println("Available statuses: PENDING, CONFIRMED, PREPARING, OUT_FOR_DELIVERY, CANCELLED");
         System.out.print("Enter order status: ");
         String statusStr = scanner.nextLine().toUpperCase();
-
+    
         OrderStatus status;
         try {
             status = OrderStatus.valueOf(statusStr);
@@ -191,11 +191,23 @@ public class OrderClient {
             System.out.println("Invalid status. Please enter a valid status.");
             return;
         }
-
-        // NOT IMPMLEMENTED IN OrderInterface and OrderServer.
-        // For now, this won't work.
-        System.out.println("Error: getOrdersByStatus functionality is not implemented on the server.");
+    
+        List<Order> orders = orderService.getOrdersByStatus(authToken, status);
+    
+        if (orders != null && !orders.isEmpty()) {
+            System.out.println("\n=== Orders with Status: " + status + " ===");
+            for (Order order : orders) {
+                System.out.println("Order ID: " + order.getOrderId() +
+                                  " | User: " + (order.getUser() != null ? order.getUser().getUsername() : "N/A") +
+                                  " | Date: " + order.getOrderTime() +
+                                  " | Total: $" + order.getTotalPrice());
+            }
+            System.out.println("Total orders with status " + status + ": " + orders.size());
+        } else {
+            System.out.println("No orders found with status " + status + " or you don't have permission to view these orders.");
+        }
     }
+
 
     private static void createNewOrder(Scanner scanner) throws RemoteException {
         if (authToken == null) {

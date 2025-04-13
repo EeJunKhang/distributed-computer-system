@@ -41,6 +41,15 @@ public interface OrderInterface extends Remote {
     List<Order> getOrdersByUserId(AuthToken token, int userId) throws RemoteException;
 
     /**
+     * Gets all orders for a specific user.
+     * @param token Authentication token.
+     * @param userId The ID of the user.
+     * @return List of orders for the specified status or null if unauthorized.
+     * @throws RemoteException If a remote error occurs.
+     */
+    List<Order> getOrdersByStatus(AuthToken token, OrderStatus status) throws RemoteException;
+
+    /**
      * Creates a new order.
      * @param token Authentication token.
      * @param order The Order object to create.

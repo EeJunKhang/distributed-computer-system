@@ -75,6 +75,17 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
     }
 
     @Override
+    public List<Order> getOrdersByStatus(AuthToken token, OrderStatus status) throws RemoteException {
+        showClientIP();
+        User tokenUser = validateTokenAndGetUser(token);
+        if (tokenUser == null || tokenUser.getRole() != enums.UserRole.ADMIN) {
+            System.out.println("Authentication failed or unauthorized for getOrdersByStatus from " + IPIdentifier.getClientIP());
+            return null;
+        }
+        return orderManager.getOrdersByStatus(status);
+    }
+
+    @Override
     public boolean createOrder(AuthToken token, Order order) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
