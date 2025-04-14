@@ -4,22 +4,23 @@
  */
 package client;
 
+import utils.BackgroundTaskWithLoading;
 import client.Components.CartCard2;
 import client.Components.PaymentDialog;
 import enums.OrderStatus;
-import enums.UserRole;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import model.AuthToken;
 import model.Customer;
 import model.Order;
 import model.OrderItem;
 import model.Products;
+import model.User;
+import utils.TokenStorage;
 
 /**
  *
@@ -30,17 +31,44 @@ public class HomePage extends javax.swing.JFrame {
 //    private int quantity = 1;
 //    private JLabel quantityLabel;
 //    private Cursor originalCursor;
+    private final AuthToken token;
+    private User user;
+
     /**
      * Creates new form HomePage
+     *
+     * @param token
      */
-    public HomePage() {
+    public HomePage(AuthToken token) {
         initComponents();
-        postInitComponents();
+        this.token = token;
+//        System.out.println(token);
+        // Load user data in background
+        new BackgroundTaskWithLoading<>(
+                this,
+                "Loading your dashboard...",
+                () -> new AuthClient().requestUserByToken(token),
+                user -> {
+                    if (user != null) {
+                        System.out.println(user.toString());
+                        this.user = user;
+                        postInitComponents(); // Now called after user is set
+                        this.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to load user data.", "Error", JOptionPane.ERROR_MESSAGE);
+                        this.dispose(); // Close the window if data is missing
+                    }
+                }
+        ).execute();
     }
 
     private void postInitComponents() {
         // Re-inject the now-initialized foodItemSection1 into menuPanel1
         menuPanel1.setFoodItemSection(foodItemSection1);
+        userNameDisplay.setText(this.user.getFullName());
+//        System.out.println(this.user.getFullName());
+        orderHistorySection1 = new client.Components.OrderHistorySection(this.user);
+        mainTab.addTab("tab3", orderHistorySection1);
     }
 
     /**
@@ -55,7 +83,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
-        jLabel6 = new javax.swing.JLabel();
+        userNameDisplay = new javax.swing.JLabel();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
         jLabel11 = new javax.swing.JLabel();
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 20), new java.awt.Dimension(32767, 32767));
@@ -81,18 +109,16 @@ public class HomePage extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
+        logoutPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(2000, 10), new java.awt.Dimension(32767, 32767));
-        textField1 = new client.Components.TextField();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(2000, 10), new java.awt.Dimension(32767, 32767));
         mainTab = new javax.swing.JTabbedPane();
         menuPanel1 = new client.Components.MenuPanel();
         foodItemSection1 = new client.Components.FoodItemSection();
-        orderHistorySection1 = new client.Components.OrderHistorySection();
         userProfileSection1 = new client.Components.UserProfileSection();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -107,9 +133,9 @@ public class HomePage extends javax.swing.JFrame {
         jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
         jPanel6.add(filler4);
 
-        jLabel6.setText("My Orders");
-        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jPanel6.add(jLabel6);
+        userNameDisplay.setText("Name");
+        userNameDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jPanel6.add(userNameDisplay);
         jPanel6.add(filler9);
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/user.png"))); // NOI18N
@@ -183,7 +209,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel3.setRequestFocusEnabled(false);
         jPanel3.add(filler1);
 
-        jLabel1.setText("SYStem Name");
+        jLabel1.setText("Food Order System");
         jPanel3.add(jLabel1);
         jPanel3.add(filler2);
 
@@ -238,28 +264,28 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel3.add(jPanel10);
 
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel8.setPreferredSize(new java.awt.Dimension(1000, 30));
-        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        logoutPanel.setBackground(new java.awt.Color(255, 255, 255));
+        logoutPanel.setPreferredSize(new java.awt.Dimension(1000, 30));
+        logoutPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel8MouseClicked(evt);
+                logoutPanelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel8MouseEntered(evt);
+                logoutPanelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel8MouseExited(evt);
+                logoutPanelMouseExited(evt);
             }
         });
-        jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
+        logoutPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logout.png"))); // NOI18N
-        jPanel8.add(jLabel2);
+        logoutPanel.add(jLabel2);
 
         jLabel3.setText("Logout");
-        jPanel8.add(jLabel3);
+        logoutPanel.add(jLabel3);
 
-        jPanel3.add(jPanel8);
+        jPanel3.add(logoutPanel);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.WEST);
 
@@ -270,10 +296,6 @@ public class HomePage extends javax.swing.JFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(1000, 70));
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 50, 5));
         jPanel5.add(filler5);
-
-        textField1.setText("textField1");
-        textField1.setPreferredSize(new java.awt.Dimension(400, 29));
-        jPanel5.add(textField1);
         jPanel5.add(filler6);
 
         jPanel1.add(jPanel5, java.awt.BorderLayout.NORTH);
@@ -289,8 +311,7 @@ public class HomePage extends javax.swing.JFrame {
         mainTab.addTab("tab1", menuPanel1);
 
         foodItemSection1.setBackground(new java.awt.Color(255, 255, 255));
-        mainTab.addTab("tab4", foodItemSection1);
-        mainTab.addTab("tab3", orderHistorySection1);
+        mainTab.addTab("tab2", foodItemSection1);
         mainTab.addTab("tab4", userProfileSection1);
 
         jPanel1.add(mainTab, java.awt.BorderLayout.CENTER);
@@ -300,20 +321,23 @@ public class HomePage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+    private void logoutPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseClicked
+
+        String res = new AuthClient().handleAuthLogout(this.token);
+        if (res != null) {
+            JOptionPane.showMessageDialog(this,
+                    res,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         this.setVisible(false);
         new LoginPage().setVisible(true);
         this.dispose();
-        try {
-            AuthClient.removeToken();
-        } catch (IOException ex) {
-            System.out.println(ex);
-            JOptionPane.showMessageDialog(this,
-                    "Error logout",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+        if (!TokenStorage.deleteToken()) {
+            System.out.println("Warning: Failed to remove saved session. ser file not removed");
         }
-    }//GEN-LAST:event_jPanel8MouseClicked
+    }//GEN-LAST:event_logoutPanelMouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
         mainTab.setSelectedIndex(0);
@@ -330,19 +354,19 @@ public class HomePage extends javax.swing.JFrame {
         jPanel9.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel9MouseExited
 
-    private void jPanel8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseEntered
-        jPanel8.setBackground(new Color(160, 160, 160));
+    private void logoutPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseEntered
+        logoutPanel.setBackground(new Color(160, 160, 160));
 //        originalCursor = jPanel8.getCursor(); // Save current cursor
-        jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_jPanel8MouseEntered
+        logoutPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_logoutPanelMouseEntered
 
-    private void jPanel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseExited
-        jPanel8.setBackground(Color.white);
-        jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_jPanel8MouseExited
+    private void logoutPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseExited
+        logoutPanel.setBackground(Color.white);
+        logoutPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_logoutPanelMouseExited
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
-        mainTab.setSelectedIndex(2);
+        mainTab.setSelectedIndex(3);
     }//GEN-LAST:event_jPanel10MouseClicked
 
     private void jPanel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseEntered
@@ -374,9 +398,8 @@ public class HomePage extends javax.swing.JFrame {
             items.add(newOrderItem);
         }
         // get current logined user, now don have user
-        Customer u = new Customer(1, "s", "s", "s", "s", "s", "s", "s", "s");
 
-        Order newOrder = new Order(u, OrderStatus.PENDING, totalPrice, items);
+        Order newOrder = new Order((Customer) user, OrderStatus.PENDING, totalPrice, items);
         PaymentDialog dialog = new PaymentDialog(this, newOrder);
         dialog.setVisible(true);
     }//GEN-LAST:event_button1ActionPerformed
@@ -386,7 +409,7 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel11MouseEntered
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        mainTab.setSelectedIndex(3);
+        mainTab.setSelectedIndex(2);
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void jLabel11MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseExited
@@ -413,7 +436,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -426,15 +448,15 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel logoutPanel;
     public static javax.swing.JTabbedPane mainTab;
     private client.Components.MenuPanel menuPanel1;
-    private client.Components.OrderHistorySection orderHistorySection1;
-    private client.Components.TextField textField1;
     public static javax.swing.JLabel totalPriceCart;
     public static javax.swing.JLabel totalPriceCart1;
+    private javax.swing.JLabel userNameDisplay;
     private client.Components.UserProfileSection userProfileSection1;
     // End of variables declaration//GEN-END:variables
+    private client.Components.OrderHistorySection orderHistorySection1;
 }

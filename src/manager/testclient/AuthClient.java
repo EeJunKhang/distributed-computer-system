@@ -8,8 +8,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
-import model._LoginCredential;
-import model._RegisterCredential;
+import model.LoginCredential;
+import model.RegisterCredential;
 import model.AuthToken;
 import model.User;
 import utils.ConfigReader;
@@ -129,7 +129,7 @@ public class AuthClient {
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
         
-        _LoginCredential credential = new _LoginCredential(username, password);
+        LoginCredential credential = new LoginCredential(username, password);
         
         AuthToken token = authService.handleLogin(credential);
         
@@ -174,7 +174,7 @@ public class AuthClient {
         System.out.print("Enter contact number: ");
         String contactNumber = scanner.nextLine();
         
-        _RegisterCredential credential = new _RegisterCredential(
+        RegisterCredential credential = new RegisterCredential(
             firstName, lastName, username, password, email, address, contactNumber
         );
         

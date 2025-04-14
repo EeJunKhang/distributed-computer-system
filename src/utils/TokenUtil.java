@@ -4,7 +4,7 @@
  */
 package utils;
 
-import model._LoginCredential;
+import model.LoginCredential;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
@@ -25,7 +25,7 @@ public class TokenUtil {
     private static final String HMAC_ALGORITHM = "HmacSHA256";
 
     // Generate a token for a username
-    public static String generateToken(_LoginCredential credential) {
+    public static String generateToken(LoginCredential credential) {
         try {
             long nowMillis = System.currentTimeMillis();
             String randomString = generateRandomString(16); // 16 chars of randomness

@@ -22,7 +22,7 @@ import model.Products;
 
 /**
  * CustomTabbedPanel - A JPanel that mimics JTabbedPane functionality but with
- * fully customizable tab headers and content panels.
+ * fully tab headers and content panels.
  */
 public class MenuPanel extends JPanel {
 
@@ -47,14 +47,14 @@ public class MenuPanel extends JPanel {
 //        ImageIcon promotionIcon = createIcon("model/resources/", 24);
         ImageIcon newcomersIcon = createIcon("src/resources/new.png", 24);
         ImageIcon bestSellersIcon = createIcon("src/resources/star.png", 24);
-        ImageIcon topRatedIcon = createIcon("src/resources/medal.png", 24);
+//        ImageIcon topRatedIcon = createIcon("src/resources/medal.png", 24);
         ImageIcon allIcon = createIcon("src/resources/menu.png", 24);
         
         // Add tabs with content
         this.addTab("All", allIcon, createAllItemsPanel());
         this.addTab("Newcomers", newcomersIcon, createNewcomersPanel());
         this.addTab("Best Sellers", bestSellersIcon, createBestSellersPanel());
-        this.addTab("Top Rated", topRatedIcon, createTopRatedPanel());
+//        this.addTab("Top Rated", topRatedIcon, createTopRatedPanel());
     }
     /**
      * Class representing a tab item with its header and content
@@ -383,17 +383,17 @@ public class MenuPanel extends JPanel {
         return createFoodGridPanel(items);
     }
 
-    private JPanel createTopRatedPanel() {
-        Products[] items = {
-            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Products(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
-
-        return createFoodGridPanel(items);
-    }
+//    private JPanel createTopRatedPanel() {
+//        Products[] items = {
+//            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
+//            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
+//            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
+//            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
+//            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
+//            new Products(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
+//
+//        return createFoodGridPanel(items);
+//    }
 
     private JPanel createAllItemsPanel() {
          Products[] items = {

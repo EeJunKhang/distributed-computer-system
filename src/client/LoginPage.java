@@ -4,11 +4,13 @@
  */
 package client;
 
+import utils.BackgroundTaskWithLoading;
+import enums.UserRole;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import model._LoginCredential;
+import model.LoginCredential;
 import javax.swing.JOptionPane;
-import model._RegisterCredential;
+import model.RegisterCredential;
 
 /**
  *
@@ -173,7 +175,7 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel8.add(filler15);
 
         registerBtn.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        registerBtn.setText("Register");
+        registerBtn.setText("Don't have account? Register");
         registerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 registerBtnMouseClicked(evt);
@@ -308,7 +310,7 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
         jPanel3.add(filler12);
 
-        loginPageBtn.setText("Login");
+        loginPageBtn.setText("Have account? Login");
         loginPageBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginPageBtnMouseClicked(evt);
@@ -360,31 +362,49 @@ public class LoginPage extends javax.swing.JFrame {
         String password = passwordField.getTextValue().strip();
 
         if (username.isEmpty() || username.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Username is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (password.isEmpty() || password.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Password is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        _LoginCredential loginCredential = new _LoginCredential(username, password);
+        LoginCredential loginCredential = new LoginCredential(username, password);
         AuthClient auth = new AuthClient();
         auth.setLoginCredential(loginCredential);
-        String response = auth.handleAuthLogin(rememberMeChkBox.isSelected());
-
-        if (response == null) {
-            // login success
-            this.setVisible(false);
-            new HomePage().setVisible(true);
-            this.dispose();
-//            System.out.println("sd");
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    response,
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-
+        // Show loading dialog
+        // Create and execute background task
+        new BackgroundTaskWithLoading<>(
+                this,
+                "Authenticating, please wait...",
+                () -> auth.handleAuthLogin(rememberMeChkBox.isSelected()),
+                response -> {
+                    if (response.hasError()) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                response.getErrorMessage(),
+                                "Login Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    } else {
+                        this.dispose();
+                        this.setVisible(false);
+                        if (response.getUserRole() == UserRole.CUSTOMER) {
+                            new HomePage(response.getToken());
+                        } else {
+                            new AdminPage(response.getToken());
+                        }
+                    }
+                }
+        ).execute();
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void rememberMeChkBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rememberMeChkBoxActionPerformed
@@ -436,57 +456,85 @@ public class LoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_addressFieldActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        String username = usernameField.getTextValue().strip();
-        String password = passwordField.getTextValue().strip();
+        String username = usernameField2.getTextValue().strip();
+        String password = passwordField2.getTextValue().strip();
         String firstName = firstNameField.getTextValue().strip();
         String lastName = lastNameField.getTextValue().strip();
         String contact = contactNumberField.getTextValue().strip();
         String address = addressField.getTextValue().strip();
         String email = emailField.getTextValue().strip();
-
+        System.out.println(username);
         if (username.isEmpty() || username.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Username is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (password.isEmpty() || password.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Password is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (firstName.isEmpty() || firstName.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "First name is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (lastName.isEmpty() || lastName.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Last name is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (contact.isEmpty() || contact.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Contact Number is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (address.isEmpty() || address.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Address is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (email.isEmpty() || email.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Email is empty",
+                    "Validation",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        _RegisterCredential registerCredential = new _RegisterCredential(username, password, firstName, lastName, address, contact, email);
+        RegisterCredential registerCredential = new RegisterCredential(username, password, firstName, lastName, address, contact, email);
         AuthClient auth = new AuthClient();
         auth.setRegisterCredential(registerCredential);
-        String response = auth.handleAuthRegister();
+        AuthResult response = auth.handleAuthRegister();
 
-        if (response == null) {
-            // login success
-            this.setVisible(false);
-            new HomePage().setVisible(true);
-            this.dispose();
-        } else {
+        if (response.hasError()) {
             JOptionPane.showMessageDialog(this,
                     response,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+        } else {
+            // login success
+            this.setVisible(false);
+            new HomePage(response.getToken());
+            this.dispose();
         }
     }//GEN-LAST:event_registerButtonActionPerformed
 

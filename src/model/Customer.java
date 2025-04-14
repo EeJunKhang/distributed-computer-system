@@ -15,7 +15,6 @@ public class Customer extends User implements Serializable {
         setRole(UserRole.CUSTOMER);
     }
     
-    // Register use ?
     public Customer(String firstName, String lastName, String username,
                     String passwordHash, String passwordSalt, String email, String address,
                     String contactNumber, LocalDateTime createdTime) {

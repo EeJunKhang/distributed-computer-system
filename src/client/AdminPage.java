@@ -6,9 +6,11 @@ package client;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import model.AuthToken;
+import model.User;
+import utils.BackgroundTaskWithLoading;
 
 /**
  *
@@ -16,13 +18,41 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
  */
 public class AdminPage extends javax.swing.JFrame {
 
-    private Cursor originalCursor;
-
+//    private final User user;
+    private final AuthToken token;
+    private User user;
     /**
      * Creates new form AdminPage
+     *
+     * @param token
      */
-    public AdminPage() {
+    public AdminPage(AuthToken token) {
+        this.token = token;
         initComponents();
+        // Load user data in background
+        new BackgroundTaskWithLoading<>(
+                this,
+                "Loading your dashboard...",
+                () -> new AuthClient().requestUserByToken(token),
+                user -> {
+                    if (user != null) {
+                        System.out.println(user.toString());
+                        this.user = user;
+                        postInitComponents(); // Now called after user is set
+                        this.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to load user data.", "Error", JOptionPane.ERROR_MESSAGE);
+                        this.dispose(); // Close the window if data is missing
+                    }
+                }
+        ).execute();
+    }
+    
+    private void postInitComponents() {
+        // Re-inject the now-initialized foodItemSection1 into menuPanel1
+//        menuPanel1.setFoodItemSection(foodItemSection1);
+        userNameDisplay.setText(this.user.getFullName());
+
     }
 
     /**
@@ -36,7 +66,8 @@ public class AdminPage extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 30), new java.awt.Dimension(32767, 32767));
-        jLabel1 = new javax.swing.JLabel();
+        userNameDisplay1 = new javax.swing.JLabel();
+        userNameDisplay = new javax.swing.JLabel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 30), new java.awt.Dimension(32767, 32767));
         jSeparator1 = new javax.swing.JSeparator();
         jPanel9 = new javax.swing.JPanel();
@@ -48,7 +79,7 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
+        logoutPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -66,8 +97,11 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel3.setRequestFocusEnabled(false);
         jPanel3.add(filler1);
 
-        jLabel1.setText("SYStem Name");
-        jPanel3.add(jLabel1);
+        userNameDisplay1.setText("Food Order System");
+        jPanel3.add(userNameDisplay1);
+
+        userNameDisplay.setText("PlaceHolder");
+        jPanel3.add(userNameDisplay);
         jPanel3.add(filler2);
 
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
@@ -144,28 +178,28 @@ public class AdminPage extends javax.swing.JFrame {
 
         jPanel3.add(jPanel10);
 
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel8.setPreferredSize(new java.awt.Dimension(1000, 30));
-        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        logoutPanel.setBackground(new java.awt.Color(255, 255, 255));
+        logoutPanel.setPreferredSize(new java.awt.Dimension(1000, 30));
+        logoutPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel8MouseClicked(evt);
+                logoutPanelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel8MouseEntered(evt);
+                logoutPanelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel8MouseExited(evt);
+                logoutPanelMouseExited(evt);
             }
         });
-        jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
+        logoutPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logout.png"))); // NOI18N
-        jPanel8.add(jLabel2);
+        logoutPanel.add(jLabel2);
 
         jLabel3.setText("Logout");
-        jPanel8.add(jLabel3);
+        logoutPanel.add(jLabel3);
 
-        jPanel3.add(jPanel8);
+        jPanel3.add(logoutPanel);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.WEST);
 
@@ -199,13 +233,12 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jPanel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseEntered
         jPanel9.setBackground(new Color(160, 160, 160));
-        originalCursor = jPanel9.getCursor(); // Save current cursor
         jPanel9.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel9MouseEntered
 
     private void jPanel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseExited
         jPanel9.setBackground(Color.white);
-        jPanel9.setCursor(originalCursor);
+        jPanel9.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel9MouseExited
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
@@ -220,38 +253,37 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jPanel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseExited
         jPanel10.setBackground(Color.white);
-        jPanel10.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        jPanel10.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel10MouseExited
 
-    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+    private void logoutPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseClicked
+        String res = new AuthClient().handleAuthLogout(this.token);
+        if (res != null) {
+            JOptionPane.showMessageDialog(this,
+                    res,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         this.setVisible(false);
         new LoginPage().setVisible(true);
         this.dispose();
-        try {
-            AuthClient.removeToken();
-        } catch (IOException ex) {
-            System.out.println(ex);
-            JOptionPane.showMessageDialog(this,
-                    "Error logout",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jPanel8MouseClicked
+    }//GEN-LAST:event_logoutPanelMouseClicked
 
-    private void jPanel8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseEntered
-        jPanel8.setBackground(new Color(160, 160, 160));
+    private void logoutPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseEntered
+        logoutPanel.setBackground(new Color(160, 160, 160));
 //        originalCursor = jPanel8.getCursor(); // Save current cursor
-        jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_jPanel8MouseEntered
+        logoutPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_logoutPanelMouseEntered
 
-    private void jPanel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseExited
-        jPanel8.setBackground(Color.white);
-        jPanel8.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_jPanel8MouseExited
+    private void logoutPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseExited
+        logoutPanel.setBackground(Color.white);
+        logoutPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_logoutPanelMouseExited
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
         mainTab.setSelectedIndex(2);
-        
+
     }//GEN-LAST:event_jPanel11MouseClicked
 
     private void jPanel11MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseEntered
@@ -304,7 +336,6 @@ public class AdminPage extends javax.swing.JFrame {
     private client.Components.DashboardSection dashboardSection1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -318,11 +349,13 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel logoutPanel;
     private javax.swing.JTabbedPane mainTab;
     private client.Components.ProductsSection productsSection1;
     private client.Components.ReportSection reportSection1;
+    private javax.swing.JLabel userNameDisplay;
+    private javax.swing.JLabel userNameDisplay1;
     // End of variables declaration//GEN-END:variables
 }

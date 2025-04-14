@@ -3,8 +3,8 @@ package rmi;
 import enums.UserRole;
 import java.rmi.*;
 import model.User;
-import model._LoginCredential;
-import model._RegisterCredential;
+import model.LoginCredential;
+import model.RegisterCredential;
 import model.AuthToken;
 
 public interface AuthInterface extends Remote {
@@ -15,7 +15,7 @@ public interface AuthInterface extends Remote {
      * @return The authentication token, or null if authentication fails.
      * @throws RemoteException If a remote error occurs.
      */
-    AuthToken handleLogin(_LoginCredential credential) throws RemoteException;
+    AuthToken handleLogin(LoginCredential credential) throws RemoteException;
 
     /**
      * Logs out a user by invalidating their token.
@@ -40,7 +40,7 @@ public interface AuthInterface extends Remote {
      * or null if registration fails.
      * @throws RemoteException If a remote error occurs.
      */
-    AuthToken handleRegister(_RegisterCredential credential) throws RemoteException;
+    AuthToken handleRegister(RegisterCredential credential) throws RemoteException;
     
     /**
      * Retrieves the user information associated with a valid token.

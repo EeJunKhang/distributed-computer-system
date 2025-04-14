@@ -1,15 +1,13 @@
 package rmi;
 
-import rmi.server.DashboardServer;
 import rmi.server.ProductServer;
 import rmi.server.UserServer;
 import rmi.server.OrderServer;
 import rmi.server.AuthServer;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.server.UnicastRemoteObject;
 
-import security.RMISSLServerSocketFactory;
+//import security.RMISSLServerSocketFactory;
 import utils.ConfigReader;
 
 public class Registry {
@@ -26,12 +24,10 @@ public class Registry {
         AuthServer authServer = new AuthServer();
         OrderServer orderServer = new OrderServer();
         UserServer userServer = new UserServer();
-        ProductServer productServer = new ProductServer(); 
-        DashboardServer dashboardServer = new DashboardServer();
+        ProductServer productServer = new ProductServer();
 
         // int sslPort = 1041;
         // RMISSLServerSocketFactory ssf = new RMISSLServerSocketFactory();
-        
         // // associating SSL socket factory
         // AuthServer authServer = (AuthServer) UnicastRemoteObject.exportObject(
         //     new AuthServer(), sslPort, null, ssf);
@@ -43,16 +39,15 @@ public class Registry {
         //     new ProductServer(), sslPort, null, ssf);
         // DashboardServer dashboardServer = (DashboardServer) UnicastRemoteObject.exportObject(
         //     new DashboardServer(), sslPort, null, ssf);
-
-
         // Authentication services
-        reg.rebind("handleLogin", authServer);
-        reg.rebind("handleLogout", authServer);
-        reg.rebind("verifyToken", authServer);
-        reg.rebind("handleRegister", authServer);
+        reg.rebind("AuthService", authServer);
+//        reg.rebind("handleLogin", authServer);
+//        reg.rebind("handleLogout", authServer);
+//        reg.rebind("verifyToken", authServer);
+//        reg.rebind("handleRegister", authServer);
 
         // Order management services
-        reg.rebind("OrderService", orderServer); 
+        reg.rebind("OrderService", orderServer);
         // reg.rebind("getOrderById", orderServer); // Redundent?
         // reg.rebind("getAllOrders", orderServer);
         // reg.rebind("getOrdersByUserId", orderServer);
@@ -74,9 +69,6 @@ public class Registry {
 
         // Product management services
         reg.rebind("ProductService", productServer);
-
-        // Dashboard services
-        reg.rebind("fetchAllProducts", dashboardServer);
 
         // System.out.println("SSL RMI Server is running on IP: " + serverIP
         // + " and SSL port: " + sslPort);

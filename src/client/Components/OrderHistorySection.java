@@ -7,6 +7,7 @@ package client.Components;
 import enums.OrderStatus;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
@@ -15,10 +16,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import model.AuthToken;
 import model.Customer;
 import model.Order;
 import model.OrderItem;
 import model.Products;
+import model.User;
 
 /**
  *
@@ -29,9 +32,11 @@ public class OrderHistorySection extends JPanel {
     private JTable orderTable;
     private DefaultTableModel tableModel;
     private List<Order> orders = new ArrayList<>();
+    private User user;
 
-    public OrderHistorySection() {
+    public OrderHistorySection(User user) {
         initializeUI();
+        this.user = user;
         loadSampleData();
     }
 
@@ -67,21 +72,21 @@ public class OrderHistorySection extends JPanel {
         Products mouse = new Products(2, "mouse", "this is a mouse", 99.99, "accessories", "src/resources/burger.jpg", 30, "20/5/532");
 
         // get current User
-        Customer u = new Customer(1, "s", "s", "s", "s", "s", "s", "s", "s");
+//        Customer u = new Customer(1, "s", "s", "s", "s", "s", "s", "s", "s");
         // Create sample orders
         var items = List.of(
                 new OrderItem(laptop, 10),
                 new OrderItem(mouse, 5)
         );
 
-        Order order1 = new Order(1001, u, "order time here", OrderStatus.CANCELED, 23.23, items);
+        Order order1 = new Order(1001, (Customer) user, "order time here", OrderStatus.CANCELED, 23.23, items);
 
         var items2 = List.of(
                 new OrderItem(laptop, 3),
                 new OrderItem(mouse, 2)
         );
 
-        Order order2 = new Order(1002, u, "order time here", OrderStatus.DELIVERED, 23.23, items2);
+        Order order2 = new Order(1002, (Customer) user, "order time here", OrderStatus.DELIVERED, 23.23, items2);
 
         orders.add(order1);
         orders.add(order2);

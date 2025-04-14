@@ -1,21 +1,32 @@
 package client;
 
+import enums.UserRole;
+import model.AuthToken;
+import model.User;
+import utils.TokenStorage;
+
 public class Client {
     //handle run ui
 
     public static void main(String args[]) {
         //check if session/token is correct
-        boolean isSuccess = AuthClient.verifyToken();
-        if (isSuccess) {
-            
-//            new AdminPage().setVisible(true);
-//            return;
-            // check user role, from 2 class
-            new HomePage().setVisible(true);
-            return;
+        AuthToken token = TokenStorage.loadToken();// get saved token from local
+        if (token != null) {
+            User user = new AuthClient().validateSession(token);
+            if (user != null) {
+                // fetch user info hll) {
+                // fetch usere
+                // == if needed
+                if (user.getRole() == UserRole.ADMIN) {
+                    new AdminPage(token).setVisible(true);
+                    return;
+                } else {
+                    new HomePage(token).setVisible(true);
+                    return;
+                }
+            }
         }
         new LoginPage().setVisible(true);
-        
-        
+
     }
 }

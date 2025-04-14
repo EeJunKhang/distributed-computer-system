@@ -1,10 +1,10 @@
 package rmi.server;
 
 import enums.UserRole;
-import model._LoginCredential;
+import model.LoginCredential;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
-import model._RegisterCredential;
+import model.RegisterCredential;
 import model.User;
 import model.AuthToken;
 import utils.IPIdentifier;
@@ -26,7 +26,7 @@ public class AuthServer extends UnicastRemoteObject implements AuthInterface {
     }
 
     @Override
-    public AuthToken handleLogin(_LoginCredential credential) throws RemoteException {
+    public AuthToken handleLogin(LoginCredential credential) throws RemoteException {
         showClientIP();
         System.out.println("Login attempt: " + credential.getUsername());
         
@@ -56,7 +56,7 @@ public class AuthServer extends UnicastRemoteObject implements AuthInterface {
     }
 
     @Override
-    public AuthToken handleRegister(_RegisterCredential credential) throws RemoteException {
+    public AuthToken handleRegister(RegisterCredential credential) throws RemoteException {
         showClientIP();
         
         boolean registered = authManager.registerUser(
@@ -82,6 +82,7 @@ public class AuthServer extends UnicastRemoteObject implements AuthInterface {
     @Override
     public User getUserByToken(AuthToken token) throws RemoteException {
         showClientIP();
+        System.out.println("Get user by token");
         if (token == null) {
             return null;
         }

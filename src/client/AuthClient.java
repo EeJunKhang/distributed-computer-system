@@ -4,29 +4,24 @@
  */
 package client;
 
-import model._LoginCredential;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import enums.UserRole;
+import model.LoginCredential;
 import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import model.Customer;
-import model._RegisterCredential;
-import utils.ConfigReader;
+import model.RegisterCredential;
 import rmi.AuthInterface;
+import model.AuthToken;
+import model.User;
+import utils.TokenStorage;
 
-public class AuthClient {
+public class AuthClient extends ClientManager<AuthInterface> {
 
     // handle all send to server and get reponse
-    public static String serverIP = ConfigReader.getServerIP();
-    public static int rmiPort = ConfigReader.getRmiPort();
+    private final String bindObjectName = "/AuthService";
 
-    private _LoginCredential loginCredential;
-    private _RegisterCredential registerCredential;
+    private LoginCredential loginCredential;
+    private RegisterCredential registerCredential;
 
 //    public AuthClient(_LoginCredential loginCredential) {
 //        this.loginCredential = loginCredential;
@@ -35,112 +30,167 @@ public class AuthClient {
 
     }
 
-    public void setLoginCredential(_LoginCredential loginCredential) {
+    public void setLoginCredential(LoginCredential loginCredential) {
         this.loginCredential = loginCredential;
     }
 
-    public void setRegisterCredential(_RegisterCredential registerCredential) {
+    public void setRegisterCredential(RegisterCredential registerCredential) {
         this.registerCredential = registerCredential;
     }
 
-    // for login
-    private String sendCrentialToServer() throws RemoteException, NotBoundException, MalformedURLException {
-        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleLogin");
-        // get back response from server
-        return Obj.handleLogin(loginCredential);
+    private boolean checkRegisterCredential() {
+        return this.registerCredential == null;
     }
 
-    public String handleAuthLogin(boolean isRememberMe) {
+    private boolean checkLoginCredential() {
+        return this.loginCredential == null;
+    }
+
+    @Override
+    protected String getBindObject() {
+        return this.bindObjectName;
+    }
+
+    // for login
+//    private AuthToken sendCrentialToServer() throws RemoteException, NotBoundException, MalformedURLException {
+//        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleLogin");
+//        // get back response from server
+//        return Obj.handleLogin(loginCredential);
+//    }
+    public AuthResult handleAuthLogin(boolean isRememberMe) throws RemoteException {
+        if (checkLoginCredential()) {
+            return new AuthResult("Something went wrong");
+        }
+
         try {
-            var response = this.sendCrentialToServer();
+
+            AuthToken token = connectToServer().handleLogin(loginCredential);
             // credential valid and return a token
-            if (response != null) {
+            if (token != null) {
                 if (isRememberMe) {
-                    try {
-                        //store token in local if user choose remember me
-                        saveToken(response);
-                    } catch (IOException ex) {
-                        System.out.println(ex);
-                        return "Error saving token";
+                    if (!TokenStorage.saveToken(token)) {
+                        return new AuthResult("Error saving Authentication token");
                     }
                 }
-                return null;
+
+                UserRole userRole = connectToServer().getUserRoleByToken(token);
+                return new AuthResult(userRole, token);
             } else {
-                return "Credential Invalid";
+                return new AuthResult("Credential Invalid");
             }
         } catch (RemoteException | NotBoundException | MalformedURLException ex) {
             System.out.println(ex);
-            return "Something Went Wrong";
+            return new AuthResult("Something Went Wrong");
         }
     }
 
-    // register
-    private String sendUserToServer() throws RemoteException, NotBoundException, MalformedURLException {
-        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleRegister");
-        // get back response from server
-        return Obj.handleRegister(registerCredential);
-    }
-
-    public String handleAuthRegister() {
+//    // register
+//    private AuthToken sendUserToServer() throws RemoteException, NotBoundException, MalformedURLException {
+//        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/handleRegister");
+//        // get back response from server
+//        return Obj.handleRegister(registerCredential);
+//    }
+    public AuthResult handleAuthRegister() {
+        if (checkRegisterCredential()) {
+            return new AuthResult("Something went wrong");
+        }
         try {
-            var response = this.sendUserToServer();
+            AuthToken response = connectToServer().handleRegister(registerCredential);
             // credential valid and return a token
             if (response != null) {
                 //response here is token generated
-                return null;
+//                UserRole userRole = connectToServer().getUserRoleByToken(response);
+                return new AuthResult(response);
             } else {
-                return "Something went wrong";
+                return new AuthResult("Something went wrong");
             }
         } catch (RemoteException | NotBoundException | MalformedURLException ex) {
             System.out.println(ex);
-            return "Something Went Wrong";
+            return new AuthResult("Something Went Wrong");
         }
     }
 
-    private static void saveToken(String token) throws IOException {
-        try (FileWriter writer = new FileWriter("token.dat")) {
-            writer.write(token);
-        }
-    }
-
-    public static void removeToken() throws IOException {
-        File tokenFile = new File("token.dat");
-        if (tokenFile.exists()) {
-            if (!tokenFile.delete()) {
-                throw new IOException("Failed to delete token file: " + tokenFile.getAbsolutePath());
+//    private static void saveToken(String token) throws IOException {
+//        try (FileWriter writer = new FileWriter("token.dat")) {
+//            writer.write(token);
+//        }
+//    }
+//
+//    public static void removeToken() throws IOException {
+//        File tokenFile = new File("token.dat");
+//        if (tokenFile.exists()) {
+//            if (!tokenFile.delete()) {
+//                throw new IOException("Failed to delete token file: " + tokenFile.getAbsolutePath());
+//            }
+//        }
+//    }
+//
+//    private static String loadToken() {
+//        try (BufferedReader reader = new BufferedReader(new FileReader("token.dat"))) {
+//            return reader.readLine();
+//        } catch (IOException e) {
+//            return null;
+//        }
+//    }
+//
+    public User validateSession(AuthToken token) {
+        try {
+            if (connectToServer().verifyToken(token)) {
+                var user = connectToServer().getUserByToken(token);
+                if (user != null) {
+                    return user;
+                }
+                return null;
+            } else {
+                TokenStorage.deleteToken(); // expired session
             }
-        }
-    }
-
-    private static String loadToken() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("token.dat"))) {
-            return reader.readLine();
-        } catch (IOException e) {
+            return null;
+        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+            System.out.println(ex);
             return null;
         }
     }
 
-    public static boolean verifyToken() {
-        String token = loadToken(); // get saved token from local
+//    // further enhance, make token into a class and serialize it
+//    private static boolean sendTokenToServer(AuthToken token) throws RemoteException, NotBoundException, MalformedURLException {
+//        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/verifyToken");
+//        // get back response from server
+//        return Obj.verifyToken(token);
+//    }
+//    private static AuthInterface connectToServer() throws RemoteException, NotBoundException, MalformedURLException {
+//        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/AuthService");
+//        return Obj;
+//    }
+//    private static User sendTokenToServerAndGetUser(AuthToken token) throws RemoteException, NotBoundException, MalformedURLException {
+//        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/verifyToken");
+//        // get back response from server
+//        return Obj.getUserByToken(token);
+//    }
+    // depends on if logout process need send data to server, now logout only happen in client
+    public String handleAuthLogout(AuthToken token) {
+        //send to server
         try {
-            return token != null && sendTokenToServer(token);
+            var success = connectToServer().handleLogout(token);
+            if (!success) {
+                return "Something Went Wrong on server";
+            }
         } catch (RemoteException | NotBoundException | MalformedURLException ex) {
             System.out.println(ex);
-            return false;
+            return "Something Went Wrong";
         }
+        return null;
     }
-
-    // further enhance, make token into a class and serialize it
-    private static boolean sendTokenToServer(String token) throws RemoteException, NotBoundException, MalformedURLException {
-        AuthInterface Obj = (AuthInterface) Naming.lookup("rmi://" + serverIP + ":" + rmiPort + "/verifyToken");
-        // get back response from server
-        return Obj.verifyToken(token);
+    
+    public User requestUserByToken(AuthToken token){
+        try {
+            User user = connectToServer().getUserByToken(token);
+            if(user != null){
+                return user;
+            }
+        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        return null;
     }
-
-    // depends on if logout process need send data to server, now logout only happen in client
-    public boolean handleAuthLogout() {
-        //send to server
-        return true;
-    }
-
 }

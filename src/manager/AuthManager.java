@@ -64,7 +64,7 @@ public class AuthManager {
             SessionInfo session = new SessionInfo(user.getUserId(), user.getRole(), System.currentTimeMillis());
             activeSessions.put(token, session);
             
-            System.out.println("User authenticated: " + user.getUsername());
+            System.out.println("User authenticated: " + user.getUsername() + user.getRole().toString());
             return token;
         } else {
             System.out.println("Invalid password for user: " + username);
