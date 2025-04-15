@@ -20,7 +20,7 @@ public class UserDAOTest {
         // Test create
         System.out.println("Testing create user:");
         User newUser = new Customer(
-                1,
+                0,
             "John", 
             "Doe", 
             "johndoe123", 
