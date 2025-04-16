@@ -4,7 +4,7 @@
  */
 package client.Components;
 
-import client.HomePage;
+import client.Interface.HomePage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import model.Products;
+import utils.ImagePathGetter;
 
 public class FoodItemSection extends JPanel {
 
@@ -178,7 +179,7 @@ public class FoodItemSection extends JPanel {
 
         // Load image
         try {
-            ImageIcon foodImage = new ImageIcon(item.getImage());
+            ImageIcon foodImage = new ImageIcon(ImagePathGetter.getImageFullPath(item.getImage()));
             Image scaled = foodImage.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
             imageLabel.setIcon(new ImageIcon(scaled));
         } catch (Exception ex) {

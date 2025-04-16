@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import model.Products;
+import utils.ImagePathGetter;
 
 public class CartCard2 extends JPanel {
     
@@ -19,7 +20,7 @@ public class CartCard2 extends JPanel {
     
     public CartCard2(Products item) {
         try {
-            this.image = ImageIO.read(new File(item.getImage()));
+            this.image = ImageIO.read(new File(ImagePathGetter.getImageFullPath(item.getImage())));
         } catch (IOException ex) {
             System.out.println("error");
         }
@@ -78,7 +79,7 @@ public class CartCard2 extends JPanel {
         subtitleLabel.setMaximumSize(new Dimension(90, 20));
 
         // Price
-        JLabel priceLabel = new JLabel(String.valueOf(item.getPrice()));
+        JLabel priceLabel = new JLabel("RM "+String.valueOf(item.getPrice()));
         priceLabel.setFont(new Font("Arial", Font.BOLD, 12));
         priceLabel.setForeground(new Color(40, 40, 40));
         priceLabel.setAlignmentX(Component.LEFT_ALIGNMENT);

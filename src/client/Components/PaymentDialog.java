@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package client.Components;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -28,10 +23,6 @@ import javax.swing.table.DefaultTableModel;
 import model.Order;
 import model.OrderItem;
 
-/**
- *
- * @author ejunk
- */
 public class PaymentDialog extends JDialog {
     private final Order order;
     private JTextField cardNumberField;

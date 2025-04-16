@@ -31,6 +31,7 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
 
     private User validateTokenAndGetUser(AuthToken token) {
         if (token == null) {
+            System.out.println("stest123");
             return null;
         }
         return authManager.getUserByToken(token.getToken());
@@ -60,13 +61,16 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
 
     @Override
     public List<Products> getAllProducts(AuthToken token) throws RemoteException {
-        showClientIP();
+//        System.out.println("getAllProducts called with token: " + (token != null ? token.getToken() : "null"));
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
-            System.out.println("Authentication failed or unauthorized for getAllProducts from " + IPIdentifier.getClientIP());
+//        System.out.println("Token user: " + (tokenUser != null ? tokenUser.getUsername() : "null"));
+        if (tokenUser == null) {
+            System.out.println("Authentication failed or unauthorized for getAllProducts");
             return null;
         }
-        return productManager.getAllProducts();
+        List<Products> products = productManager.getAllProducts();
+//        System.out.println("Returning products: " + (products == null ? "null" : products.size() + " items"));
+        return products;
     }
 
     @Override
@@ -84,7 +88,7 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
     public boolean addProduct(AuthToken token, Products product) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
+        if (tokenUser == null || tokenUser.getRole() == UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for addProduct from " + IPIdentifier.getClientIP());
             return false;
         }
@@ -95,7 +99,7 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
     public boolean updateProduct(AuthToken token, Products product) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
+        if (tokenUser == null || tokenUser.getRole() == UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for updateProduct from " + IPIdentifier.getClientIP());
             return false;
         }
@@ -106,7 +110,7 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
     public boolean updateStockQuantity(AuthToken token, int productId, int newQuantity) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
+        if (tokenUser == null || tokenUser.getRole() == UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for updateStockQuantity from " + IPIdentifier.getClientIP());
             return false;
         }
@@ -117,7 +121,7 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
     public boolean deleteProduct(AuthToken token, int productId) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
+        if (tokenUser == null || tokenUser.getRole() == UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for deleteProduct from " + IPIdentifier.getClientIP());
             return false;
         }

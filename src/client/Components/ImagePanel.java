@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package client.Components;
 
 import javax.swing.*;
@@ -11,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import utils.ImagePathGetter;
 
 public class ImagePanel extends JPanel {
 
@@ -24,9 +21,21 @@ public class ImagePanel extends JPanel {
     public ImagePanel(String imagePath, int borderRadius) {
         setOpaque(false); // Make panel transparent
         this.borderRadius = borderRadius;
-
+//        InputStream is = getClass().getClassLoader().getResourceAsStream(imagePath);
+//        if (is != null) {
+//            try {
+//                image = ImageIO.read(is);
+//            } catch (IOException ex) {
+//                System.err.println("Error loading image: " + ex.getMessage());
+//                setPreferredSize(new Dimension(300, 200)); // Default size if image fails to load
+//            }
+//            setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+//        } else {
+//            System.err.println("Image not found in classpath");
+//            setPreferredSize(new Dimension(300, 200));
+//        }
         try {
-            image = ImageIO.read(new File(imagePath)); // Load image from file
+            image = ImageIO.read(new File(ImagePathGetter.getImageFullPath(imagePath))); // Load image from file
             setPreferredSize(new Dimension(image.getWidth(), image.getHeight())); // Set panel size to image size
         } catch (IOException e) {
             System.err.println("Error loading image: " + e.getMessage());

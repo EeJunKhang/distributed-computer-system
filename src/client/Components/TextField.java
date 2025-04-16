@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package client.Components;
 
 import java.awt.Color;
@@ -14,10 +10,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-/**
- *
- * @author ejunk
- */
 public class TextField extends JTextField {
     
     private Color focusColor = new Color(66, 133, 244);

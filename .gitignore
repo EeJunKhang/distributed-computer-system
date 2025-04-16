@@ -20,3 +20,7 @@ test/dist/
 # local auth token file
 *.dat
 *.ser
+
+# properties file
+src/config/DatabaseProperties.properties
+src/config/UtilityProperties.properties

@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package client;
+package client.Interface;
 
+import client.AuthClient;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JOptionPane;
@@ -12,10 +9,6 @@ import model.AuthToken;
 import model.User;
 import utils.BackgroundTaskWithLoading;
 
-/**
- *
- * @author ejunk
- */
 public class AdminPage extends javax.swing.JFrame {
 
 //    private final User user;

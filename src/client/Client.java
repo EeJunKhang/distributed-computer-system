@@ -1,5 +1,8 @@
 package client;
 
+import client.Interface.LoginPage;
+import client.Interface.HomePage;
+import client.Interface.AdminPage;
 import enums.UserRole;
 import model.AuthToken;
 import model.User;

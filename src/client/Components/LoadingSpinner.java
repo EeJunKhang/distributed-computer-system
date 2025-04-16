@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package client.Components;
 
 import java.awt.BasicStroke;
@@ -12,11 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JComponent;
 
-/**
- *
- * @author ejunk
- */
-// 2. Loading animation component
+// Loading animation component
 class LoadingSpinner extends JComponent {
     private float angle = 0f;
     private boolean running = false;

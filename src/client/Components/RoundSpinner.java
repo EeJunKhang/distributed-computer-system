@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package client.Components;
 
 import java.awt.BorderLayout;
@@ -24,10 +20,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicSpinnerUI;
 
-/**
- *
- * @author ejunk
- */
 public class RoundSpinner extends JSpinner {
 
     private JButton minusButton;

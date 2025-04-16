@@ -4,7 +4,7 @@
  */
 package client.Components;
 
-import client.HomePage;
+import client.Interface.HomePage;
 import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;

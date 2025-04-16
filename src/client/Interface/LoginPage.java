@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package client;
+package client.Interface;
 
+import client.AuthClient;
+import client.AuthResult;
 import utils.BackgroundTaskWithLoading;
 import enums.UserRole;
 import java.awt.Cursor;
@@ -107,7 +109,6 @@ public class LoginPage extends javax.swing.JFrame {
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(1000, 110), new java.awt.Dimension(32767, 32767));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(1000, 600));
 

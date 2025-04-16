@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package client.Components;
 
-/**
- *
- * @author ejunk
- */
+import client.ProductClient;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,8 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
+import model.AuthToken;
 import model.Products;
 
 /**
@@ -35,27 +30,30 @@ public class MenuPanel extends JPanel {
     private Color unselectedTabColor = new Color(120, 120, 120);
     private Color indicatorColor = new Color(255, 128, 0);
     private FoodItemSection page;
+    private AuthToken token;
 
     // Add setter method
-    public void setFoodItemSection(FoodItemSection foodItemSection) {
+    public void setFoodItemSection(FoodItemSection foodItemSection, AuthToken token) {
         this.page = foodItemSection;
+        this.token = token;
         initializeDependentComponents();
     }
+    
 
     private void initializeDependentComponents() {
-        //        ImageIcon nearbyIcon = createIcon("location", 24);
-//        ImageIcon promotionIcon = createIcon("model/resources/", 24);
         ImageIcon newcomersIcon = createIcon("src/resources/new.png", 24);
         ImageIcon bestSellersIcon = createIcon("src/resources/star.png", 24);
-//        ImageIcon topRatedIcon = createIcon("src/resources/medal.png", 24);
         ImageIcon allIcon = createIcon("src/resources/menu.png", 24);
-        
+
         // Add tabs with content
-        this.addTab("All", allIcon, createAllItemsPanel());
-        this.addTab("Newcomers", newcomersIcon, createNewcomersPanel());
-        this.addTab("Best Sellers", bestSellersIcon, createBestSellersPanel());
-//        this.addTab("Top Rated", topRatedIcon, createTopRatedPanel());
+        this.addTab("All", allIcon, createLoadingPanel());
+        this.addTab("Newcomers", newcomersIcon, createLoadingPanel());
+        this.addTab("Best Sellers", bestSellersIcon, createLoadingPanel());
+
+        // Start fetching data
+        fetchDataForTabs();
     }
+
     /**
      * Class representing a tab item with its header and content
      */
@@ -142,10 +140,9 @@ public class MenuPanel extends JPanel {
     
     /**
      * Constructor
+     *
      */
     public MenuPanel() {
-//        System.out.println(page.toString());
-//        this.page = page;
         tabItems = new ArrayList<>();
         setLayout(new BorderLayout());
 
@@ -170,10 +167,8 @@ public class MenuPanel extends JPanel {
                 new Color(120, 120, 120), // unselected tab
                 new Color(255, 128, 0) // indicator
         );
-        
-    }
 
-    
+    }
 
     /**
      * Add a new tab with the specified title and content
@@ -197,15 +192,20 @@ public class MenuPanel extends JPanel {
     private int addTab(String title, ImageIcon icon, JPanel content) {
         final int index = tabItems.size();
 
+        // Create a container panel for dynamic content updates
+        JPanel contentContainer = new JPanel(new BorderLayout());
+        contentContainer.setOpaque(true);
+        contentContainer.add(content, BorderLayout.CENTER);
+
         // Create new tab item
-        TabItem tabItem = new TabItem(title, icon, content);
+        TabItem tabItem = new TabItem(title, icon, contentContainer);
         tabItems.add(tabItem);
 
         // Add header to header panel
         headerPanel.add(tabItem.getHeaderComponent());
 
         // Add content to content panel
-        contentPanel.add(content, String.valueOf(index));
+        contentPanel.add(contentContainer, String.valueOf(index));
 
         // Add click listener
         tabItem.getHeaderComponent().addMouseListener(new MouseAdapter() {
@@ -315,8 +315,11 @@ public class MenuPanel extends JPanel {
         gridPanel.setBackground(new Color(245, 245, 245));
 
         // Add food items to the grid
-        for (int i = 0; i < foodItems.length; i++) {
-            gridPanel.add(new FoodItemPanel(foodItems[i], this.page));
+        if (foodItems.length > 0) {
+            for (int i = 0; i < foodItems.length; i++) {
+                gridPanel.add(new FoodItemPanel(foodItems[i], this.page));
+            }
+
         }
 
         // Add the grid to a scroll pane
@@ -329,83 +332,89 @@ public class MenuPanel extends JPanel {
         return panel;
     }
 
-    // Create panels for each tab
-//    private JPanel createNearbyPanel() {
-//        String[] names = {
-//            "Burger Mozza XL", "Veg Manchurian", "Fried Salad",
-//            "Margherita Pizza", "Pasta Arrabiata", "Club Sandwich"
-//        };
-//
-//        String[] prices = {"20", "39", "29", "25", "23", "15"};
-//
-//        String[] restaurants = {
-//            "Burger Queen", "Burger Queen", "Burger Queen",
-//            "Pizza Palace", "Pasta Paradise", "Sandwich Shop"
-//        };
-//
-//        return createFoodGridPanel(names, prices, restaurants);
-//    }
-//    private JPanel createPromotionPanel() {
-//        String[] names = {
-//            "Double Cheeseburger", "Chicken Wings", "Taco Platter",
-//            "Sushi Combo", "Veggie Bowl", "Ice Cream Sundae"
-//        };
-//
-//        String[] prices = {"15", "22", "18", "30", "16", "12"};
-//
-//        String[] restaurants = {
-//            "Burger Joint", "Wing World", "Taco Town",
-//            "Sushi Spot", "Veggie Valley", "Sweet Treats"
-//        };
-//
-//        return createFoodGridPanel(names, prices, restaurants);
-//    }
-    private JPanel createNewcomersPanel() {
-        Products[] items = {
-            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Products(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
-        return createFoodGridPanel(items);
+    private void fetchDataForTabs() {
+        if (token == null) {
+            System.err.println("Error: Token is null, cannot fetch data");
+            return;
+        }
+        ProductClient productClient = new ProductClient(token);
+        // Fetch data for "All Products" tab (index 0)
+        SwingWorker<List<Products>, Void> allWorker = new SwingWorker<>() {
+            @Override
+            protected List<Products> doInBackground() throws Exception {
+                return productClient.fetchAllProduct();
+            }
+
+            @Override
+            protected void done() {
+                updateTabContent(0, this);
+            }
+        };
+        allWorker.execute();
+
+        // Fetch data for "Newcomers" tab (index 1)
+        SwingWorker<List<Products>, Void> newcomersWorker = new SwingWorker<>() {
+            @Override
+            protected List<Products> doInBackground() throws Exception {
+                return productClient.fetchNewComerProduct();
+            }
+
+            @Override
+            protected void done() {
+                updateTabContent(1, this);
+            }
+        };
+        newcomersWorker.execute();
+
+        // Fetch data for "Best Sellers" tab (index 2)
+        SwingWorker<List<Products>, Void> bestSellersWorker = new SwingWorker<>() {
+            @Override
+            protected List<Products> doInBackground() throws Exception {
+                return productClient.fetchBestSellerProduct();
+            }
+
+            @Override
+            protected void done() {
+                updateTabContent(2, this);
+            }
+        };
+        bestSellersWorker.execute();
     }
 
-    private JPanel createBestSellersPanel() {
-         Products[] items = {
-            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Products(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
-
-        return createFoodGridPanel(items);
+    private void updateTabContent(int tabIndex, SwingWorker<List<Products>, Void> worker) {
+        try {
+            List<Products> products = worker.get();
+            SwingUtilities.invokeLater(() -> {
+                Products[] productsArray = products.toArray(Products[]::new);
+                JPanel gridPanel = createFoodGridPanel(productsArray);
+                replaceTabContent(tabIndex, gridPanel);
+            });
+        } catch (InterruptedException | ExecutionException e) {
+            SwingUtilities.invokeLater(() -> replaceTabContent(tabIndex, createErrorPanel()));
+        }
     }
 
-//    private JPanel createTopRatedPanel() {
-//        Products[] items = {
-//            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-//            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-//            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-//            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-//            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-//            new Products(6, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
-//
-//        return createFoodGridPanel(items);
-//    }
+    private void replaceTabContent(int tabIndex, JPanel newContent) {
+        TabItem tabItem = tabItems.get(tabIndex);
+        JPanel contentComponent = tabItem.getContentComponent();
+        contentComponent.removeAll();
+        contentComponent.add(newContent, BorderLayout.CENTER);
+        contentComponent.revalidate();
+        contentComponent.repaint();
+    }
 
-    private JPanel createAllItemsPanel() {
-         Products[] items = {
-            new Products(1, "Truffle Fries", "Fry Factory", 31.3, "Category","src/resources/burger.jpg", 4, "24 /3/2025"),
-            new Products(2, "Dragon Noodles", "Noodle House", 1.3, "Category","src/resources/burger.jpg", 6, "sda"),
-            new Products(3, "Stuffed Mushrooms", "Mushroom Manor", 11.3, "category","src/resources/burger.jpg", 5,"ssd"),
-            new Products(4, "Caramel Latte", "Coffee Corner", 21.3, "cateogyr","src/resources/burger.jpg", 400, "s"),
-            new Products(5, "Açai Bowl", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Products(6, "Açai Bowl123213", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Products(7, "Açai bow base", "Healthy Hut", 17.0, "Category","src/resources/burger.jpg", 40, "sda"),
-            new Products(8, "Fancy Toast", "Toasty Times", 9.9, "cate","src/resources/burger.jpg", 341, "sd"),};
+    private JPanel createLoadingPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.WHITE);
+        JLabel label = new JLabel("Loading...", SwingConstants.CENTER);
+        panel.add(label, BorderLayout.CENTER);
+        return panel;
+    }
 
-        return createFoodGridPanel(items);
+    private JPanel createErrorPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel("Error loading data.", SwingConstants.CENTER);
+        panel.add(label, BorderLayout.CENTER);
+        return panel;
     }
 }

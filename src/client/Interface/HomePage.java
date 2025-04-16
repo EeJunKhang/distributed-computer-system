@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package client;
+package client.Interface;
 
+import client.AuthClient;
 import utils.BackgroundTaskWithLoading;
 import client.Components.CartCard2;
 import client.Components.PaymentDialog;
@@ -63,8 +64,9 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     private void postInitComponents() {
-        // Re-inject the now-initialized foodItemSection1 into menuPanel1
-        menuPanel1.setFoodItemSection(foodItemSection1);
+        // Re-inject the now-initialized foodItemSection1 into menuPanel2
+        menuPanel2.setFoodItemSection(foodItemSection1, token);
+//        menuPanel2.setToken(token);
         userNameDisplay.setText(this.user.getFullName());
 //        System.out.println(this.user.getFullName());
         orderHistorySection1 = new client.Components.OrderHistorySection(this.user);
@@ -117,7 +119,7 @@ public class HomePage extends javax.swing.JFrame {
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(2000, 10), new java.awt.Dimension(32767, 32767));
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(2000, 10), new java.awt.Dimension(32767, 32767));
         mainTab = new javax.swing.JTabbedPane();
-        menuPanel1 = new client.Components.MenuPanel();
+        menuPanel2 = new client.Components.MenuPanel();
         foodItemSection1 = new client.Components.FoodItemSection();
         userProfileSection1 = new client.Components.UserProfileSection();
 
@@ -308,7 +310,7 @@ public class HomePage extends javax.swing.JFrame {
                 return 0;
             }
         });
-        mainTab.addTab("tab1", menuPanel1);
+        mainTab.addTab("tab1", menuPanel2);
 
         foodItemSection1.setBackground(new java.awt.Color(255, 255, 255));
         mainTab.addTab("tab2", foodItemSection1);
@@ -452,7 +454,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel logoutPanel;
     public static javax.swing.JTabbedPane mainTab;
-    private client.Components.MenuPanel menuPanel1;
+    private client.Components.MenuPanel menuPanel2;
     public static javax.swing.JLabel totalPriceCart;
     public static javax.swing.JLabel totalPriceCart1;
     private javax.swing.JLabel userNameDisplay;
