@@ -77,6 +77,8 @@ public class ProductClient {
             System.out.println("7. Delete Product (Admin)");
             System.out.println("8. Search Products by Name");
             System.out.println("9. Get All Categories");
+            System.out.println("10. View Best Seller Products");
+            System.out.println("11. View Newcomer Products");
             System.out.println("0. Exit");
             System.out.print("Choose an option: ");
 
@@ -93,6 +95,8 @@ public class ProductClient {
                     case "7" -> deleteProduct(scanner);
                     case "8" -> searchProductsByName(scanner);
                     case "9" -> getAllCategories();
+                    case "10" -> getBestSellerProducts(scanner);
+                    case "11" -> getNewcomerProducts(scanner);
                     case "0" -> exit = true;
                     default -> System.out.println("Invalid option!");
                 }
@@ -376,6 +380,55 @@ public class ProductClient {
             System.out.println("Total categories: " + categories.size());
         } else {
             System.out.println("No categories found or you don't have permission.");
+        }
+    }
+
+    private static void getBestSellerProducts(Scanner scanner) throws RemoteException {
+        if (authToken == null) {
+            System.out.println("No authentication token available!");
+            return;
+        }
+    
+        System.out.print("Enter maximum number of products to display: ");
+        int limit = Integer.parseInt(scanner.nextLine());
+        
+        List<Products> products = productService.getBestSellerProducts(authToken, limit);
+        
+        if (products != null && !products.isEmpty()) {
+            System.out.println("\n=== Best Seller Products ===");
+            for (Products product : products) {
+                System.out.println(product.getId() + ": " + product.getItemName() + 
+                                    " | Price: $" + product.getPrice() + 
+                                    " | Stock: " + product.getStockQuantity());
+            }
+            System.out.println("Total best seller products displayed: " + products.size());
+        } else {
+            System.out.println("No best seller products found or you don't have permission.");
+        }
+    }
+    
+    private static void getNewcomerProducts(Scanner scanner) throws RemoteException {
+        if (authToken == null) {
+            System.out.println("No authentication token available!");
+            return;
+        }
+    
+        System.out.print("Enter maximum number of products to display: ");
+        int limit = Integer.parseInt(scanner.nextLine());
+        
+        List<Products> products = productService.getNewcomerProducts(authToken, limit);
+        
+        if (products != null && !products.isEmpty()) {
+            System.out.println("\n=== Newcomer Products ===");
+            for (Products product : products) {
+                System.out.println(product.getId() + ": " + product.getItemName() + 
+                                    " | Price: $" + product.getPrice() + 
+                                    " | Stock: " + product.getStockQuantity() +
+                                    " | Added: " + product.getLastUpdated());
+            }
+            System.out.println("Total newcomer products displayed: " + products.size());
+        } else {
+            System.out.println("No newcomer products found or you don't have permission.");
         }
     }
 

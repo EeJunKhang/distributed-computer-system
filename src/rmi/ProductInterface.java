@@ -87,4 +87,22 @@ public interface ProductInterface extends Remote {
      * @throws RemoteException If a remote error occurs.
      */
     List<Products> searchProductsByName(AuthToken token, String searchTerm) throws RemoteException;
+
+    /**
+     * Get best-selling products
+     * @param token Authorization token
+     * @param limit Maximum number of products to return
+     * @return List of best-selling products
+     * @throws RemoteException If a remote error occurs
+     */
+    List<Products> getBestSellerProducts(AuthToken token, int limit) throws RemoteException;
+
+    /**
+     * Get newest products (newcomers)
+     * @param token Authorization token
+     * @param limit Maximum number of products to return
+     * @return List of newest products
+     * @throws RemoteException If a remote error occurs
+     */
+    List<Products> getNewcomerProducts(AuthToken token, int limit) throws RemoteException;
 }

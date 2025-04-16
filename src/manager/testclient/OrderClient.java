@@ -180,7 +180,7 @@ public class OrderClient {
             return;
         }
     
-        System.out.println("Available statuses: PENDING, CONFIRMED, PREPARING, OUT_FOR_DELIVERY, CANCELLED");
+        System.out.println("Available statuses: PENDING, CONFIRMED, PREPARING, OUT_FOR_DELIVERY, DELIVERED, CANCELLED");
         System.out.print("Enter order status: ");
         String statusStr = scanner.nextLine().toUpperCase();
     

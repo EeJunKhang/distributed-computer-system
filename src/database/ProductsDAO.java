@@ -272,4 +272,65 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
             }
         });
     }
+
+    /**
+     * Get best-selling products based on order quantity
+     * @param limit Maximum number of products to return
+     * @return List of best-selling products
+     */
+    public List<Products> getBestSellerProducts(int limit) {
+        String sql = "SELECT p.*, SUM(oi.quantity) as total_sold " +
+                    "FROM products p " +
+                    "JOIN order_items oi ON p.product_id = oi.product_id " +
+                    "JOIN orders o ON oi.order_id = o.order_id " +
+                    "WHERE o.status = 'DELIVERED' " +
+                    "GROUP BY p.product_id " +
+                    "ORDER BY total_sold DESC " +
+                    "LIMIT ?";
+        
+        return executeTransaction(conn -> {
+            List<Products> products = new ArrayList<>();
+            
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, limit);
+                
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        Products product = mapResultSetToEntity(rs);
+                        products.add(product);
+                    }
+                    
+                    return products;
+                }
+            }
+        });
+    }
+
+    /**
+     * Get newest products based on last_updated timestamp
+     * @param limit Maximum number of products to return
+     * @return List of newest products
+     */
+    public List<Products> getNewcomerProducts(int limit) {
+        String sql = "SELECT * FROM products " +
+                    "ORDER BY last_updated DESC " +
+                    "LIMIT ?";
+        
+        return executeTransaction(conn -> {
+            List<Products> products = new ArrayList<>();
+            
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, limit);
+                
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        Products product = mapResultSetToEntity(rs);
+                        products.add(product);
+                    }
+                    
+                    return products;
+                }
+            }
+        });
+    }
 }

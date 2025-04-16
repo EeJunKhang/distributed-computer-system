@@ -134,4 +134,26 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
         }
         return productManager.searchProductsByName(searchTerm);
     }
+
+    @Override
+    public List<Products> getBestSellerProducts(AuthToken token, int limit) throws RemoteException {
+        showClientIP();
+        User tokenUser = validateTokenAndGetUser(token);
+        if (tokenUser == null) {
+            System.out.println("Authentication failed for getBestSellerProducts from " + IPIdentifier.getClientIP());
+            return null;
+        }
+        return productManager.getBestSellerProducts(limit);
+    }
+
+    @Override
+    public List<Products> getNewcomerProducts(AuthToken token, int limit) throws RemoteException {
+        showClientIP();
+        User tokenUser = validateTokenAndGetUser(token);
+        if (tokenUser == null) {
+            System.out.println("Authentication failed for getNewcomerProducts from " + IPIdentifier.getClientIP());
+            return null;
+        }
+        return productManager.getNewcomerProducts(limit);
+    }
 }

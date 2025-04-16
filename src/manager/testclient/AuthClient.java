@@ -49,7 +49,7 @@ public class AuthClient {
         System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
         
         Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
-        authService = (AuthInterface) registry.lookup("handleLogin");
+        authService = (AuthInterface) registry.lookup("AuthService");
         
         System.out.println("Connected to authentication service");
     }

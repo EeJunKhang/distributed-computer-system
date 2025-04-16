@@ -102,4 +102,22 @@ public class ProductManager {
     public List<Products> searchProductsByName(String searchTerm) {
         return productsDAO.searchProductsByName(searchTerm);
     }
+
+    /**
+     * Gets the best selling products.
+     * @param limit Maximum number of products to return
+     * @return List of best selling products.
+     */
+    public List<Products> getBestSellerProducts(int limit) {
+        return productsDAO.getBestSellerProducts(limit);
+    }
+
+    /**
+     * Gets the newest products (newcomers).
+     * @param limit Maximum number of products to return
+     * @return List of newest products.
+     */
+    public List<Products> getNewcomerProducts(int limit) {
+        return productsDAO.getNewcomerProducts(limit);
+    }
 }
