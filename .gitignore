@@ -23,4 +23,3 @@ test/dist/
 
 # properties file
 src/config/DatabaseProperties.properties
-src/config/UtilityProperties.properties
