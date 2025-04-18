@@ -11,6 +11,9 @@ import model.Products;
 import model.User;
 import enums.UserRole;
 import rmi.ProductInterface;
+import security.RMISSLClientSocketFactory;
+import security.RMISSLServerSocketFactory;
+import utils.ConfigReader;
 import utils.IPIdentifier;
 
 public class ProductServer extends UnicastRemoteObject implements ProductInterface {
@@ -18,8 +21,8 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
     private final ProductManager productManager;
     private final AuthManager authManager;
 
-    public ProductServer() throws RemoteException {
-        super();
+    public ProductServer() throws RemoteException, Exception {
+        super(ConfigReader.getRmiPort(), new RMISSLClientSocketFactory(), new RMISSLServerSocketFactory());
         this.productManager = ProductManager.getInstance();
         this.authManager = AuthManager.getInstance();
     }

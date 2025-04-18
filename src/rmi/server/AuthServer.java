@@ -10,13 +10,16 @@ import model.AuthToken;
 import utils.IPIdentifier;
 import manager.AuthManager;
 import rmi.AuthInterface;
+import security.RMISSLClientSocketFactory;
+import security.RMISSLServerSocketFactory;
+import utils.ConfigReader;
 
 public class AuthServer extends UnicastRemoteObject implements AuthInterface {
     
     private final AuthManager authManager;
     
-    public AuthServer() throws RemoteException {
-        super();
+    public AuthServer() throws RemoteException, Exception {
+        super(ConfigReader.getRmiPort(), new RMISSLClientSocketFactory(), new RMISSLServerSocketFactory());
         this.authManager = AuthManager.getInstance();
     }
     

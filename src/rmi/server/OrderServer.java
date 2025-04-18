@@ -16,6 +16,9 @@ import model.Order;
 import model.User;
 import enums.OrderStatus;
 import rmi.OrderInterface;
+import security.RMISSLClientSocketFactory;
+import security.RMISSLServerSocketFactory;
+import utils.ConfigReader;
 import utils.IPIdentifier;
 
 public class OrderServer extends UnicastRemoteObject implements OrderInterface {
@@ -23,8 +26,8 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
     private final OrderManager orderManager;
     private final AuthManager authManager;
 
-    public OrderServer() throws RemoteException {
-        super();
+    public OrderServer() throws RemoteException, Exception {
+        super(ConfigReader.getRmiPort(), new RMISSLClientSocketFactory(), new RMISSLServerSocketFactory());
         this.orderManager = OrderManager.getInstance();
         this.authManager = AuthManager.getInstance();
     }

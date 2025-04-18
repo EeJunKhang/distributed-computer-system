@@ -7,8 +7,11 @@ package client;
 import enums.UserRole;
 import model.LoginCredential;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.RegisterCredential;
 import rmi.AuthInterface;
 import model.AuthToken;
@@ -18,7 +21,7 @@ import utils.TokenStorage;
 public class AuthClient extends ClientManager<AuthInterface> {
 
     // handle all send to server and get reponse
-    private final String bindObjectName = "/AuthService";
+    private final String bindObjectName = "AuthService";
 
     private LoginCredential loginCredential;
     private RegisterCredential registerCredential;
@@ -57,7 +60,7 @@ public class AuthClient extends ClientManager<AuthInterface> {
 //        // get back response from server
 //        return Obj.handleLogin(loginCredential);
 //    }
-    public AuthResult handleAuthLogin(boolean isRememberMe) throws RemoteException {
+    public AuthResult handleAuthLogin(boolean isRememberMe) {
         if (checkLoginCredential()) {
             return new AuthResult("Something went wrong");
         }
@@ -78,7 +81,7 @@ public class AuthClient extends ClientManager<AuthInterface> {
             } else {
                 return new AuthResult("Credential Invalid");
             }
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return new AuthResult("Something Went Wrong");
         }
@@ -104,7 +107,7 @@ public class AuthClient extends ClientManager<AuthInterface> {
             } else {
                 return new AuthResult("Something went wrong");
             }
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex ) {
             System.out.println(ex);
             return new AuthResult("Something Went Wrong");
         }
@@ -145,7 +148,7 @@ public class AuthClient extends ClientManager<AuthInterface> {
                 TokenStorage.deleteToken(); // expired session
             }
             return null;
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return null;
         }
@@ -174,7 +177,7 @@ public class AuthClient extends ClientManager<AuthInterface> {
             if (!success) {
                 return "Something Went Wrong on server";
             }
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return "Something Went Wrong";
         }
@@ -187,7 +190,7 @@ public class AuthClient extends ClientManager<AuthInterface> {
             if(user != null){
                 return user;
             }
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return null;
         }

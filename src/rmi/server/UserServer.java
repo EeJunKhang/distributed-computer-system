@@ -11,6 +11,9 @@ import model.Customer;
 import model.Admin;
 import model.AuthToken;
 import rmi.UserInterface;
+import security.RMISSLClientSocketFactory;
+import security.RMISSLServerSocketFactory;
+import utils.ConfigReader;
 import utils.IPIdentifier;
 
 public class UserServer extends UnicastRemoteObject implements UserInterface {
@@ -18,8 +21,8 @@ public class UserServer extends UnicastRemoteObject implements UserInterface {
     private final UserManager userManager;
     private final AuthManager authManager;
 
-    public UserServer() throws RemoteException {
-        super();
+    public UserServer() throws RemoteException, Exception{
+        super(ConfigReader.getRmiPort(), new RMISSLClientSocketFactory(), new RMISSLServerSocketFactory());
         this.userManager = UserManager.getInstance();
         this.authManager = AuthManager.getInstance();
     }

@@ -2,6 +2,7 @@ package client;
 
 import rmi.ProductInterface;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -10,7 +11,7 @@ import model.Products;
 
 public class ProductClient extends ClientManager<ProductInterface> {
 
-    private final String bindObjectName = "/ProductService";
+    private final String bindObjectName = "ProductService";
     private AuthToken token;
 
     public ProductClient(AuthToken token) {
@@ -25,7 +26,7 @@ public class ProductClient extends ClientManager<ProductInterface> {
     public List<Products> fetchAllProduct() {
         try {
             return connectToServer().getAllProducts(token);
-        } catch (MalformedURLException | NotBoundException | RemoteException ex) {
+        } catch (MalformedURLException | NotBoundException | RemoteException | UnknownHostException ex) {
             System.err.println("Exception in fetchAllProduct: " + ex.getMessage());
             return null;
         }
@@ -34,7 +35,7 @@ public class ProductClient extends ClientManager<ProductInterface> {
     public List<Products> fetchAllProduct(boolean is) {
         try {
             return connectToServer().getAllProductsForView(token);
-        } catch (MalformedURLException | NotBoundException | RemoteException ex) {
+        } catch (MalformedURLException | NotBoundException | RemoteException | UnknownHostException ex) {
             System.err.println("Exception in fetchAllProduct: " + ex.getMessage());
             return null;
         }
@@ -43,7 +44,7 @@ public class ProductClient extends ClientManager<ProductInterface> {
     public List<Products> fetchNewComerProduct() {
         try {
             return connectToServer().getNewcomerProducts(token, 9);
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             return null;
         }
     }
@@ -51,7 +52,7 @@ public class ProductClient extends ClientManager<ProductInterface> {
     public List<Products> fetchBestSellerProduct() {
         try {
             return connectToServer().getBestSellerProducts(token, 9);
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             return null;
         }
     }
@@ -59,7 +60,7 @@ public class ProductClient extends ClientManager<ProductInterface> {
     public boolean addNewProduct(Products product) {
         try {
             return connectToServer().addProduct(token, product);
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             return false;
         }
     }
@@ -67,7 +68,7 @@ public class ProductClient extends ClientManager<ProductInterface> {
     public boolean updateProduct(Products product) {
         try {
             return connectToServer().updateProduct(token, product);
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             return false;
         }
     }

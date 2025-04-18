@@ -5,6 +5,7 @@
 package client;
 
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -17,7 +18,7 @@ import rmi.OrderInterface;
  * @author ejunk
  */
 public class OrderClient extends ClientManager<OrderInterface>{
-    private final String bindObjectName = "/OrderService";
+    private final String bindObjectName = "OrderService";
     private Order order;
     
     @Override
@@ -40,7 +41,7 @@ public class OrderClient extends ClientManager<OrderInterface>{
     public boolean handleOrder(AuthToken token){
         try {
             return connectToServer().createOrder(token, order);
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return false;
         }
@@ -49,7 +50,7 @@ public class OrderClient extends ClientManager<OrderInterface>{
     public List<Order> fetchAllOrders(AuthToken token){
         try {
             return connectToServer().getAllOrders(token);
-        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return null;
         }

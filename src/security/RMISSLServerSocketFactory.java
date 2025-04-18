@@ -1,40 +1,62 @@
-//package security;
-//
-//import javax.net.ServerSocketFactory;
-//import javax.net.ssl.SSLServerSocketFactory;
-//import java.io.IOException;
-//import java.net.ServerSocket;
-//import java.rmi.server.RMIServerSocketFactory;
-//
-//public class RMISSLServerSocketFactory implements RMIServerSocketFactory {
-//
-//    private final SSLServerSocketFactory ssf;
-//
-//    public RMISSLServerSocketFactory() throws IOException {
-//        this.ssf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-//    }
-//
-//    // can also initialize with specific cipher suites and client authentication requirements
-//    public RMISSLServerSocketFactory(String[] cipherSuites, boolean needClientAuth) throws IOException {
-//        this.ssf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-//        this.ssf.setEnabledCipherSuites(cipherSuites);
-//        this.ssf.setNeedClientAuth(needClientAuth);
-//    }
-//
-//    @Override
-//    public ServerSocket createServerSocket(int port) throws IOException {
-//        ServerSocket ss = ssf.createServerSocket(port);
-//        System.out.println("SSL Server Socket created on port: " + port);
-//        return ss;
-//    }
-//
-//    @Override
-//    public boolean equals(Object obj) {
-//        return (obj != null && obj.getClass().equals(this.getClass()));
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return this.getClass().hashCode();
-//    }
-//}
+package security;
+
+import java.io.FileInputStream;
+import javax.net.ssl.SSLServerSocketFactory;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.rmi.server.RMIServerSocketFactory;
+import java.security.KeyStore;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+
+public class RMISSLServerSocketFactory implements RMIServerSocketFactory {
+
+    /*
+     * Create one SSLServerSocketFactory, so we can reuse sessions
+     * created by previous sessions of this SSLContext.
+     */
+    private SSLServerSocketFactory ssf = null;
+
+    public RMISSLServerSocketFactory() throws Exception {
+        try {
+            // Load the keystore
+            KeyStore ks = KeyStore.getInstance("JKS");
+            try (FileInputStream fis = new FileInputStream("C:\\Users\\ejunk\\OneDrive - Asia Pacific University\\Degree\\Year 3\\Semester 1\\DCOMS\\Assignment\\DistributedSystem2025\\src\\security\\serverkeystore.jks")) {
+                ks.load(fis, "123456".toCharArray());
+            }
+
+            // Initialize KeyManagerFactory
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+            kmf.init(ks, "123456".toCharArray());
+
+            // Initialize SSLContext
+            SSLContext ctx = SSLContext.getInstance("TLS");
+            ctx.init(kmf.getKeyManagers(), null, null);
+
+            ssf = ctx.getServerSocketFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public ServerSocket createServerSocket(int port) throws IOException {
+            return ssf.createServerSocket(port);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        return true;
+    }
+}
