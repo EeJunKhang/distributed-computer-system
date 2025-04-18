@@ -47,6 +47,10 @@ public class ProductManager {
     public List<Products> getAllProducts() {
         return productsDAO.getAllProducts();
     }
+    
+    public List<Products> getAllProducts(boolean is){
+        return productsDAO.getAllProduct(true);
+    }
 
     /**
      * Gets products by category.

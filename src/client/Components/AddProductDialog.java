@@ -29,23 +29,24 @@ import model.Products;
 import utils.BackgroundTaskWithLoading;
 import utils.ImagePathGetter;
 
-class EditProductDialog extends JDialog {
+class AddProductDialog extends JDialog {
 
     private final int IMAGE_SIZE = 64;
-    private final Products originalProduct;
-    private Products updatedProduct;
+//    private Products newProduct;
+//    private Products updatedProduct;
     private TextField nameField, descField, priceField, categoryField, stockField;
     private JLabel imageLabel;
     private String imagePath;
-    private AuthToken token;
+    private final AuthToken token;
 
-    public EditProductDialog(Frame owner, Products product, AuthToken token) {
-        super(owner, "Edit Product", true);
-        originalProduct = product;
+    public AddProductDialog(Frame owner, AuthToken token) {
+        super(owner, "Add Product", true);
         this.token = token;
+//        originalProduct = product;
         initializeUI();
         pack();
         setLocationRelativeTo(owner);
+        setPreferredSize(new Dimension(500, 400));
     }
 
     private void initializeUI() {
@@ -65,7 +66,7 @@ class EditProductDialog extends JDialog {
         gbc.gridy = 0;
         formPanel.add(new JLabel("Product Name:"), gbc);
         gbc.gridx = 1;
-        nameField = new TextField(originalProduct.getItemName(), 20); // Set preferred width
+        nameField = new TextField("", 20); // Set preferred width
         nameField.setPlaceholder("Insert Name of Product");
         formPanel.add(nameField, gbc);
 
@@ -74,7 +75,7 @@ class EditProductDialog extends JDialog {
         gbc.gridy = 1;
         formPanel.add(new JLabel("Description:"), gbc);
         gbc.gridx = 1;
-        descField = new TextField(originalProduct.getItemDescription(), 20);
+        descField = new TextField("", 20);
         descField.setPlaceholder("Insert Description of Product");
         formPanel.add(descField, gbc);
 
@@ -83,7 +84,7 @@ class EditProductDialog extends JDialog {
         gbc.gridy = 2;
         formPanel.add(new JLabel("Price:"), gbc);
         gbc.gridx = 1;
-        priceField = new TextField(String.valueOf(originalProduct.getPrice()), 20);
+        priceField = new TextField("", 20);
         priceField.setPlaceholder("Insert Price of Product");
         formPanel.add(priceField, gbc);
 
@@ -92,7 +93,7 @@ class EditProductDialog extends JDialog {
         gbc.gridy = 3;
         formPanel.add(new JLabel("Category:"), gbc);
         gbc.gridx = 1;
-        categoryField = new TextField(originalProduct.getCategory(), 20);
+        categoryField = new TextField("", 20);
         categoryField.setPlaceholder("Insert Category of Product");
         formPanel.add(categoryField, gbc);
 
@@ -101,12 +102,10 @@ class EditProductDialog extends JDialog {
         gbc.gridy = 4;
         formPanel.add(new JLabel("Stock Quantity:"), gbc);
         gbc.gridx = 1;
-        stockField = new TextField(String.valueOf(originalProduct.getStockQuantity()), 20);
+        stockField = new TextField("", 20);
         stockField.setPlaceholder("Insert Stock of Product");
 
         formPanel.add(stockField, gbc);
-
-        imagePath = originalProduct.getImage();
 
         // Row 5: Image (spanning both columns)
         gbc.gridx = 0;
@@ -124,7 +123,7 @@ class EditProductDialog extends JDialog {
         JButton saveButton = new JButton("Save");
         JButton cancelButton = new JButton("Cancel");
 
-        saveButton.addActionListener(e -> updateProduct());
+        saveButton.addActionListener(e -> addProduct());
 
         cancelButton.addActionListener(e -> setVisible(false));
 
@@ -133,25 +132,25 @@ class EditProductDialog extends JDialog {
         return buttonPanel;
     }
 
-    private void updateProduct() {
+    private void addProduct() {
         if (validateInputs()) {
-            updatedProduct = createUpdatedProduct();
+//            newProduct = createNewProduct();
             ProductClient a = new ProductClient(token);
             new BackgroundTaskWithLoading<>(
                     this,
                     "Loading...",
-                    () -> a.updateProduct(updatedProduct),
+                    () -> a.addNewProduct(createNewProduct()),
                     isSuccess -> {
                         if (isSuccess) {
                             JOptionPane.showMessageDialog(this,
-                                    "You successfully updating product",
-                                    "Updating Product Success",
+                                    "You successfully adding new product",
+                                    "Adding Product Success",
                                     JOptionPane.INFORMATION_MESSAGE);
 //                            this.setVisible(true);
                         } else {
                             JOptionPane.showMessageDialog(this,
-                                    "Something went wrong while updating product",
-                                    "Updating Product Error",
+                                    "Something went wrong while adding new product",
+                                    "Adding Product Error",
                                     JOptionPane.ERROR_MESSAGE);
 //                            this.dispose(); // Close the window if data is missing
                         }
@@ -169,8 +168,6 @@ class EditProductDialog extends JDialog {
                 BorderFactory.createLineBorder(Color.GRAY),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
-
-        imageLabel.setIcon(createIcon(ImagePathGetter.getImageFullPath(originalProduct.getImage()), IMAGE_SIZE));
 
         JButton uploadButton = new JButton("Upload Image");
         uploadButton.addActionListener(e -> handleImageUpload());
@@ -233,7 +230,7 @@ class EditProductDialog extends JDialog {
                 errorMessages.append("- Please enter a valid whole number for Stock Quantity\n");
             }
         }
-        
+
         if (imageLabel.getIcon() == null) {
             errorMessages.append("- Please insert an image of product\n");
         }
@@ -257,25 +254,18 @@ class EditProductDialog extends JDialog {
         }
     }
 
-    private Products createUpdatedProduct() {
+    private Products createNewProduct() {
         return new Products(
-                originalProduct.getId(),
                 nameField.getText(),
                 descField.getText(),
                 Double.parseDouble(priceField.getText()),
                 categoryField.getText(),
                 imagePath,
-                Integer.parseInt(stockField.getText()),
-                originalProduct.getLastUpdated()
+                Integer.parseInt(stockField.getText())
         );
     }
 
-    public boolean showDialog() {
-        setVisible(true);
-        return updatedProduct != null;
-    }
-
-    public Products getUpdatedProduct() {
-        return updatedProduct;
-    }
+//    public Products getNewProduct() {
+//        return newProduct;
+//    }
 }

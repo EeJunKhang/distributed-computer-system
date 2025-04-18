@@ -38,7 +38,6 @@ public class MenuPanel extends JPanel {
         this.token = token;
         initializeDependentComponents();
     }
-    
 
     private void initializeDependentComponents() {
         ImageIcon newcomersIcon = createIcon("src/resources/new.png", 24);
@@ -137,7 +136,7 @@ public class MenuPanel extends JPanel {
             return contentComponent;
         }
     }
-    
+
     /**
      * Constructor
      *
@@ -332,17 +331,27 @@ public class MenuPanel extends JPanel {
         return panel;
     }
 
+    public void refreshProductData() {
+        fetchDataForTabs();
+        replaceTabContent(0, createLoadingPanel());
+        replaceTabContent(1, createLoadingPanel());
+        replaceTabContent(2, createLoadingPanel());
+
+    }
+
     private void fetchDataForTabs() {
         if (token == null) {
             System.err.println("Error: Token is null, cannot fetch data");
+            replaceTabContent(0, createErrorPanel());
+            replaceTabContent(1, createErrorPanel());
+            replaceTabContent(2, createErrorPanel());
             return;
         }
         ProductClient productClient = new ProductClient(token);
-        // Fetch data for "All Products" tab (index 0)
         SwingWorker<List<Products>, Void> allWorker = new SwingWorker<>() {
             @Override
             protected List<Products> doInBackground() throws Exception {
-                return productClient.fetchAllProduct();
+                return productClient.fetchAllProduct(true);
             }
 
             @Override
@@ -352,7 +361,6 @@ public class MenuPanel extends JPanel {
         };
         allWorker.execute();
 
-        // Fetch data for "Newcomers" tab (index 1)
         SwingWorker<List<Products>, Void> newcomersWorker = new SwingWorker<>() {
             @Override
             protected List<Products> doInBackground() throws Exception {
@@ -366,7 +374,6 @@ public class MenuPanel extends JPanel {
         };
         newcomersWorker.execute();
 
-        // Fetch data for "Best Sellers" tab (index 2)
         SwingWorker<List<Products>, Void> bestSellersWorker = new SwingWorker<>() {
             @Override
             protected List<Products> doInBackground() throws Exception {

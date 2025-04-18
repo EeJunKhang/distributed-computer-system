@@ -127,7 +127,6 @@ public class OrderDAO extends DBOperation<Order, Integer> {
         }
     }
     
-    
     /**
      * Alternative method name for create - for backward compatibility
      * @param order The order to add

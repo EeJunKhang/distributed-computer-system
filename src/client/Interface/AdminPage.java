@@ -14,6 +14,7 @@ public class AdminPage extends javax.swing.JFrame {
 //    private final User user;
     private final AuthToken token;
     private User user;
+
     /**
      * Creates new form AdminPage
      *
@@ -29,7 +30,7 @@ public class AdminPage extends javax.swing.JFrame {
                 () -> new AuthClient().requestUserByToken(token),
                 user -> {
                     if (user != null) {
-                        System.out.println(user.toString());
+//                        System.out.println(user.toString());
                         this.user = user;
                         postInitComponents(); // Now called after user is set
                         this.setVisible(true);
@@ -40,12 +41,17 @@ public class AdminPage extends javax.swing.JFrame {
                 }
         ).execute();
     }
-    
+
     private void postInitComponents() {
         // Re-inject the now-initialized foodItemSection1 into menuPanel1
 //        menuPanel1.setFoodItemSection(foodItemSection1);
         userNameDisplay.setText(this.user.getFullName());
-
+        productSection = new client.Components.ProductsSection(this.token);
+        orderSection = new client.Components.ReportSection(this.token);
+        paymentSection = new client.Components.PaymentSection(this.token);
+        mainTab.addTab("tab2", orderSection);
+        mainTab.addTab("tab3", productSection);
+        mainTab.addTab("tab4", paymentSection);
     }
 
     /**
@@ -72,6 +78,9 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         logoutPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -79,8 +88,6 @@ public class AdminPage extends javax.swing.JFrame {
         mainTab = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         dashboardSection1 = new client.Components.DashboardSection();
-        reportSection1 = new client.Components.ReportSection();
-        productsSection1 = new client.Components.ProductsSection();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -171,6 +178,29 @@ public class AdminPage extends javax.swing.JFrame {
 
         jPanel3.add(jPanel10);
 
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setPreferredSize(new java.awt.Dimension(1000, 30));
+        jPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel12MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel12MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel12MouseExited(evt);
+            }
+        });
+        jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/report.png"))); // NOI18N
+        jPanel12.add(jLabel11);
+
+        jLabel12.setText("Payment");
+        jPanel12.add(jLabel12);
+
+        jPanel3.add(jPanel12);
+
         logoutPanel.setBackground(new java.awt.Color(255, 255, 255));
         logoutPanel.setPreferredSize(new java.awt.Dimension(1000, 30));
         logoutPanel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -210,8 +240,6 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel2.add(dashboardSection1);
 
         mainTab.addTab("tab1", jPanel2);
-        mainTab.addTab("tab2", reportSection1);
-        mainTab.addTab("tab3", productsSection1);
 
         jPanel1.add(mainTab);
 
@@ -290,6 +318,18 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel11.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel11MouseExited
 
+    private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel12MouseClicked
+
+    private void jPanel12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel12MouseEntered
+
+    private void jPanel12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel12MouseExited
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -330,6 +370,8 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -340,15 +382,17 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel logoutPanel;
     private javax.swing.JTabbedPane mainTab;
-    private client.Components.ProductsSection productsSection1;
-    private client.Components.ReportSection reportSection1;
     private javax.swing.JLabel userNameDisplay;
     private javax.swing.JLabel userNameDisplay1;
     // End of variables declaration//GEN-END:variables
+    private client.Components.ProductsSection productSection;
+    private client.Components.ReportSection orderSection;
+    private client.Components.PaymentSection paymentSection;
 }

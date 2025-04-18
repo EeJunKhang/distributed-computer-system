@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.border.EmptyBorder;
+import model.AuthToken;
 import model.Order;
 import model.OrderItem;
 
@@ -13,8 +14,10 @@ public class ReportSection extends JPanel {
 
     private List<Order> orders;
     private DefaultTableModel tableModel;
+    private AuthToken token;
 
-    public ReportSection() {
+    public ReportSection(AuthToken token) {
+        this.token = token;
         initializeUI();
     }
 

@@ -221,6 +221,25 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
         return getAll();
     }
     
+    public List<Products> getAllProduct(boolean is){
+        String sql = "SELECT * FROM products WHERE stock_quantity > 0";
+        
+        return executeTransaction(conn -> {
+            List<Products> products = new ArrayList<>();
+            
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
+                
+                while (rs.next()) {
+                    Products product = mapResultSetToEntity(rs);
+                    products.add(product);
+                }
+                
+                return products;
+            }
+        });
+    }
+    
     /**
      * Get products by category
      * @param category The category to filter by

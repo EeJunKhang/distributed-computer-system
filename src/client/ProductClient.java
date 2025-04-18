@@ -31,6 +31,15 @@ public class ProductClient extends ClientManager<ProductInterface> {
         }
     }
 
+    public List<Products> fetchAllProduct(boolean is) {
+        try {
+            return connectToServer().getAllProductsForView(token);
+        } catch (MalformedURLException | NotBoundException | RemoteException ex) {
+            System.err.println("Exception in fetchAllProduct: " + ex.getMessage());
+            return null;
+        }
+    }
+
     public List<Products> fetchNewComerProduct() {
         try {
             return connectToServer().getNewcomerProducts(token, 9);
@@ -44,6 +53,22 @@ public class ProductClient extends ClientManager<ProductInterface> {
             return connectToServer().getBestSellerProducts(token, 9);
         } catch (RemoteException | NotBoundException | MalformedURLException ex) {
             return null;
+        }
+    }
+
+    public boolean addNewProduct(Products product) {
+        try {
+            return connectToServer().addProduct(token, product);
+        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+            return false;
+        }
+    }
+
+    public boolean updateProduct(Products product) {
+        try {
+            return connectToServer().updateProduct(token, product);
+        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+            return false;
         }
     }
 

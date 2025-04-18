@@ -1,18 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.io.Serializable;
 
-/**
- *
- * @author C
- */
 public class Products implements Serializable {
     private static final long serialVersionUID = 1L;
-
     private int id;
     private String itemName;
     private String itemDescription;
@@ -34,7 +25,6 @@ public class Products implements Serializable {
         this.stockQuantity = stockQuantity;
         this.lastUpdated = lastUpdated;
     }
-        
     // for add new products
     public Products(String itemName,String itemDescription, double price, 
                    String category, String image, int stockQuantity){
@@ -45,7 +35,6 @@ public class Products implements Serializable {
         this.image = image;
         this.stockQuantity = stockQuantity;
     }
-    
     public Products() {
     }
 

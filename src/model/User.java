@@ -1,17 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import enums.UserRole;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-/**
- *
- * @author C
- */
 
 // modal mapping class, dont use directly, (inheriented)
 public class User implements Serializable {

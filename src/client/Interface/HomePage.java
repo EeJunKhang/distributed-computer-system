@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package client.Interface;
 
 import client.AuthClient;
@@ -23,10 +19,6 @@ import model.Products;
 import model.User;
 import utils.TokenStorage;
 
-/**
- *
- * @author ejunk
- */
 public class HomePage extends javax.swing.JFrame {
 
 //    private int quantity = 1;
@@ -343,6 +335,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
         mainTab.setSelectedIndex(0);
+        menuPanel2.refreshProductData();
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void jPanel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseEntered
