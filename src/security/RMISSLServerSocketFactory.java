@@ -21,7 +21,7 @@ public class RMISSLServerSocketFactory implements RMIServerSocketFactory {
         try {
             // Load the keystore
             KeyStore ks = KeyStore.getInstance("JKS");
-            try (FileInputStream fis = new FileInputStream("C:\\Users\\ejunk\\OneDrive - Asia Pacific University\\Degree\\Year 3\\Semester 1\\DCOMS\\Assignment\\DistributedSystem2025\\src\\security\\serverkeystore.jks")) {
+            try (FileInputStream fis = new FileInputStream("serverkeystore.jks")) {
                 ks.load(fis, "123456".toCharArray());
             }
 

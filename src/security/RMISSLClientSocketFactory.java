@@ -19,7 +19,7 @@ public class RMISSLClientSocketFactory
            try {
             // Load the trust store
             KeyStore trustStore = KeyStore.getInstance("JKS");
-            try (FileInputStream fis = new FileInputStream("C:\\Users\\ejunk\\OneDrive - Asia Pacific University\\Degree\\Year 3\\Semester 1\\DCOMS\\Assignment\\DistributedSystem2025\\src\\security\\clienttruststore.jks")) {
+            try (FileInputStream fis = new FileInputStream("clienttruststore.jks")) {
                 trustStore.load(fis, "123456".toCharArray());
             }
 
