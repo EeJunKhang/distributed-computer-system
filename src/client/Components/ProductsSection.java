@@ -104,8 +104,6 @@ public class ProductsSection extends JPanel {
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         add(titleLabel, BorderLayout.NORTH);
 
-        
-
         productTable = new JTable(tableModel);
         productTable.setRowHeight(IMAGE_SIZE + 10);
         productTable.getColumnModel().getColumn(1).setCellRenderer(new ImageRenderer());

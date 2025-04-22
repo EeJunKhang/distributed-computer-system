@@ -1,5 +1,6 @@
 package manager;
 
+import client.AuthResult;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -76,13 +77,23 @@ public class AuthManager {
      * @param isAdmin Whether the user should be registered as admin
      * @return Boolean indicating success
      */
-    public boolean registerUser(String firstName, String lastName, String username,
+    public AuthResult registerUser(String firstName, String lastName, String username,
             String password, String email, String address,
             String contactNumber, boolean isAdmin) {
         try {
             // Check duplicate username
             if (userDAO.getUserByUsername(username) != null) {
-                return false;
+                return new AuthResult("Duplicate Username Found");
+            }
+
+            System.out.println(password.length());
+
+            if (password.length() < 6) {
+                return new AuthResult("Password Length is less than 6");
+            }
+
+            if (!email.contains("@")) {
+                return new AuthResult("Email is Invalid");
             }
 
             String salt = generateSalt();
@@ -93,7 +104,7 @@ public class AuthManager {
 
             if (isAdmin) {
                 System.out.println("Error: Admin User Creation Prohibited!");
-                return false;
+                return new AuthResult("Error: Admin User Creation Prohibited!");
 
             } else {
                 user = new Customer(firstName, lastName, username, passwordHash, salt,
@@ -105,13 +116,14 @@ public class AuthManager {
                     System.out.println("User registered: " + user.getUsername());
                 } else {
                     System.out.println("Failed to register user: " + user.getUsername());
+                    return new AuthResult("Error registering");
                 }
 
-                return result;
+                return new AuthResult();
             }
         } catch (Exception e) {
             System.err.println("Registration error: " + e.getMessage());
-            return false;
+            return new AuthResult("Error registering");
         }
     }
 

@@ -178,20 +178,20 @@ public class AuthClient {
             firstName, lastName, username, password, email, address, contactNumber
         );
         
-        AuthToken token = authService.handleRegister(credential);
-        
-        if (token != null) {
-            authToken = token;
-            System.out.println("Registration successful! Token: " + token.getToken());
-            
-            if (TokenStorage.saveToken(authToken)) {
-                System.out.println("Session saved for future use.");
-            } else {
-                System.out.println("Warning: Failed to save session.");
-            }
-        } else {
-            System.out.println("Registration failed. Username may already exist.");
-        }
+//        AuthToken token = authService.handleRegister(credential);
+//        
+//        if (token != null) {
+//            authToken = token;
+//            System.out.println("Registration successful! Token: " + token.getToken());
+//            
+//            if (TokenStorage.saveToken(authToken)) {
+//                System.out.println("Session saved for future use.");
+//            } else {
+//                System.out.println("Warning: Failed to save session.");
+//            }
+//        } else {
+//            System.out.println("Registration failed. Username may already exist.");
+//        }
     }
     
     private static void handleVerifyToken() throws RemoteException {

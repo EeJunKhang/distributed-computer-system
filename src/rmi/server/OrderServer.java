@@ -15,6 +15,7 @@ import model.AuthToken;
 import model.Order;
 import model.User;
 import enums.OrderStatus;
+import enums.UserRole;
 import rmi.OrderInterface;
 import security.RMISSLClientSocketFactory;
 import security.RMISSLServerSocketFactory;
@@ -59,7 +60,7 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
     public List<Order> getAllOrders(AuthToken token) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != enums.UserRole.ADMIN) {
+        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for getAllOrders from " + IPIdentifier.getClientIP());
             return null;
         }
@@ -81,7 +82,7 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
     public List<Order> getOrdersByStatus(AuthToken token, OrderStatus status) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != enums.UserRole.ADMIN) {
+        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for getOrdersByStatus from " + IPIdentifier.getClientIP());
             return null;
         }
@@ -103,7 +104,7 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
     public boolean updateOrderStatus(AuthToken token, int orderId, OrderStatus status) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != enums.UserRole.ADMIN) {
+        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for updateOrderStatus from " + IPIdentifier.getClientIP());
             return false;
         }
@@ -114,7 +115,7 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
     public boolean deleteOrder(AuthToken token, int orderId) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() != enums.UserRole.ADMIN) {
+        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for deleteOrder from " + IPIdentifier.getClientIP());
             return false;
         }

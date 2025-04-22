@@ -1,5 +1,6 @@
 package rmi;
 
+import client.AuthResult;
 import enums.UserRole;
 import java.rmi.*;
 import model.User;
@@ -40,7 +41,7 @@ public interface AuthInterface extends Remote {
      * or null if registration fails.
      * @throws RemoteException If a remote error occurs.
      */
-    AuthToken handleRegister(RegisterCredential credential) throws RemoteException;
+    AuthResult handleRegister(RegisterCredential credential) throws RemoteException;
     
     /**
      * Retrieves the user information associated with a valid token.

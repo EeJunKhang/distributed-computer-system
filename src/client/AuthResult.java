@@ -5,9 +5,10 @@
 package client;
 
 import enums.UserRole;
+import java.io.Serializable;
 import model.AuthToken;
 
-public class AuthResult {
+public class AuthResult implements Serializable{
 
     private String errorMessage;
     private AuthToken token;
@@ -24,6 +25,10 @@ public class AuthResult {
     public AuthResult(UserRole userRole, AuthToken token) {
         this.token = token;
         this.userRole = userRole;
+    }
+    
+    public AuthResult(){
+        
     }
 
     public boolean hasError() {
