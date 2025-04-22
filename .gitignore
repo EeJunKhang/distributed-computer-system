@@ -22,4 +22,4 @@ test/dist/
 *.ser
 
 # properties file
-src/config/DatabaseProperties.properties
+/src/config/DatabaseProperties.properties
