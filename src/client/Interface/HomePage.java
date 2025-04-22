@@ -61,7 +61,7 @@ public class HomePage extends javax.swing.JFrame {
 //        menuPanel2.setToken(token);
         userNameDisplay.setText(this.user.getFullName());
 //        System.out.println(this.user.getFullName());
-        orderHistorySection1 = new client.Components.OrderHistorySection(this.user);
+        orderHistorySection1 = new client.Components.OrderHistorySection(this.user, this.token);
         mainTab.addTab("tab3", orderHistorySection1);
     }
 

@@ -13,6 +13,7 @@ import model.AuthToken;
 import model.Order;
 import rmi.OrderInterface;
 
+
 /**
  *
  * @author ejunk
@@ -20,15 +21,17 @@ import rmi.OrderInterface;
 public class OrderClient extends ClientManager<OrderInterface>{
     private final String bindObjectName = "OrderService";
     private Order order;
+    private AuthToken token;
     
     @Override
     protected String getBindObject() {
        return this.bindObjectName;
     }
     
-    public OrderClient(){
-        
+    public OrderClient(AuthToken token) {
+        this.token = token;
     }
+
 
     public void setOrder(Order order) {
         this.order = order;
@@ -51,6 +54,16 @@ public class OrderClient extends ClientManager<OrderInterface>{
         try {
             return connectToServer().getAllOrders(token);
         } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+    
+    public List<Order> fetchOrderByUserId(AuthToken token,int userId){
+        try{
+            
+            return connectToServer().getOrdersByUserId(token,userId);
+        }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return null;
         }

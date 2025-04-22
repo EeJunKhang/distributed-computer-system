@@ -442,9 +442,6 @@
           </SubComponents>
         </Container>
         <Component class="client.Components.CartPanel" name="cartPanel">
-          <Properties>
-            <Property name="opaque" type="boolean" value="false"/>
-          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>

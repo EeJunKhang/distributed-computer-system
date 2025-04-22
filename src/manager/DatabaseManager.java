@@ -75,7 +75,7 @@ public class DatabaseManager {
             
             jdbcUrl = props.getProperty("jdbc.url", "jdbc:mysql://localhost:3306/mydb");
             username = props.getProperty("jdbc.username", "root");
-            password = props.getProperty("jdbc.password", "P@ssw0rd");
+            password = props.getProperty("jdbc.password", "root");
             maxConnections = Integer.parseInt(props.getProperty("jdbc.max_connections", "10"));
             useConnectionPool = Boolean.parseBoolean(props.getProperty("jdbc.use_connection_pool", "true"));
             

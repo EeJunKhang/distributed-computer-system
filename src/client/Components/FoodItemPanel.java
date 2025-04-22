@@ -25,6 +25,7 @@ public class FoodItemPanel extends JPanel {
 
         // Image panel (placeholder for food image)
         JPanel imagePanel = new ImagePanel(item.getImage(), 20);
+        System.out.print(item.getImage());
         imagePanel.setPreferredSize(new Dimension(180, 120));
 
         imagePanel.setLayout(new BorderLayout());
