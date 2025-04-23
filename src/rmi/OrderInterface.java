@@ -11,6 +11,7 @@ import java.util.List;
 import model.Order;
 import model.AuthToken;
 import enums.OrderStatus;
+import model.ReportData;
 
 public interface OrderInterface extends Remote {
 
@@ -43,6 +44,7 @@ public interface OrderInterface extends Remote {
     /**
      * Gets all orders for a specific user.
      * @param token Authentication token.
+     * @param status
      * @param userId The ID of the user.
      * @return List of orders for the specified status or null if unauthorized.
      * @throws RemoteException If a remote error occurs.
@@ -76,4 +78,6 @@ public interface OrderInterface extends Remote {
      * @throws RemoteException If a remote error occurs.
      */
     boolean deleteOrder(AuthToken token, int orderId) throws RemoteException;
+    
+    ReportData getReportData(AuthToken token) throws RemoteException;
 }

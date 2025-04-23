@@ -4,6 +4,7 @@
  */
 package client;
 
+import enums.OrderStatus;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
@@ -11,6 +12,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import model.AuthToken;
 import model.Order;
+import model.ReportData;
 import rmi.OrderInterface;
 
 
@@ -66,6 +68,24 @@ public class OrderClient extends ClientManager<OrderInterface>{
         }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return null;
+        }
+    }
+    
+    public ReportData fetchReportData(AuthToken token){
+        try {
+            return connectToServer().getReportData(token);
+        }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+    
+    public boolean updateOrderStatus(AuthToken token, int orderId, OrderStatus status){
+        try {
+            return connectToServer().updateOrderStatus(token, orderId, status);
+        }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+            System.out.println(ex);
+            return false;
         }
     }
 }

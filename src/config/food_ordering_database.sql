@@ -87,15 +87,15 @@ VALUES
 
 INSERT INTO Products (name, description, price, category, image_url, stock_quantity)
 VALUES
-('Apple', 'Fresh and juicy red apple', 1.50, 'Fruits', 'src/resources/images/temp.png', 200),
-('Banana', 'Ripe and sweet yellow banana', 0.75, 'Fruits', 'src/resources/images/temp.png', 150),
-('Carrot', 'Crunchy and nutritious carrot', 1.20, 'Vegetables', 'src/resources/images/temp.png', 180),
-('Date', 'Sweet and chewy dates', 2.50, 'Fruits', 'src/resources/images/temp.png', 80),
-('Eggplant', 'Fresh purple eggplant', 1.75, 'Vegetables', 'src/resources/images/temp.png', 100);
+('Apple', 'Fresh and juicy red apple', 1.50, 'Fruits', 'apple.png', 200),
+('Banana', 'Ripe and sweet yellow banana', 0.75, 'Fruits', 'banana.png', 150),
+('Carrot', 'Crunchy and nutritious carrot', 1.20, 'Vegetables', 'carrot.png', 180),
+('Date', 'Sweet and chewy dates', 2.50, 'Fruits', 'date.png', 80),
+('Eggplant', 'Fresh purple eggplant', 1.75, 'Vegetables', 'date.png', 100);
 
 INSERT INTO Orders (user_id, total_price, status, order_time)
 VALUES
-(1, 30.00, 'PENDING', CURRENT_TIMESTAMP),
+(2, 30.00, 'PENDING', CURRENT_TIMESTAMP),
 (2, 35.50, 'CONFIRMED', CURRENT_TIMESTAMP),
 (3, 12.50, 'PREPARING', CURRENT_TIMESTAMP),
 (4, 45.00, 'OUT_FOR_DELIVERY', CURRENT_TIMESTAMP),
@@ -110,7 +110,9 @@ VALUES
 (3, 3, 5, 1.20),   -- 5 carrots in order 3
 (4, 4, 6, 2.50),   -- 6 dates in order 4
 (5, 4, 7, 2.50),   -- 6 dates in order 5 (DELIVERED)
-(6, 4, 8, 2.50);   -- 6 dates in order 6 (CANCELED)
+(6, 4, 8, 2.50),   -- 6 dates in order 6 (CANCELED)
+(4, 1, 3, 1.50),
+(4, 2, 5, 0.75);
 
 -- Inserting Payments (one for each order)
 INSERT INTO Payments (order_id, amount_paid, payment_method, transaction_id, payment_status)

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 // RMI/OrderServer.java
 package rmi.server;
 
@@ -16,6 +13,7 @@ import model.Order;
 import model.User;
 import enums.OrderStatus;
 import enums.UserRole;
+import model.ReportData;
 import rmi.OrderInterface;
 import security.RMISSLClientSocketFactory;
 import security.RMISSLServerSocketFactory;
@@ -120,5 +118,28 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
             return false;
         }
         return orderManager.deleteOrder(orderId);
+    }
+    
+    
+    @Override
+    public ReportData getReportData(AuthToken token) throws RemoteException {
+        showClientIP();
+        User tokenUser = validateTokenAndGetUser(token);
+        if (tokenUser == null || tokenUser.getRole() != UserRole.ADMIN){
+            
+            return null;
+        }
+        var orderList = orderManager.getAllOrders();
+        double totalSales = 0;
+        int totalItem = 0;
+        int totalOrder = orderList.size();
+        for(var i : orderList){
+            totalSales = totalSales + i.getTotalPrice();
+            totalItem =  totalItem + i.getItems().size();
+        }
+        
+        double average = totalSales / totalOrder;
+//        average = Math.round(average * 100.0) / 100.0;
+        return new ReportData(totalSales, totalOrder,totalItem, average);
     }
 }

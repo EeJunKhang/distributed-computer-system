@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
 import model.AuthToken;
@@ -348,57 +350,13 @@ public class MenuPanel extends JPanel {
             return;
         }
         ProductClient productClient = new ProductClient(token);
-        SwingWorker<List<Products>, Void> allWorker = new SwingWorker<>() {
-            @Override
-            protected List<Products> doInBackground() throws Exception {
-                return productClient.fetchAllProduct(true);
-            }
+        ExecutorService executor = Executors.newFixedThreadPool(3);
 
-            @Override
-            protected void done() {
-                updateTabContent(0, this);
-            }
-        };
-        allWorker.execute();
+        executor.execute(new ProductFetchTask(productClient, 0, ProductFetchTask.FetchType.ALL, true));
+        executor.execute(new ProductFetchTask(productClient, 1, ProductFetchTask.FetchType.NEWCOMERS));
+        executor.execute(new ProductFetchTask(productClient, 2, ProductFetchTask.FetchType.BEST_SELLERS));
 
-        SwingWorker<List<Products>, Void> newcomersWorker = new SwingWorker<>() {
-            @Override
-            protected List<Products> doInBackground() throws Exception {
-                return productClient.fetchNewComerProduct();
-            }
-
-            @Override
-            protected void done() {
-                updateTabContent(1, this);
-            }
-        };
-        newcomersWorker.execute();
-
-        SwingWorker<List<Products>, Void> bestSellersWorker = new SwingWorker<>() {
-            @Override
-            protected List<Products> doInBackground() throws Exception {
-                return productClient.fetchBestSellerProduct();
-            }
-
-            @Override
-            protected void done() {
-                updateTabContent(2, this);
-            }
-        };
-        bestSellersWorker.execute();
-    }
-
-    private void updateTabContent(int tabIndex, SwingWorker<List<Products>, Void> worker) {
-        try {
-            List<Products> products = worker.get();
-            SwingUtilities.invokeLater(() -> {
-                Products[] productsArray = products.toArray(Products[]::new);
-                JPanel gridPanel = createFoodGridPanel(productsArray);
-                replaceTabContent(tabIndex, gridPanel);
-            });
-        } catch (InterruptedException | ExecutionException e) {
-            SwingUtilities.invokeLater(() -> replaceTabContent(tabIndex, createErrorPanel()));
-        }
+        executor.shutdown();
     }
 
     private void replaceTabContent(int tabIndex, JPanel newContent) {
@@ -423,5 +381,46 @@ public class MenuPanel extends JPanel {
         JLabel label = new JLabel("Error loading data.", SwingConstants.CENTER);
         panel.add(label, BorderLayout.CENTER);
         return panel;
+    }
+
+    private class ProductFetchTask implements Runnable {
+        private final ProductClient productClient;
+        private final int tabIndex;
+        private final FetchType fetchType;
+        private final boolean includeAll;
+
+        public enum FetchType {
+            ALL, NEWCOMERS, BEST_SELLERS
+        }
+
+        public ProductFetchTask(ProductClient productClient, int tabIndex, FetchType fetchType) {
+            this(productClient, tabIndex, fetchType, false);
+        }
+
+        public ProductFetchTask(ProductClient productClient, int tabIndex, FetchType fetchType, boolean includeAll) {
+            this.productClient = productClient;
+            this.tabIndex = tabIndex;
+            this.fetchType = fetchType;
+            this.includeAll = includeAll;
+        }
+
+        @Override
+        public void run() {
+            try {
+                List<Products> products;
+                switch (fetchType) {
+                    case ALL -> products = productClient.fetchAllProduct(includeAll);
+                    case NEWCOMERS -> products = productClient.fetchNewComerProduct();
+                    case BEST_SELLERS -> products = productClient.fetchBestSellerProduct();
+                    default -> throw new IllegalArgumentException("Unknown fetch type");
+                }
+
+                Products[] productsArray = products.toArray(Products[]::new);
+                JPanel gridPanel = createFoodGridPanel(productsArray);
+                SwingUtilities.invokeLater(() -> replaceTabContent(tabIndex, gridPanel));
+            } catch (IllegalArgumentException e) {
+                SwingUtilities.invokeLater(() -> replaceTabContent(tabIndex, createErrorPanel()));
+            }
+        }
     }
 }

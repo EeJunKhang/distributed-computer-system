@@ -7,27 +7,40 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.border.EmptyBorder;
 import model.AuthToken;
 import model.Order;
-import model.OrderItem;
+import model.ReportData;
 
 public class ReportSection extends JPanel {
 
     private List<Order> orders;
     private DefaultTableModel tableModel;
-    private AuthToken token;
+    private JTable table;
+    private final AuthToken token;
     private JPanel loadingPanel;
     private JPanel contentPanel;
     private JButton reportButton;
     private JButton printButton;
     private JButton updateButton;
+    private ReportData reportData;
 
     public ReportSection(AuthToken token) {
         this.token = token;
         initializeUI();
         fetchData();
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void setReportData(ReportData reportData) {
+        this.reportData = reportData;
     }
 
     private void initializeUI() {
@@ -54,33 +67,50 @@ public class ReportSection extends JPanel {
     }
 
     private void fetchData() {
-        OrderClient a = new OrderClient(token);
-        SwingWorker<List<Order>, Void> worker = new SwingWorker<>() {
-            @Override
-            protected List<Order> doInBackground() throws Exception {
-                // Simulate network delay
-                return a.fetchAllOrders(token);
-            }
+        if (token == null) {
+            return;
+        }
 
-            @Override
-            protected void done() {
+        OrderClient orderClient = new OrderClient(token);
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+
+        // Create shared objects for communication
+        AtomicReference<List<Order>> ordersResult = new AtomicReference<>();
+        AtomicReference<ReportData> reportResult = new AtomicReference<>();
+        AtomicInteger completionCount = new AtomicInteger(0);
+
+        // Create and execute both fetchers
+        executor.execute(new OrderDataFetcher(orderClient, ordersResult, completionCount));
+        executor.execute(new ReportDataFetcher(orderClient, reportResult, completionCount));
+
+        executor.shutdown();
+
+        // Monitor completion in a separate thread
+        new Thread(() -> {
+            // Wait for both tasks to complete
+            while (completionCount.get() < 2) {
                 try {
-                    orders = get(); // Get the fetched orders
-                    if (orders == null) {
-                        showError("Failed to load orders");
-                        return;
-                    }
-                    setupContentUI(); // Setup the actual UI with data
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
-                    showError("Operation was interrupted");
-                } catch (ExecutionException e) {
-                    showError("Failed to load orders: " + e.getCause().getMessage());
+                    SwingUtilities.invokeLater(()
+                            -> showError("Data loading interrupted"));
+                    return;
                 }
             }
-        };
 
-        worker.execute();
+            // Update UI on the EDT
+            SwingUtilities.invokeLater(() -> {
+                if (ordersResult.get() != null && reportResult.get() != null) {
+                    setOrders(ordersResult.get());
+                    setReportData(reportResult.get());
+                    setupContentUI();
+                } else {
+                    showError("Failed to load data");
+                }
+            });
+        }).start();
     }
 
     private void setupContentUI() {
@@ -106,7 +136,7 @@ public class ReportSection extends JPanel {
 
         populateTable();
 
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
         table.setAutoCreateRowSorter(true);
         JScrollPane scrollPane = new JScrollPane(table);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
@@ -121,7 +151,7 @@ public class ReportSection extends JPanel {
         buttonPanel.add(updateButton);
         buttonPanel.add(reportButton);
         buttonPanel.add(printButton);
-        
+
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Show content panel
@@ -129,11 +159,28 @@ public class ReportSection extends JPanel {
         revalidate();
         repaint();
     }
-    
-    private void updateOrderStatus(ActionEvent e){
-        
+
+    private void updateOrderStatus(ActionEvent e) {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow >= 0) {
+            Order order = orders.get(selectedRow);
+            UpdateOrderDialog dialog = new UpdateOrderDialog(
+                    (Frame) SwingUtilities.getWindowAncestor(this),
+                    order,
+                    token
+            );
+//            dialog.setVisible(true);
+            if (dialog.showDialog()) {
+                updateOrderTable();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Please select a order to update its status",
+                    "No Selection",
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }
-    
+
     private void showError(String message) {
         loadingPanel.setVisible(false);
 
@@ -156,6 +203,11 @@ public class ReportSection extends JPanel {
         add(errorPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
+    }
+
+    private void updateOrderTable() {
+        loadingPanel.setVisible(true);
+        fetchData();
     }
 
     private void populateTable() {
@@ -201,17 +253,6 @@ public class ReportSection extends JPanel {
     }
 
     private JEditorPane generateReportHTML() {
-        double totalSales = 0;
-        int totalQuantity = 0;
-
-        // Calculate totals
-        for (Order order : orders) {
-            totalSales += order.getTotalPrice();
-            for (OrderItem item : order.getItems()) {
-                totalQuantity += item.getQuantity();
-            }
-        }
-
         // Create HTML content
         StringBuilder html = new StringBuilder("<html><body style='padding:20px'>");
         html.append("<h1 style='color:#2c3e50'>Sales Report</h1>");
@@ -233,9 +274,10 @@ public class ReportSection extends JPanel {
         // Add summary section
         html.append("<div style='margin-top:20px; background-color:#f8f9fa; padding:15px; border-radius:5px'>")
                 .append("<h3 style='color:#27ae60'>Summary</h3>")
-                .append("<p>Total Sales: <b>").append(String.format("RM %.2f", totalSales)).append("</b></p>")
-                .append("<p>Total Order: <b>").append(orders.size()).append("</b></p>")
-                .append("<p>Total Items Sold: <b>").append(totalQuantity).append("</b></p>")
+                .append("<p>Total Sales: <b>").append(String.format("RM %.2f", reportData.getTotalSales())).append("</b></p>")
+                .append("<p>Total Order: <b>").append(reportData.getTotalOrder()).append("</b></p>")
+                .append("<p>Total Items Sold: <b>").append(reportData.getTotalItems()).append("</b></p>")
+                .append("<p>Average Sales per Order: <b>").append(String.format("RM %.2f", reportData.getAverageSales())).append("</b></p>")
                 .append("</div>")
                 .append("</body></html>");
 
@@ -286,6 +328,63 @@ public class ReportSection extends JPanel {
                     JOptionPane.ERROR_MESSAGE
             );
             ex.printStackTrace();
+        }
+    }
+
+    private class OrderDataFetcher implements Runnable {
+
+        private final OrderClient orderClient;
+        private final AtomicReference<List<Order>> resultContainer;
+        private final AtomicInteger completionCounter;
+
+        public OrderDataFetcher(OrderClient orderClient,
+                AtomicReference<List<Order>> resultContainer,
+                AtomicInteger completionCounter) {
+            this.orderClient = orderClient;
+            this.resultContainer = resultContainer;
+            this.completionCounter = completionCounter;
+        }
+
+        @Override
+        public void run() {
+            try {
+                List<Order> orders = orderClient.fetchAllOrders(token);
+                resultContainer.set(orders);
+            } catch (Exception e) {
+                resultContainer.set(null);
+                e.printStackTrace();
+            } finally {
+                completionCounter.incrementAndGet();
+            }
+        }
+    }
+
+    // Runnable implementation for Report data fetching
+    private class ReportDataFetcher implements Runnable {
+
+        private final OrderClient orderClient;
+        private final AtomicReference<ReportData> resultContainer;
+        private final AtomicInteger completionCounter;
+
+        public ReportDataFetcher(OrderClient orderClient,
+                AtomicReference<ReportData> resultContainer,
+                AtomicInteger completionCounter) {
+            this.orderClient = orderClient;
+            this.resultContainer = resultContainer;
+            this.completionCounter = completionCounter;
+        }
+
+        @Override
+        public void run() {
+            try {
+                ReportData reportData = orderClient.fetchReportData(token);
+                resultContainer.set(reportData);
+            } catch (Exception e) {
+                resultContainer.set(null);
+                e.printStackTrace();
+            } finally {
+                completionCounter.incrementAndGet();
+            }
         }
     }
 }
