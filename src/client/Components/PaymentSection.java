@@ -1,5 +1,6 @@
 package client.Components;
 
+import client.OrderClient;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
@@ -11,10 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.AuthToken;
+import model.Payment;
 import model.Products;
 
 public class PaymentSection extends JPanel {
@@ -45,7 +48,7 @@ public class PaymentSection extends JPanel {
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public Class<?> getColumnClass(int column) {
-                return column == 1 ? ImageIcon.class : Object.class;
+                return Object.class;
             }
 
             @Override
@@ -56,7 +59,7 @@ public class PaymentSection extends JPanel {
 
         productTable = new JTable(tableModel);
         productTable.setRowHeight(IMAGE_SIZE + 10);
-        productTable.getColumnModel().getColumn(1).setCellRenderer(new ImageRenderer());
+//        productTable.getColumnModel().getColumn(1).setCellRenderer(new ImageRenderer());
 
         JScrollPane scrollPane = new JScrollPane(productTable);
         add(scrollPane, BorderLayout.CENTER);
@@ -77,31 +80,50 @@ public class PaymentSection extends JPanel {
     }
 
     private void loadSampleData() {
-        products.add(new Products(1, "Laptop", "High performance gaming laptop", 1299.99,
-                "Electronics", "src/resources/burger.jpg", 50, "2024-03-15"));
-        products.add(new Products(2, "Smartphone", "Latest model smartphone", 799.99,
-                "Electronics", "src/resources/burger.jpg", 100, "2024-03-14"));
+        
+        OrderClient orderClient = new OrderClient(token);
+         SwingWorker<List<Payment>, Void> newcomersWorker = new SwingWorker<>() {
+            @Override
+            protected List<Payment> doInBackground() throws Exception {
+                
+                List<Payment> payments = orderClient.fetechAllPayment(token);
 
-        for (Products product : products) {
-            addProductToTable(product, -1);
+//                if (payments != null && !payments.isEmpty()) {
+//                    for (Payment payment : payments) {
+//                        System.out.println(payment);
+//                    }
+//                } else {
+//                    System.out.println("No payments found or failed to fetch data.");
+//                }
+                return payments;
+            }
+            protected void done() {
+        try {
+            List<Payment> payments = get(); 
+            for (Payment payment : payments) {
+                addProductToTable(payment, -1); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+        };
+        newcomersWorker.execute();
+        
+        
+    }
 
-    private void addProductToTable(Products product, int index) {
-        ImageIcon icon = null;
-        if (product.getImage() != null && !product.getImage().isEmpty()) {
-            icon = new ImageIcon(new ImageIcon(product.getImage())
-                    .getImage().getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, Image.SCALE_SMOOTH));
-        }
+    private void addProductToTable(Payment payment, int index) {
+
 
         Object[] row = {
-            product.getId(),
-            icon,
-            product.getItemName(),
-            product.getPrice(),
-            product.getCategory(),
-            product.getStockQuantity(),
-            product.getLastUpdated()
+            payment.getPaymentId(),
+            payment.getOrderId(),
+            payment.getPaymentDate(),
+            payment.getAmountPaid(),
+            payment.getPaymentMethod(),
+            payment.getTransactionId(),
+            payment.getPaymentStatus()
         };
 
         if (index >= 0) {
@@ -112,16 +134,16 @@ public class PaymentSection extends JPanel {
     }
 
     // Image renderer for table
-    class ImageRenderer extends DefaultTableCellRenderer {
-
-        JLabel label = new JLabel();
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
-            label.setIcon((ImageIcon) value);
-            label.setHorizontalAlignment(JLabel.CENTER);
-            return label;
-        }
-    }
+//    class ImageRenderer extends DefaultTableCellRenderer {
+//
+//        JLabel label = new JLabel();
+//
+//        @Override
+//        public Component getTableCellRendererComponent(JTable table, Object value,
+//                boolean isSelected, boolean hasFocus, int row, int column) {
+//            label.setIcon((ImageIcon) value);
+//            label.setHorizontalAlignment(JLabel.CENTER);
+//            return label;
+//        }
+//    }
 }

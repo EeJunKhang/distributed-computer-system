@@ -10,10 +10,12 @@
 package manager;
 
 import database.OrderDAO;
+import database.PaymentDAO;
 import model.Order;
 import model.User;
 import enums.OrderStatus;
 import java.util.List;
+import model.Payment;
 
 /**
  * Manager class for Order-related operations
@@ -22,9 +24,11 @@ public class OrderManager {
 
     private static OrderManager instance;
     private final OrderDAO orderDAO;
+    private final PaymentDAO paymentDAO;
 
     private OrderManager() {
         this.orderDAO = new OrderDAO();
+        this.paymentDAO = new PaymentDAO();
     }
 
     public static synchronized OrderManager getInstance() {
@@ -95,5 +99,9 @@ public class OrderManager {
      */
     public boolean deleteOrder(int orderId) {
         return orderDAO.deleteOrder(orderId);
+    }
+    
+    public List<Payment> getAllPayment(){
+        return paymentDAO.getAll();
     }
 }

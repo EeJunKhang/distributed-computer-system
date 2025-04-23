@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import model.AuthToken;
 import model.Order;
+import model.Payment;
 import rmi.OrderInterface;
 
 
@@ -63,6 +64,16 @@ public class OrderClient extends ClientManager<OrderInterface>{
         try{
             
             return connectToServer().getOrdersByUserId(token,userId);
+        }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+    
+    public List<Payment> fetechAllPayment(AuthToken token){
+        try{
+            System.out.println("test here");
+            return connectToServer().getAllPaymentData(token);
         }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return null;

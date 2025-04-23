@@ -11,6 +11,7 @@ import java.util.List;
 import model.Order;
 import model.AuthToken;
 import enums.OrderStatus;
+import model.Payment;
 
 public interface OrderInterface extends Remote {
 
@@ -76,4 +77,6 @@ public interface OrderInterface extends Remote {
      * @throws RemoteException If a remote error occurs.
      */
     boolean deleteOrder(AuthToken token, int orderId) throws RemoteException;
+    
+    List<Payment> getAllPaymentData(AuthToken token) throws RemoteException;
 }

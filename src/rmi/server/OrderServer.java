@@ -15,6 +15,7 @@ import model.AuthToken;
 import model.Order;
 import model.User;
 import enums.OrderStatus;
+import model.Payment;
 import rmi.OrderInterface;
 import security.RMISSLClientSocketFactory;
 import security.RMISSLServerSocketFactory;
@@ -119,5 +120,17 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
             return false;
         }
         return orderManager.deleteOrder(orderId);
+    }
+    
+    @Override
+    public List<Payment> getAllPaymentData(AuthToken token) throws RemoteException {
+        showClientIP();
+        User tokenUser = validateTokenAndGetUser(token);
+        if (tokenUser == null || tokenUser.getRole() != enums.UserRole.ADMIN) {
+            System.out.println("Authentication failed or unauthorized for deleteOrder from " + IPIdentifier.getClientIP());
+            return null;
+        }
+        System.out.println(" failed or unauthorized for deleteOrder from " + IPIdentifier.getClientIP());
+        return orderManager.getAllPayment();
     }
 }
