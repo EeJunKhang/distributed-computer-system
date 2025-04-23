@@ -4,6 +4,7 @@
  */
 package client;
 
+import model.AuthResult;
 import enums.UserRole;
 import model.LoginCredential;
 import java.net.MalformedURLException;

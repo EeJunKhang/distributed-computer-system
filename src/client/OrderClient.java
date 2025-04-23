@@ -4,6 +4,7 @@
  */
 package client;
 
+import enums.OrderStatus;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
@@ -12,27 +13,27 @@ import java.util.List;
 import model.AuthToken;
 import model.Order;
 import model.Payment;
+import model.ReportData;
 import rmi.OrderInterface;
-
 
 /**
  *
  * @author ejunk
  */
-public class OrderClient extends ClientManager<OrderInterface>{
+public class OrderClient extends ClientManager<OrderInterface> {
+
     private final String bindObjectName = "OrderService";
     private Order order;
     private AuthToken token;
-    
+
     @Override
     protected String getBindObject() {
-       return this.bindObjectName;
+        return this.bindObjectName;
     }
-    
+
     public OrderClient(AuthToken token) {
         this.token = token;
     }
-
 
     public void setOrder(Order order) {
         this.order = order;
@@ -41,8 +42,8 @@ public class OrderClient extends ClientManager<OrderInterface>{
     public Order getOrder() {
         return order;
     }
-    
-    public boolean handleOrder(AuthToken token){
+
+    public boolean handleOrder(AuthToken token) {
         try {
             return connectToServer().createOrder(token, order);
         } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
@@ -50,8 +51,8 @@ public class OrderClient extends ClientManager<OrderInterface>{
             return false;
         }
     }
-    
-    public List<Order> fetchAllOrders(AuthToken token){
+
+    public List<Order> fetchAllOrders(AuthToken token) {
         try {
             return connectToServer().getAllOrders(token);
         } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
@@ -59,22 +60,40 @@ public class OrderClient extends ClientManager<OrderInterface>{
             return null;
         }
     }
-    
-    public List<Order> fetchOrderByUserId(AuthToken token,int userId){
-        try{
-            
-            return connectToServer().getOrdersByUserId(token,userId);
-        }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+
+    public List<Order> fetchOrderByUserId(AuthToken token, int userId) {
+        try {
+
+            return connectToServer().getOrdersByUserId(token, userId);
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return null;
         }
     }
-    
-    public List<Payment> fetechAllPayment(AuthToken token){
-        try{
+
+    public ReportData fetchReportData(AuthToken token) {
+        try {
+            return connectToServer().getReportData(token);
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public boolean updateOrderStatus(AuthToken token, int orderId, OrderStatus status) {
+        try {
+            return connectToServer().updateOrderStatus(token, orderId, status);
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+
+    public List<Payment> fetechAllPayment(AuthToken token) {
+        try {
             System.out.println("test here");
             return connectToServer().getAllPaymentData(token);
-        }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return null;
         }

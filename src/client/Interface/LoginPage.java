@@ -5,7 +5,7 @@
 package client.Interface;
 
 import client.AuthClient;
-import client.AuthResult;
+import model.AuthResult;
 import utils.BackgroundTaskWithLoading;
 import enums.UserRole;
 import java.awt.Cursor;

@@ -193,7 +193,7 @@ public class AdminPage extends javax.swing.JFrame {
         });
         jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/report.png"))); // NOI18N
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/paymentIcon.png"))); // NOI18N
         jPanel12.add(jLabel11);
 
         jLabel12.setText("Payment");

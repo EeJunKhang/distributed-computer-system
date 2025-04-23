@@ -8,7 +8,12 @@ public class OrderItem implements Serializable{
     private int orderItemId;
     private Products item;
     private int quantity;
-    
+
+    @Override
+    public String toString(){
+        return item.getItemName() + " x" + this.quantity;
+    }
+
     public OrderItem(Products item, int quantity){
         this.item = item;
         this.quantity = quantity;
@@ -30,5 +35,5 @@ public class OrderItem implements Serializable{
     public void setOrderItemId(int orderItemId) { this.orderItemId = orderItemId; }
     public void setProduct(Products item) { this.item = item; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
-
 }
+   

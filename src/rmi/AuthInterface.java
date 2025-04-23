@@ -1,6 +1,6 @@
 package rmi;
 
-import client.AuthResult;
+import model.AuthResult;
 import enums.UserRole;
 import java.rmi.*;
 import model.User;
