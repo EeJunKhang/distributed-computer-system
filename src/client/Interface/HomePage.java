@@ -43,7 +43,7 @@ public class HomePage extends javax.swing.JFrame {
                 () -> new AuthClient().requestUserByToken(token),
                 user -> {
                     if (user != null) {
-                        System.out.println(user.toString());
+//                        System.out.println(user.toString());
                         this.user = user;
                         postInitComponents(); // Now called after user is set
                         this.setVisible(true);

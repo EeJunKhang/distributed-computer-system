@@ -324,7 +324,6 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jPanel12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseEntered
         jPanel12.setBackground(new Color(160, 160, 160));
-//        originalCursor = jPanel8.getCursor(); // Save current cursor
         jPanel12.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel12MouseEntered
 

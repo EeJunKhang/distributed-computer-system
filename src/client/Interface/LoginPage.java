@@ -464,7 +464,7 @@ public class LoginPage extends javax.swing.JFrame {
         String contact = contactNumberField.getTextValue().strip();
         String address = addressField.getTextValue().strip();
         String email = emailField.getTextValue().strip();
-        System.out.println(username);
+        System.out.println(password);
         if (username.isEmpty() || username.isBlank()) {
             JOptionPane.showMessageDialog(this,
                     "Username is empty",
@@ -521,22 +521,30 @@ public class LoginPage extends javax.swing.JFrame {
             return;
         }
 
-        RegisterCredential registerCredential = new RegisterCredential(username, password, firstName, lastName, address, contact, email);
+        RegisterCredential registerCredential = new RegisterCredential(firstName, lastName, username, password, email, address, contact);
         AuthClient auth = new AuthClient();
         auth.setRegisterCredential(registerCredential);
-        AuthResult response = auth.handleAuthRegister();
 
-        if (response.hasError()) {
-            JOptionPane.showMessageDialog(this,
-                    response,
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        } else {
-            // login success
-            this.setVisible(false);
-            new HomePage(response.getToken());
-            this.dispose();
-        }
+        new BackgroundTaskWithLoading<>(
+                this,
+                "Registering...",
+                () -> auth.handleAuthRegister(),
+                response -> {
+                    if (response.hasError()) {
+                        JOptionPane.showMessageDialog(this,
+                                response.getErrorMessage(),
+                                "Register User Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        this.setVisible(false);
+                        new HomePage(response.getToken());
+                        this.dispose();
+                    }
+//                    setVisible(false); // close loading popup
+                }
+        ).execute();
+
+
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private void loginPageBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginPageBtnMouseClicked

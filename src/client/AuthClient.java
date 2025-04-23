@@ -49,6 +49,10 @@ public class AuthClient extends ClientManager<AuthInterface> {
         return this.loginCredential == null;
     }
 
+    public RegisterCredential getRegisterCredential() {
+        return registerCredential;
+    }
+
     @Override
     protected String getBindObject() {
         return this.bindObjectName;
@@ -97,17 +101,16 @@ public class AuthClient extends ClientManager<AuthInterface> {
         if (checkRegisterCredential()) {
             return new AuthResult("Something went wrong");
         }
+
+        //client side register validation
         try {
-            AuthToken response = connectToServer().handleRegister(registerCredential);
+            AuthResult response = connectToServer().handleRegister(registerCredential);
             // credential valid and return a token
-            if (response != null) {
-                //response here is token generated
-//                UserRole userRole = connectToServer().getUserRoleByToken(response);
-                return new AuthResult(response);
-            } else {
-                return new AuthResult("Something went wrong");
-            }
-        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex ) {
+            System.out.println("client");
+            System.out.println(registerCredential.getPassword());
+
+            return response;
+        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return new AuthResult("Something Went Wrong");
         }
@@ -183,11 +186,11 @@ public class AuthClient extends ClientManager<AuthInterface> {
         }
         return null;
     }
-    
-    public User requestUserByToken(AuthToken token){
+
+    public User requestUserByToken(AuthToken token) {
         try {
             User user = connectToServer().getUserByToken(token);
-            if(user != null){
+            if (user != null) {
                 return user;
             }
         } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {

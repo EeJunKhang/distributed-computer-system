@@ -19,6 +19,7 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
 
     /**
      * Helper method to create a Products object from a ResultSet
+     *
      * @param rs The ResultSet
      * @return The Products object
      * @throws SQLException If a database error occurs
@@ -33,14 +34,14 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
         String image = rs.getString("image_url");
         int stockQuantity = rs.getInt("stock_quantity");
         String lastUpdated = rs.getString("last_updated");
-        
+
         return new Products(id, itemName, itemDescription, price, category, image, stockQuantity, lastUpdated);
     }
-    
+
     @Override
     public boolean create(Products product) {
-        String sql = "INSERT INTO products (name, description, price, category, image_url, stock_quantity, last_updated) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, NOW())";
+        String sql = "INSERT INTO products (name, description, price, category, image_url, stock_quantity, last_updated) "
+                + "VALUES (?, ?, ?, ?, ?, ?, NOW())";
 
         return executeTransaction(conn -> {
             try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -50,9 +51,9 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
                 stmt.setString(4, product.getCategory());
                 stmt.setString(5, product.getImage());
                 stmt.setInt(6, product.getStockQuantity());
-                
+
                 int affectedRows = stmt.executeUpdate();
-                
+
                 if (affectedRows == 0) {
                     return false;
                 }
@@ -68,9 +69,10 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
             }
         });
     }
-    
+
     /**
      * Alternative method name for create - for backward compatibility
+     *
      * @param product The product to add
      * @return True if successful, false otherwise
      */
@@ -81,11 +83,11 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
     @Override
     public Products read(Integer productId) {
         String sql = "SELECT * FROM products WHERE product_id = ?";
-        
+
         return executeTransaction(conn -> {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, productId);
-                
+
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
                         return mapResultSetToEntity(rs);
@@ -95,9 +97,10 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
             }
         });
     }
-    
+
     /**
      * Alternative method name for read - for backward compatibility
+     *
      * @param productId The product ID
      * @return The product or null if not found
      */
@@ -107,22 +110,22 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
 
     /**
      * Get all distinct product categories
+     *
      * @return List of all unique categories
      */
     public List<String> getAllCategories() {
         String sql = "SELECT DISTINCT category FROM products ORDER BY category";
-        
+
         return executeTransaction(conn -> {
             List<String> categories = new ArrayList<>();
-            
-            try (Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-                
+
+            try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
                 while (rs.next()) {
                     String category = rs.getString("category");
                     categories.add(category);
                 }
-                
+
                 return categories;
             }
         });
@@ -130,10 +133,10 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
 
     @Override
     public boolean update(Products product) {
-        String sql = "UPDATE products SET name = ?, description = ?, price = ?, " +
-                     "category = ?, image_url = ?, stock_quantity = ?, last_updated = NOW() " +
-                     "WHERE product_id = ?";
-        
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, "
+                + "category = ?, image_url = ?, stock_quantity = ?, last_updated = NOW() "
+                + "WHERE product_id = ?";
+
         return executeTransaction(conn -> {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, product.getItemName());
@@ -143,27 +146,28 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
                 stmt.setString(5, product.getImage());
                 stmt.setInt(6, product.getStockQuantity());
                 stmt.setInt(7, product.getId());
-                
+
                 int affectedRows = stmt.executeUpdate();
                 return affectedRows > 0;
             }
         });
     }
-    
+
     /**
      * Update product stock quantity
+     *
      * @param productId The product ID
      * @param newQuantity The new stock quantity
      * @return True if successful, false otherwise
      */
     public boolean updateStockQuantity(int productId, int newQuantity) {
         String sql = "UPDATE products SET stock_quantity = ?, last_updated = NOW() WHERE product_id = ?";
-        
+
         return executeTransaction(conn -> {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, newQuantity);
                 stmt.setInt(2, productId);
-                
+
                 int affectedRows = stmt.executeUpdate();
                 return affectedRows > 0;
             }
@@ -173,19 +177,20 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
     @Override
     public boolean delete(Integer productId) {
         String sql = "DELETE FROM products WHERE product_id = ?";
-        
+
         return executeTransaction(conn -> {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, productId);
-                
+
                 int affectedRows = stmt.executeUpdate();
                 return affectedRows > 0;
             }
         });
     }
-    
+
     /**
      * Alternative method name for delete - for backward compatibility
+     *
      * @param productId The product ID
      * @return True if successful, false otherwise
      */
@@ -196,96 +201,97 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
     @Override
     public List<Products> getAll() {
         String sql = "SELECT * FROM products";
-        
+
         return executeTransaction(conn -> {
             List<Products> products = new ArrayList<>();
-            
-            try (Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery(sql)) {
-                
+
+            try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
                 while (rs.next()) {
                     Products product = mapResultSetToEntity(rs);
                     products.add(product);
                 }
-                
+
                 return products;
             }
         });
     }
-    
+
     /**
      * Alternative method name for getAll - for backward compatibility
+     *
      * @return List of all products
      */
     public List<Products> getAllProducts() {
         return getAll();
     }
-    
-    public List<Products> getAllProduct(boolean is){
+
+    public List<Products> getAllProduct(boolean is) {
         String sql = "SELECT * FROM products WHERE stock_quantity > 0";
-        
+
         return executeTransaction(conn -> {
             List<Products> products = new ArrayList<>();
-            
-            try (Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery(sql)) {
-                
+
+            try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
                 while (rs.next()) {
                     Products product = mapResultSetToEntity(rs);
                     products.add(product);
                 }
-                
+
                 return products;
             }
         });
     }
-    
+
     /**
      * Get products by category
+     *
      * @param category The category to filter by
      * @return List of products in the specified category
      */
     public List<Products> getProductsByCategory(String category) {
         String sql = "SELECT * FROM products WHERE category = ?";
-        
+
         return executeTransaction(conn -> {
             List<Products> products = new ArrayList<>();
-            
+
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, category);
-                
+
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         Products product = mapResultSetToEntity(rs);
                         products.add(product);
                     }
-                    
+
                     return products;
                 }
             }
         });
     }
-    
+
     /**
      * Search products by name
+     *
      * @param searchTerm The search term
      * @return List of products matching the search term
      */
     public List<Products> searchProductsByName(String searchTerm) {
         String sql = "SELECT * FROM products WHERE name LIKE ?";
-        
+
         return executeTransaction(conn -> {
             List<Products> products = new ArrayList<>();
-            
+
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, "%" + searchTerm + "%");
-                
+
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         Products product = mapResultSetToEntity(rs);
                         products.add(product);
                     }
-                    
+
                     return products;
                 }
             }
@@ -294,31 +300,33 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
 
     /**
      * Get best-selling products based on order quantity
+     *
      * @param limit Maximum number of products to return
      * @return List of best-selling products
      */
     public List<Products> getBestSellerProducts(int limit) {
-        String sql = "SELECT p.*, SUM(oi.quantity) as total_sold " +
-                    "FROM products p " +
-                    "JOIN order_items oi ON p.product_id = oi.product_id " +
-                    "JOIN orders o ON oi.order_id = o.order_id " +
-                    "WHERE o.status = 'DELIVERED' " +
-                    "GROUP BY p.product_id " +
-                    "ORDER BY total_sold DESC " +
-                    "LIMIT ?";
-        
+        String sql = "SELECT p.*, SUM(oi.quantity) as total_sold "
+                + "FROM products p "
+                + "JOIN order_items oi ON p.product_id = oi.product_id "
+                + "JOIN orders o ON oi.order_id = o.order_id "
+                + "WHERE o.status = 'DELIVERED' "
+                + "AND p.stock_quantity > 0 "
+                + "GROUP BY p.product_id "
+                + "ORDER BY total_sold DESC "
+                + "LIMIT ?";
+
         return executeTransaction(conn -> {
             List<Products> products = new ArrayList<>();
-            
+
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, limit);
-                
+
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         Products product = mapResultSetToEntity(rs);
                         products.add(product);
                     }
-                    
+
                     return products;
                 }
             }
@@ -327,26 +335,28 @@ public class ProductsDAO extends DBOperation<Products, Integer> {
 
     /**
      * Get newest products based on last_updated timestamp
+     *
      * @param limit Maximum number of products to return
      * @return List of newest products
      */
     public List<Products> getNewcomerProducts(int limit) {
-        String sql = "SELECT * FROM products " +
-                    "ORDER BY last_updated DESC " +
-                    "LIMIT ?";
-        
+        String sql = "SELECT * FROM products "
+                + "WHERE stock_quantity > 0 "
+                + "ORDER BY last_updated DESC "
+                + "LIMIT ?";
+
         return executeTransaction(conn -> {
             List<Products> products = new ArrayList<>();
-            
+
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, limit);
-                
+
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         Products product = mapResultSetToEntity(rs);
                         products.add(product);
                     }
-                    
+
                     return products;
                 }
             }

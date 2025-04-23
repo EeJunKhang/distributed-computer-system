@@ -1,5 +1,6 @@
 package rmi.server;
 
+import client.AuthResult;
 import enums.UserRole;
 import model.LoginCredential;
 import java.rmi.*;
@@ -59,10 +60,10 @@ public class AuthServer extends UnicastRemoteObject implements AuthInterface {
     }
 
     @Override
-    public AuthToken handleRegister(RegisterCredential credential) throws RemoteException {
+    public AuthResult handleRegister(RegisterCredential credential) throws RemoteException {
         showClientIP();
-        
-        boolean registered = authManager.registerUser(
+        System.out.println(credential.getPassword());
+        AuthResult registered = authManager.registerUser(
             credential.getFirstName(),
             credential.getLastName(),
             credential.getUsername(),
@@ -73,13 +74,16 @@ public class AuthServer extends UnicastRemoteObject implements AuthInterface {
             false  // Not an admin by default
         );
         
-        if (registered) {
+        if (!registered.hasError()) {
             // immediately log them in
             String tokenStr = authManager.authenticateUser(credential.getUsername(), credential.getPassword());
-            return (tokenStr != null) ? new AuthToken(tokenStr) : null;
+            if(tokenStr == null){
+                return new AuthResult("Error immediate log them in");
+            }
+            return new AuthResult(new AuthToken(tokenStr));
         }
         
-        return null;
+        return new AuthResult(registered.getErrorMessage());
     }
     
     @Override
