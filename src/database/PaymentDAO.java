@@ -31,7 +31,7 @@ public class PaymentDAO extends DBOperation<Payment,Integer>{
     
     @Override
     public boolean create(Payment payment) {
-        String sql = "INSERT INTO payment (order_id, amount_paid, payment_method, transaction_id, payment_status) " +
+        String sql = "INSERT INTO payments (order_id, amount_paid, payment_method, transaction_id, payment_status) " +
                      "VALUES (?, ?, ?, ?, ?, ?)";
 
         return executeTransaction(conn -> {
@@ -60,7 +60,7 @@ public class PaymentDAO extends DBOperation<Payment,Integer>{
 
     @Override
     public Payment read(Integer id) {
-        String sql = "SELECT * FROM payment WHERE payment_id = ?";
+        String sql = "SELECT * FROM payments WHERE payment_id = ?";
 
         return executeTransaction(conn -> {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -78,7 +78,7 @@ public class PaymentDAO extends DBOperation<Payment,Integer>{
 
     @Override
     public boolean update(Payment payment) {
-        String sql = "UPDATE payment SET order_id = ?, amount_paid = ?, payment_method = ?, " +
+        String sql = "UPDATE payments SET order_id = ?, amount_paid = ?, payment_method = ?, " +
                      "transaction_id = ?, payment_status = ? WHERE payment_id = ?";
 
         return executeTransaction(conn -> {
@@ -97,7 +97,7 @@ public class PaymentDAO extends DBOperation<Payment,Integer>{
 
     @Override
     public boolean delete(Integer id) {
-        String sql = "DELETE FROM payment WHERE payment_id = ?";
+        String sql = "DELETE FROM payments WHERE payment_id = ?";
 
         return executeTransaction(conn -> {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
