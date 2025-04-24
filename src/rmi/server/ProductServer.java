@@ -137,7 +137,8 @@ public class ProductServer extends UnicastRemoteObject implements ProductInterfa
     public boolean deleteProduct(AuthToken token, int productId) throws RemoteException {
         showClientIP();
         User tokenUser = validateTokenAndGetUser(token);
-        if (tokenUser == null || tokenUser.getRole() == UserRole.ADMIN) {
+
+        if (tokenUser == null || tokenUser.getRole() !=  UserRole.ADMIN) {
             System.out.println("Authentication failed or unauthorized for deleteProduct from " + IPIdentifier.getClientIP());
             return false;
         }

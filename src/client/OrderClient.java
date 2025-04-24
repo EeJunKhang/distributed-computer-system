@@ -91,7 +91,6 @@ public class OrderClient extends ClientManager<OrderInterface> {
 
     public List<Payment> fetechAllPayment(AuthToken token) {
         try {
-            System.out.println("test here");
             return connectToServer().getAllPaymentData(token);
         } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);

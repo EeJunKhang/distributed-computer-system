@@ -168,8 +168,19 @@ public class ProductsSection extends JPanel {
             );
 
             if (confirm == JOptionPane.YES_OPTION) {
+               
+                
+                Object idValue = productTable.getValueAt(selectedRow, 0); 
+                int productId = Integer.parseInt(idValue.toString());
+                
+                System.out.println(productId);
+            
+                ProductClient client = new ProductClient(token);
+                client.deleteProduct(productId);
+                
                 products.remove(selectedRow);
                 tableModel.removeRow(selectedRow);
+                
             }
         } else {
             JOptionPane.showMessageDialog(this,

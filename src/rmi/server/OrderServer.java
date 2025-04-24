@@ -152,7 +152,7 @@ public class OrderServer extends UnicastRemoteObject implements OrderInterface {
             System.out.println("Authentication failed or unauthorized for deleteOrder from " + IPIdentifier.getClientIP());
             return null;
         }
-        System.out.println(" failed or unauthorized for deleteOrder from " + IPIdentifier.getClientIP());
+       
         return orderManager.getAllPayment();
     }
 }

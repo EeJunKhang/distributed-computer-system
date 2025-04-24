@@ -72,5 +72,13 @@ public class ProductClient extends ClientManager<ProductInterface> {
             return false;
         }
     }
+    
+    public boolean deleteProduct (int productId){
+        try{
+            return connectToServer().deleteProduct(token,productId);
+        }catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+            return false;
+        }
+    }
 
 }
