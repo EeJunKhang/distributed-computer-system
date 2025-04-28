@@ -6,3 +6,6 @@ Then Recreate MySQL database with
 - `src\config\food_ordering_database.sql`
 
 Then Clean & Build w/ Netbeans before running Client 
+
+Add the following Run Config for SSL output 
+-Djavax.net.debug=ssl:handshake
