@@ -11,32 +11,6 @@
     <description>Builds, tests, and runs the project DistributedSystem2025.</description>
     <import file="nbproject/build-impl.xml"/>
 
-    <!-- <target name="copy-resources" depends="init">
-        <copy todir="${build.classes.dir}">
-            <fileset dir="src/resources/images">
-                <include name="**/*"/>
-            </fileset>
-        </copy>
-        
-        <copy todir="${build.classes.dir}">
-            <fileset dir="src/resources">
-                <include name="**/*"/>
-            </fileset>
-        </copy>
-    </target>
-
-    <target name="compile" depends="copy-resources">
-        <javac srcdir="src/client" destdir="${build.classes.dir}">
-            <include name="**/*.java"/>
-        </javac>
-        
-        <javac srcdir="src/client/Components" destdir="${build.classes.dir}">
-            <include name="**/*.java"/>
-        </javac>
-    </target>
-
-    <target name="default" depends="compile">
-    </target> -->
     <!--
 
     There exist several targets which are by default empty and which can be 

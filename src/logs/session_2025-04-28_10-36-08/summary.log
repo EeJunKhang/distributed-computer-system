@@ -1,0 +1,5 @@
+RMI Server started successfully
+Time:Mon Apr 28 10:36:08 GMT+08:00 2025
+Server IP: 127.0.0.1
+RMI Port: 1040
+Services: AuthService, OrderService, UserService, ProductService

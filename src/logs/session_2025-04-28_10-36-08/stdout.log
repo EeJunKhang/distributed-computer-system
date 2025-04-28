@@ -1,0 +1,22 @@
+Server is running on IP: 127.0.0.1 
+Server is bound to port: 1040
+Logs are being saved to: src/logs/session_2025-04-28_10-36-08
+Client Call from IP: 127.0.0.1
+Login attempt: asdasd
+User not found: asdasd
+Client Call from IP: 127.0.0.1
+Login attempt: asd
+User authenticated: asdADMIN
+Client Call from IP: 127.0.0.1
+Client Call from IP: 127.0.0.1
+-1
+Product Service called from IP: 127.0.0.1
+-1
+Order Service called from IP: 127.0.0.1
+-1
+Order Service called from IP: 127.0.0.1
+-1
+Order Service called from IP: 127.0.0.1
+-1
+Client Call from IP: 127.0.0.1
+Logout attempt with token: 9db0fefd-58c6-4676-bbc8-813fa4c05cf5

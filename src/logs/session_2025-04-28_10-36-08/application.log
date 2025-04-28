@@ -1,0 +1,17 @@
+Apr 28, 2025 10:36:08 AM rmi.Registry setupLogging
+INFO: Logging initialized successfully to src/logs/session_2025-04-28_10-36-08
+Apr 28, 2025 10:36:08 AM rmi.Registry main
+INFO: Starting RMI Registry...
+Apr 28, 2025 10:36:08 AM rmi.Registry main
+INFO: Server IP: 127.0.0.1, RMI Port: 1,040
+Apr 28, 2025 10:36:08 AM rmi.Registry main
+INFO: Creating RMI Registry with SSL security...
+Apr 28, 2025 10:36:08 AM rmi.Registry main
+INFO: Initializing service instances...
+Apr 28, 2025 10:36:08 AM rmi.Registry main
+INFO: Binding services to registry...
+Apr 28, 2025 10:36:08 AM rmi.Registry main
+INFO: All services successfully bound to registry
+Apr 28, 2025 10:36:09 AM rmi.Registry main
+INFO: Server is running on IP: 127.0.0.1 
+Server is bound to port: 1040
