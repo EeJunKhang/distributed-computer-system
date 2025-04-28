@@ -20,6 +20,7 @@ import model.OrderItem;
 import model.AuthToken;
 import model.Products;
 import enums.OrderStatus;
+import security.RMISSLClientSocketFactory;
 import utils.ConfigReader;
 
 public class OrderClient {
@@ -52,16 +53,28 @@ public class OrderClient {
         }
     }
 
+//    private static void connectToServer() throws RemoteException, NotBoundException {
+//        String serverIP = ConfigReader.getServerIP();
+//        int rmiPort = ConfigReader.getRmiPort();
+//
+//        System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
+//
+//        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
+//        orderService = (OrderInterface) registry.lookup("OrderService");
+//
+//        System.out.println("Connected to order service");
+//    }
+    
     private static void connectToServer() throws RemoteException, NotBoundException {
         String serverIP = ConfigReader.getServerIP();
         int rmiPort = ConfigReader.getRmiPort();
 
         System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
 
-        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
+        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort, new RMISSLClientSocketFactory());
         orderService = (OrderInterface) registry.lookup("OrderService");
 
-        System.out.println("Connected to order service");
+        System.out.println("Connected to authentication service");
     }
 
     private static void runConsoleMenu() {

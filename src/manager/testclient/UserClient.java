@@ -12,6 +12,7 @@ import model.User;
 import model.Customer;
 import model.Admin;
 import model.AuthToken;
+import security.RMISSLClientSocketFactory;
 import utils.ConfigReader;
 
 public class UserClient {
@@ -39,16 +40,27 @@ public class UserClient {
         }
     }
     
+//    private static void connectToServer() throws RemoteException, NotBoundException {
+//        String serverIP = ConfigReader.getServerIP();
+//        int rmiPort = ConfigReader.getRmiPort();
+//        
+//        System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
+//        
+//        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
+//        userService = (UserInterface) registry.lookup("UserService");
+//        
+//        System.out.println("Connected to user service");
+//    }
     private static void connectToServer() throws RemoteException, NotBoundException {
         String serverIP = ConfigReader.getServerIP();
         int rmiPort = ConfigReader.getRmiPort();
-        
+
         System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
-        
-        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
+
+        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort, new RMISSLClientSocketFactory());
         userService = (UserInterface) registry.lookup("UserService");
-        
-        System.out.println("Connected to user service");
+
+        System.out.println("Connected to authentication service");
     }
     
     private static void runConsoleMenu() {

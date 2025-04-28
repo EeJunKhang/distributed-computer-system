@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import model.Products;
 import model.AuthToken;
+import security.RMISSLClientSocketFactory;
 import utils.ConfigReader;
 
 public class ProductClient {
@@ -43,16 +44,27 @@ public class ProductClient {
         }
     }
 
+//    private static void connectToServer() throws RemoteException, NotBoundException {
+//        String serverIP = ConfigReader.getServerIP();
+//        int rmiPort = ConfigReader.getRmiPort();
+//
+//        System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
+//
+//        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
+//        productService = (ProductInterface) registry.lookup("ProductService");
+//
+//        System.out.println("Connected to product service");
+//    }
     private static void connectToServer() throws RemoteException, NotBoundException {
         String serverIP = ConfigReader.getServerIP();
         int rmiPort = ConfigReader.getRmiPort();
 
         System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
 
-        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
+        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort, new RMISSLClientSocketFactory());
         productService = (ProductInterface) registry.lookup("ProductService");
 
-        System.out.println("Connected to product service");
+        System.out.println("Connected to authentication service");
     }
 
     private static void runConsoleMenu() {

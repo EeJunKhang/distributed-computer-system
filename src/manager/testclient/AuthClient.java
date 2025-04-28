@@ -12,6 +12,7 @@ import model.LoginCredential;
 import model.RegisterCredential;
 import model.AuthToken;
 import model.User;
+import security.RMISSLClientSocketFactory;
 import utils.ConfigReader;
 
 public class AuthClient {
@@ -42,17 +43,30 @@ public class AuthClient {
         }
     }
     
+//    private static void connectToServer() throws RemoteException, NotBoundException {
+//        String serverIP = ConfigReader.getServerIP();
+//        int rmiPort = ConfigReader.getRmiPort();
+//        
+//        System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
+//        
+//        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
+//        authService = (AuthInterface) registry.lookup("AuthService");
+//        
+//        System.out.println("Connected to authentication service");
+//    }
+    
     private static void connectToServer() throws RemoteException, NotBoundException {
         String serverIP = ConfigReader.getServerIP();
         int rmiPort = ConfigReader.getRmiPort();
-        
+
         System.out.println("Connecting to server at " + serverIP + ":" + rmiPort);
-        
-        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort);
+
+        Registry registry = LocateRegistry.getRegistry(serverIP, rmiPort, new RMISSLClientSocketFactory());
         authService = (AuthInterface) registry.lookup("AuthService");
-        
+
         System.out.println("Connected to authentication service");
     }
+
     
     private static boolean verifyLoadedToken() {
         try {
