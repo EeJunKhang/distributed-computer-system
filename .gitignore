@@ -23,3 +23,5 @@ test/dist/
 
 # properties file
 
+# log files
+src/logs/

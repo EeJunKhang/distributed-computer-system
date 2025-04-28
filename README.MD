@@ -8,4 +8,4 @@ Then Recreate MySQL database with
 Then Clean & Build w/ Netbeans before running Client 
 
 Add the following Run Config for SSL output 
--Djavax.net.debug=ssl:handshake
+- `-Djavax.net.debug=ssl:handshake`
