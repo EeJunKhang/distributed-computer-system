@@ -14,6 +14,7 @@ import database.PaymentDAO;
 import model.Order;
 import model.User;
 import enums.OrderStatus;
+import enums.PaymentStatus;
 import java.util.List;
 import model.Payment;
 
@@ -78,8 +79,8 @@ public class OrderManager {
      * @param order The Order object to create.
      * @return true if the order was created successfully, false otherwise.
      */
-    public boolean createOrder(Order order) {
-        return orderDAO.addOrder(order);
+    public Integer createOrder(Order order) {
+        return orderDAO.createOrder(order);
     }
 
     /**
@@ -103,5 +104,13 @@ public class OrderManager {
     
     public List<Payment> getAllPayment(){
         return paymentDAO.getAll();
+    }
+    
+    public Integer createPayment(Payment payment){
+        return paymentDAO.createPayment(payment);
+    }
+    
+    public boolean updatePaymentStatus(int paymentId, PaymentStatus paymentStatus){
+        return paymentDAO.updatePaymentStatus(paymentId, paymentStatus);
     }
 }

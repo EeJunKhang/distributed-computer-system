@@ -11,6 +11,7 @@ import java.util.List;
 import model.Order;
 import model.AuthToken;
 import enums.OrderStatus;
+import java.util.Map;
 import model.Payment;
 import model.ReportData;
 
@@ -46,7 +47,6 @@ public interface OrderInterface extends Remote {
      * Gets all orders for a specific user.
      * @param token Authentication token.
      * @param status
-     * @param userId The ID of the user.
      * @return List of orders for the specified status or null if unauthorized.
      * @throws RemoteException If a remote error occurs.
      */
@@ -56,10 +56,12 @@ public interface OrderInterface extends Remote {
      * Creates a new order.
      * @param token Authentication token.
      * @param order The Order object to create.
+     * @param isBankPayment
+     * @param paymentInfo
      * @return true if the order was created successfully, false otherwise.
      * @throws RemoteException If a remote error occurs.
      */
-    boolean createOrder(AuthToken token, Order order) throws RemoteException;
+    boolean createOrder(AuthToken token, Order order, boolean isBankPayment, Map<String, String> paymentInfo) throws RemoteException;
 
     /**
      * Updates the status of an order (admin only).

@@ -60,12 +60,13 @@ public interface UserInterface extends Remote {
      * @param lastName New last name (or null to keep existing)
      * @param email New email (or null to keep existing)
      * @param address New address (or null to keep existing)
+     * @param username
      * @param contactNumber New contact number (or null to keep existing)
      * @return true if successful, false if failed or unauthorized
      * @throws RemoteException If a remote error occurs
      */
     boolean updateUserProfile(AuthToken token, int userId, String firstName, 
-                            String lastName, String email, String address, 
+                            String lastName, String email, String address, String username,
                             String contactNumber) throws RemoteException;
     
     /**

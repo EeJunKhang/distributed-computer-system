@@ -1,5 +1,7 @@
 package client.Components;
 
+import client.OrderClient;
+import enums.PaymentStatus;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
@@ -7,6 +9,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,21 +24,29 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import model.AuthToken;
 import model.Order;
 import model.OrderItem;
+import model.Payment;
+import utils.BackgroundTaskWithLoading;
 
 public class PaymentDialog extends JDialog {
+
     private final Order order;
+    private final AuthToken token;
     private JTextField cardNumberField;
     private JTextField expiryField;
     private JTextField cvvField;
     private JComboBox<String> bankComboBox;
     private JTextField accountNumberField;
     private JTextField accountNameField;
+    private CartPanel cartPanel;
 
-    public PaymentDialog(Frame parent, Order order) {
+    public PaymentDialog(Frame parent, Order order, AuthToken token, CartPanel p) {
         super(parent, "Payment Processing", true);
         this.order = order;
+        this.token = token;
+        this.cartPanel = p;
         initializeUI();
         pack();
         setLocationRelativeTo(parent);
@@ -89,20 +101,20 @@ public class PaymentDialog extends JDialog {
         // Total amount
         JPanel totalPanel = new JPanel();
         totalPanel.setLayout(new BoxLayout(totalPanel, BoxLayout.PAGE_AXIS));
-        JLabel subTotalLabel = new JLabel("Sub Total Amount: " + 
-            String.format("RM%.2f", order.getTotalPrice()));
+        JLabel subTotalLabel = new JLabel("Sub Total Amount: "
+                + String.format("RM%.2f", order.getTotalPrice()));
         subTotalLabel.setFont(subTotalLabel.getFont().deriveFont(Font.BOLD, 14f));
         totalPanel.add(subTotalLabel);
-        
+
         JLabel deliveryLabel = new JLabel("Delivery Amount: RM 5");
         deliveryLabel.setFont(deliveryLabel.getFont().deriveFont(Font.BOLD, 14f));
         totalPanel.add(deliveryLabel);
-        
-        JLabel totalLabel = new JLabel("Total Amount: " + 
-            String.format("RM%.2f", order.getTotalPrice() + 5));
+
+        JLabel totalLabel = new JLabel("Total Amount: "
+                + String.format("RM%.2f", order.getTotalPrice() + 5));
         totalLabel.setFont(totalLabel.getFont().deriveFont(Font.BOLD, 14f));
         totalPanel.add(totalLabel);
-        
+
         panel.add(totalPanel, BorderLayout.SOUTH);
 
         return panel;
@@ -155,7 +167,7 @@ public class PaymentDialog extends JDialog {
         panel.add(new JLabel("Select Bank:"), gbc);
         gbc.gridx = 1;
         bankComboBox = new JComboBox<>(new String[]{
-            "CIMB", "MayBank", "OCBC Bank", "Public Bank" ,"Other"
+            "CIMB", "MayBank", "OCBC Bank", "Public Bank", "Other"
         });
         panel.add(bankComboBox, gbc);
 
@@ -184,22 +196,56 @@ public class PaymentDialog extends JDialog {
             String bank = (String) bankComboBox.getSelectedItem();
             String accountNumber = accountNumberField.getText();
             String accountName = accountNameField.getText();
-            
+            Map<String, String> paymentInfo = new HashMap<>();
+            paymentInfo.put("bank", bank);
+            paymentInfo.put("accountNumber", accountNumber);
+            paymentInfo.put("accountName", accountName);
+
             // Validate and process bank transfer
             if (validateBankTransfer(bank, accountNumber, accountName)) {
-                JOptionPane.showMessageDialog(this, "Bank transfer processed successfully!");
-                dispose();
+                processBackEndOrder(true, paymentInfo);
             }
         } else { // Credit card tab
             String cardNumber = cardNumberField.getText();
             String expiry = expiryField.getText();
             String cvv = cvvField.getText();
-            
+
+            Map<String, String> paymentInfo = new HashMap<>();
+
+            // Adding 3 string key-value pairs
+            paymentInfo.put("cardNumber", cardNumber);
+            paymentInfo.put("expiry", expiry);
+            paymentInfo.put("cvv", cvv);
+
             if (validateCreditCard(cardNumber, expiry, cvv)) {
-                JOptionPane.showMessageDialog(this, "Credit card payment processed successfully!");
-                dispose();
+                processBackEndOrder(false, paymentInfo);
             }
         }
+    }
+
+    private void processBackEndOrder(boolean isBankPayment, Map<String, String> paymentInfo) {
+        OrderClient orderClient = new OrderClient(token);
+        orderClient.setOrder(order);
+        new BackgroundTaskWithLoading<>(
+                this,
+                "Loading...",
+                () -> orderClient.handleOrder(token, isBankPayment, paymentInfo),
+                isSuccess -> {
+                    if (isSuccess) {
+                        JOptionPane.showMessageDialog(this,
+                                isBankPayment ? "Bank transfer processed successfully!" : "Credit card payment processed successfully!",
+                                "Order Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        cartPanel.clearAllCartItems();
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Something went wrong while ordering",
+                                "Order Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                    dispose();
+                }
+        ).execute();
     }
 
     private boolean validateCreditCard(String cardNumber, String expiry, String cvv) {
@@ -210,5 +256,5 @@ public class PaymentDialog extends JDialog {
     private boolean validateBankTransfer(String bank, String accountNumber, String accountName) {
         // Add proper validation logic here
         return !bank.isEmpty() && !accountNumber.isEmpty() && !accountName.isEmpty();
-    } 
+    }
 }

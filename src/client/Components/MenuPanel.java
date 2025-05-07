@@ -144,8 +144,10 @@ public class MenuPanel extends JPanel {
      *
      */
     public MenuPanel() {
+//        setUI(new javax.swing.plaf.basic.BasicPanelUI());
         tabItems = new ArrayList<>();
         setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
 
         // Create header panel
         headerPanel = new JPanel();

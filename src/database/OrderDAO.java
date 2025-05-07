@@ -139,6 +139,89 @@ public class OrderDAO extends DBOperation<Order, Integer> {
             }
         }
     }
+    
+    public Integer createOrder(Order order){
+        String sql = "INSERT INTO orders (user_id, order_time, status, total_price) "
+                + "VALUES (?, NOW(), ?, ?)";
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet generatedKeys = null;
+
+        try {
+            conn = getConnection();
+            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            stmt.setInt(1, order.getUser().getUserId());
+            stmt.setString(2, order.getStatus().toString());
+            stmt.setDouble(3, order.getTotalPrice());
+
+            int affectedRows = stmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                System.out.println("No rows affected in the orders table.");
+                return null;
+            }
+
+            generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int orderId = generatedKeys.getInt(1);
+                order.setOrderId(orderId);
+
+                System.out.println("Order created with ID: " + orderId);
+
+                if (generatedKeys != null) {
+                    generatedKeys.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+
+                OrderItemDAO orderItemDAO = new OrderItemDAO();
+                System.out.println("Adding " + order.getItems().size() + " order items");
+
+                boolean allItemsInserted = true;
+
+                for (OrderItem item : order.getItems()) {
+                    System.out.println("Inserting order item for product ID: " + item.getProduct().getId());
+                    boolean itemInserted = orderItemDAO.addOrderItem(orderId, item);
+
+                    if (!itemInserted) {
+                        System.out.println("Failed to insert item for product ID: " + item.getProduct().getId());
+                        allItemsInserted = false;
+                    }
+                    System.out.println("Item insertion completed for product ID: " + item.getProduct().getId());
+                }
+
+                System.out.println("All items processed, success: " + allItemsInserted);
+                return orderId;
+            } else {
+                System.out.println("Failed to retrieve generated order ID.");
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error creating order: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (generatedKeys != null) {
+                    generatedKeys.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e.getMessage());
+            }
+        }
+    }
 
     /**
      * Alternative method name for create - for backward compatibility

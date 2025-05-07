@@ -190,7 +190,7 @@ public class FoodItemSection extends JPanel {
         // Set text
         nameLabel.setText(item.getItemName());
         descriptionLabel.setText(item.getItemDescription());
-        priceLabel.setText(String.format("$%.2f", item.getPrice()));
+        priceLabel.setText(String.format("RM %.2f", item.getPrice()));
         categoryLabel.setText(item.getCategory());
 
         // Reset colors

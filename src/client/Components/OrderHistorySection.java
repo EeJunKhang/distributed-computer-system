@@ -1,8 +1,6 @@
 package client.Components;
 
 import client.OrderClient;
-import client.ProductClient;
-import enums.OrderStatus;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -14,12 +12,9 @@ import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import manager.OrderManager;
 import model.AuthToken;
-import model.Customer;
 import model.Order;
 import model.OrderItem;
-import model.Products;
 import model.User;
 
 /**
@@ -51,7 +46,7 @@ public class OrderHistorySection extends JPanel {
         add(titleLabel, BorderLayout.NORTH);
 
         // Table setup
-        String[] columns = {"Order ID", "Customer", "Order Time", "Status", "Total Price", "Items"};
+        String[] columns = {"Order ID", "Order Time", "Status", "Total Price", "Items"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -88,10 +83,10 @@ public class OrderHistorySection extends JPanel {
                     for (Order order : customerOrders) {
                         Object[] row = {
                             order.getOrderId(),
-                            order.getUser().getFullName(),
+//                            order.getUser().getFullName(),
                             order.getOrderTime(),
                             order.getStatus().toString(),
-                            String.format("$%.2f", order.getTotalPrice()),
+                            String.format("RM %.2f", order.getTotalPrice()),
                             formatOrderItems(order.getItems())
                         };
                         

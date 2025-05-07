@@ -44,7 +44,7 @@ public class PaymentSection extends JPanel {
         add(titleLabel, BorderLayout.NORTH);
 
         // Table setup
-        String[] columns = {"ID", "Order ID", "Payment Date", "Paid Amount", "Payment Method", "Transaction ID", "Payment Status"};
+        String[] columns = {"ID", "Order ID", "Payment Date", "Paid Amount", "Payment Method", "Transaction ID", "Payment Status", "Payment Information"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public Class<?> getColumnClass(int column) {
@@ -56,9 +56,9 @@ public class PaymentSection extends JPanel {
                 return false;
             }
         };
-
+        
         productTable = new JTable(tableModel);
-        productTable.setRowHeight(IMAGE_SIZE + 10);
+//        productTable.setRowHeight(IMAGE_SIZE + 10);
 //        productTable.getColumnModel().getColumn(1).setCellRenderer(new ImageRenderer());
 
         JScrollPane scrollPane = new JScrollPane(productTable);
@@ -80,12 +80,12 @@ public class PaymentSection extends JPanel {
     }
 
     private void loadSampleData() {
-        
+
         OrderClient orderClient = new OrderClient(token);
-         SwingWorker<List<Payment>, Void> newcomersWorker = new SwingWorker<>() {
+        SwingWorker<List<Payment>, Void> newcomersWorker = new SwingWorker<>() {
             @Override
             protected List<Payment> doInBackground() throws Exception {
-                
+
                 List<Payment> payments = orderClient.fetechAllPayment(token);
 
 //                if (payments != null && !payments.isEmpty()) {
@@ -97,24 +97,22 @@ public class PaymentSection extends JPanel {
 //                }
                 return payments;
             }
+
             protected void done() {
-        try {
-            List<Payment> payments = get(); 
-            for (Payment payment : payments) {
-                addProductToTable(payment, -1); 
+                try {
+                    List<Payment> payments = get();
+                    for (Payment payment : payments) {
+                        addProductToTable(payment, -1);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
         };
         newcomersWorker.execute();
-        
-        
     }
 
     private void addProductToTable(Payment payment, int index) {
-
 
         Object[] row = {
             payment.getPaymentId(),
@@ -123,7 +121,8 @@ public class PaymentSection extends JPanel {
             payment.getAmountPaid(),
             payment.getPaymentMethod(),
             payment.getTransactionId(),
-            payment.getPaymentStatus()
+            payment.getPaymentStatus(),
+            payment.getPaymentInfo().toString()
         };
 
         if (index >= 0) {

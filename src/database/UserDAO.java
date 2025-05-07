@@ -135,7 +135,7 @@ public class UserDAO extends DBOperation<User, Integer> {
     public User getUserById(int userId) {
         return read(userId);
     }
- 
+
     /**
      * Get a user by username
      *
@@ -162,7 +162,7 @@ public class UserDAO extends DBOperation<User, Integer> {
     @Override
     public boolean update(User user) {
         String sql = "UPDATE users SET first_name = ?, last_name = ?, email = ?, "
-                + "address = ?, contact_number = ? WHERE user_id = ?";
+                + "address = ?, contact_number = ?, username = ? WHERE user_id = ?";
 
         return executeTransaction(conn -> {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -171,8 +171,9 @@ public class UserDAO extends DBOperation<User, Integer> {
                 stmt.setString(3, user.getEmail());
                 stmt.setString(4, user.getAddress());
                 stmt.setString(5, user.getContactNumber());
-                stmt.setInt(6, user.getUserId());
-
+                stmt.setString(6, user.getUsername());
+                stmt.setInt(7, user.getUserId());
+                
                 int affectedRows = stmt.executeUpdate();
                 return affectedRows > 0;
             }

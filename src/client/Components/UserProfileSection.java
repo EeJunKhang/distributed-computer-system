@@ -1,5 +1,6 @@
 package client.Components;
 
+import client.UserClient;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -9,35 +10,38 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import model.AuthToken;
 import model.Customer;
+import utils.BackgroundTaskWithLoading;
 
 public class UserProfileSection extends JPanel {
+
     private Customer customer;
     private TextField firstNameField, lastNameField, usernameField, emailField, addressField, contactNumberField;
+    private AuthToken token;
 
-    public UserProfileSection(Customer customer) {
+    public UserProfileSection(Customer customer, AuthToken token) {
         this.customer = customer;
+        this.token = token;
         initializeUI();
         loadCustomerData();
     }
-    
-    public UserProfileSection(){
-        initializeUI();
-    }
 
+//    public UserProfileSection(){
+//        initializeUI();
+//    }
     private void initializeUI() {
         setLayout(new BorderLayout(10, 10));
         setBorder(new EmptyBorder(20, 20, 20, 20));
 
         // Main form panel
         JPanel formPanel = new JPanel(new GridLayout(0, 2, 15, 15));
-        
+
 //        // User ID (non-editable)
 //        formPanel.add(new JLabel("User ID:"));
 //        JLabel userIdLabel = new JLabel(String.valueOf(customer.getUserId()));
 //        userIdLabel.setForeground(Color.GRAY);
 //        formPanel.add(userIdLabel);
-
         // First Name
         formPanel.add(new JLabel("First Name:"));
         firstNameField = new TextField("", 20);
@@ -79,7 +83,6 @@ public class UserProfileSection extends JPanel {
 //        JLabel createdTimeLabel = new JLabel(customer.getCreatedTime());
 //        createdTimeLabel.setForeground(Color.GRAY);
 //        formPanel.add(createdTimeLabel);
-
         // Save button
         JButton saveButton = new JButton("Save Changes");
         saveButton.addActionListener(this::handleSave);
@@ -109,11 +112,30 @@ public class UserProfileSection extends JPanel {
         customer.setAddress(addressField.getTextValue());
         customer.setContactNumber(contactNumberField.getTextValue());
 
-        // Show confirmation
-        JOptionPane.showMessageDialog(this,
-            "Profile updated successfully!",
-            "Success",
-            JOptionPane.INFORMATION_MESSAGE);
+        UserClient userClient = new UserClient(token);
+        new BackgroundTaskWithLoading<>(
+                this,
+                "Loading...",
+                () -> userClient.updateProfile(token, customer.getUserId(), customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getAddress(), customer.getUsername(), customer.getContactNumber()),
+                isSuccess -> {
+                    if (isSuccess) {
+                        // Show confirmation
+                        JOptionPane.showMessageDialog(this,
+                                "Profile updated successfully!",
+                                "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Something went wrong while updating user profile",
+                                "Error Update Profile",
+                                JOptionPane.ERROR_MESSAGE);
+//                            this.dispose(); // Close the window if data is missing
+                    }
+                    setVisible(false);
+                }
+        ).execute();
+
     }
-    
+
 }

@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 import model.AuthToken;
 import model.Order;
 import model.Payment;
@@ -43,9 +44,9 @@ public class OrderClient extends ClientManager<OrderInterface> {
         return order;
     }
 
-    public boolean handleOrder(AuthToken token) {
+    public boolean handleOrder(AuthToken token, boolean isBankPayment, Map<String, String> paymentInfo) {
         try {
-            return connectToServer().createOrder(token, order);
+            return connectToServer().createOrder(token, order, isBankPayment, paymentInfo);
         } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
             System.out.println(ex);
             return false;
@@ -97,4 +98,13 @@ public class OrderClient extends ClientManager<OrderInterface> {
             return null;
         }
     }
+//    
+//    public boolean addPayment(AuthToken token, Payment payment){
+//        try {
+//            return connectToServer().createPayment(token, payment);
+//        } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
+//            System.out.println(ex);
+//            return false;
+//        }
+//    }
 }

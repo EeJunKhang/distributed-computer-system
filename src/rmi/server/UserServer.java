@@ -106,7 +106,7 @@ public class UserServer extends UnicastRemoteObject implements UserInterface {
 
     @Override
     public boolean updateUserProfile(AuthToken token, int userId, String firstName,
-                                        String lastName, String email, String address,
+                                        String lastName, String email, String address, String username,
                                         String contactNumber) throws RemoteException {
         showClientIP();
 
@@ -117,7 +117,7 @@ public class UserServer extends UnicastRemoteObject implements UserInterface {
         }
 
         return userManager.updateUserProfile(token.getToken(), userId, firstName,
-                                                lastName, email, address, contactNumber);
+                                                lastName, email, address, username, contactNumber);
     }
 
     @Override

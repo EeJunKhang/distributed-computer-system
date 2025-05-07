@@ -84,7 +84,7 @@ public class CartPanel extends JScrollPane implements QuantityChangeListener {
 
         totalPrice = totalPrice.setScale(2, RoundingMode.HALF_UP); // Keep 2 decimal places
         System.out.println(totalPrice);
-        HomePage.totalPriceCart.setText("RM "+totalPrice.toString());
+        HomePage.totalPriceCart.setText("RM " + totalPrice.toString());
     }
 
     public void addCartItem(CartCard2 item) {
@@ -160,5 +160,30 @@ public class CartPanel extends JScrollPane implements QuantityChangeListener {
 
     public Map<String, CartCard2> getItemMap() {
         return itemMap;
+    }
+
+    /**
+     * Removes all cart items from the panel and clears the item map
+     */
+    public void clearAllCartItems() {
+        // Clear all items from the UI
+        for (Component comp : cardsContainer.getComponents()) {
+            if (comp instanceof JPanel wrapper) {
+                Component[] components = wrapper.getComponents();
+                if (components.length > 0 && components[0] instanceof CartCard2) {
+                    cardsContainer.remove(wrapper);
+                }
+            }
+        }
+
+        // Clear the item map
+        itemMap.clear();
+
+        // Update the UI
+        cardsContainer.revalidate();
+        cardsContainer.repaint();
+
+        // Update the total price (which will be 0 after clearing)
+        updateTotalPrice();
     }
 }

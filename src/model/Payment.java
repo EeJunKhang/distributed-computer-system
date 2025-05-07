@@ -3,6 +3,7 @@ package model;
 
 import enums.PaymentStatus;
 import java.io.Serializable;
+import java.util.Map;
 
 
 public class Payment implements Serializable {
@@ -16,24 +17,26 @@ public class Payment implements Serializable {
     private String transactionId;
     private PaymentStatus paymentStatus;
     private Order order;
+    private Map<String, String> paymentInfo;
 
 
     public Payment() {}
     
     //for insert
-    public Payment(int paymentId, int orderId, double amountPaid, 
-               String paymentMethod, String transactionId, PaymentStatus paymentStatus) {
-    this.paymentId = paymentId;
-    this.orderId = orderId;
-    this.amountPaid = amountPaid;
-    this.paymentMethod = paymentMethod;
-    this.transactionId = transactionId;
-    this.paymentStatus = paymentStatus;
-}
+    public Payment(int orderId, double amountPaid, 
+               String paymentMethod, String transactionId, PaymentStatus paymentStatus, Map<String, String> paymentInfo) {
+    //    this.paymentId = paymentId;
+        this.orderId = orderId;
+        this.amountPaid = amountPaid;
+        this.paymentMethod = paymentMethod;
+        this.transactionId = transactionId;
+        this.paymentStatus = paymentStatus;
+        this.paymentInfo = paymentInfo;
+    }
 
     //for read
     public Payment(int paymentId, int orderId, String paymentDate, double amountPaid, 
-                   String paymentMethod, String transactionId, PaymentStatus paymentStatus, Order order) {
+                   String paymentMethod, String transactionId, PaymentStatus paymentStatus, Order order, Map<String, String> paymentInfo) {
         this.paymentId = paymentId;
         this.orderId = orderId;
         this.paymentDate = paymentDate;
@@ -42,8 +45,8 @@ public class Payment implements Serializable {
         this.transactionId = transactionId;
         this.paymentStatus = paymentStatus;
         this.order = order;
+        this.paymentInfo = paymentInfo;
     }
-
 
     public int getPaymentId() {return paymentId;}
     public int getOrderId() {return orderId;}
@@ -60,6 +63,14 @@ public class Payment implements Serializable {
     public void setPaymentMethod(String paymentMethod) {this.paymentMethod = paymentMethod;}
     public void setTransactionId(String transactionId) {this.transactionId = transactionId;}
     public void setPaymentStatus(PaymentStatus paymentStatus) {this.paymentStatus = paymentStatus;}
+
+    public void setPaymentInfo(Map<String, String> paymentInfo) {
+        this.paymentInfo = paymentInfo;
+    }
+    
+    public Map<String, String> getPaymentInfo() {
+        return paymentInfo;
+    }
     
     @Override
     public String toString() {

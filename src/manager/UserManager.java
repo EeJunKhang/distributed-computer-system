@@ -97,11 +97,12 @@ public class UserManager {
      * @param lastName New last name (or null to keep existing)
      * @param email New email (or null to keep existing)
      * @param address New address (or null to keep existing)
+     * @param username
      * @param contactNumber New contact number (or null to keep existing)
      * @return true if successful, false if failed or unauthorized
      */
     public boolean updateUserProfile(String tokenString, int userId, String firstName,
-                                        String lastName, String email, String address,
+                                        String lastName, String email, String address, String username,
                                         String contactNumber) {
         User tokenUser = authManager.getUserByToken(tokenString);
         if (tokenUser == null) {
@@ -123,6 +124,7 @@ public class UserManager {
         if (lastName != null) user.setLastName(lastName);
         if (email != null) user.setEmail(email);
         if (address != null) user.setAddress(address);
+        if (username != null) user.setUsername(username);
         if (contactNumber != null) user.setContactNumber(contactNumber);
 
         return userDAO.update(user);
