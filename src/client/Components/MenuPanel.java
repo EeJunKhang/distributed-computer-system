@@ -337,11 +337,14 @@ public class MenuPanel extends JPanel {
 
     public void refreshProductData() {
         fetchDataForTabs();
+        
         replaceTabContent(0, createLoadingPanel());
         replaceTabContent(1, createLoadingPanel());
         replaceTabContent(2, createLoadingPanel());
 
     }
+    
+    
 
     private void fetchDataForTabs() {
         if (token == null) {
@@ -363,6 +366,7 @@ public class MenuPanel extends JPanel {
 
     private void replaceTabContent(int tabIndex, JPanel newContent) {
         TabItem tabItem = tabItems.get(tabIndex);
+        System.out.println(tabIndex);
         JPanel contentComponent = tabItem.getContentComponent();
         contentComponent.removeAll();
         contentComponent.add(newContent, BorderLayout.CENTER);

@@ -65,6 +65,7 @@ public class HomePage extends javax.swing.JFrame {
         orderHistorySection1 = new client.Components.OrderHistorySection(this.user, this.token);
         mainTab.addTab("tab2", orderHistorySection1);
         userProfileSection1 = new client.Components.UserProfileSection((Customer) this.user, this.token);
+        
         mainTab.addTab("tab3", userProfileSection1);
     }
 
@@ -361,6 +362,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void myHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myHistoryMouseClicked
         mainTab.setSelectedIndex(2);
+       orderHistorySection1.refreshHistoryData();
     }//GEN-LAST:event_myHistoryMouseClicked
 
     private void myHistoryMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myHistoryMouseEntered
