@@ -366,7 +366,6 @@ public class MenuPanel extends JPanel {
 
     private void replaceTabContent(int tabIndex, JPanel newContent) {
         TabItem tabItem = tabItems.get(tabIndex);
-        System.out.println(tabIndex);
         JPanel contentComponent = tabItem.getContentComponent();
         contentComponent.removeAll();
         contentComponent.add(newContent, BorderLayout.CENTER);
