@@ -218,14 +218,10 @@ public class FoodItemSection extends JPanel {
             CartCard2 newCard = new CartCard2(cartItem);
             addToCartButton.setEnabled(false);
             EventBus.submitTask(() -> {
-                try {
-                    SwingUtilities.invokeLater(() -> {
-                        HomePage.cartPanel.addCartItemAsync(newCard);
-                        addToCartButton.setEnabled(true);
-                    });
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
+                SwingUtilities.invokeLater(() -> {
+                    HomePage.cartPanel.addCartItemAsync(newCard);
+                    addToCartButton.setEnabled(true);
+                });
             });
         });
 
