@@ -107,6 +107,7 @@ public abstract class DBOperation<T, K> {
     
             if (transactional) {
                 conn.commit();
+                System.out.println("Transaction committed successfully.");
             }
     
             return result;
@@ -115,6 +116,7 @@ public abstract class DBOperation<T, K> {
             if (transactional && conn != null) {
                 try {
                     conn.rollback();
+                    System.out.println("Rollback successful");
                 } catch (SQLException rollbackEx) {
                     System.out.println("Rollback failed: " + rollbackEx.getMessage());
                 }
