@@ -55,8 +55,6 @@ public class CartPanel extends JScrollPane implements QuantityChangeListener {
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
-                // Simulate network/processing delay
-                Thread.sleep(1500);
                 return null;
             }
 

@@ -219,7 +219,6 @@ public class FoodItemSection extends JPanel {
             addToCartButton.setEnabled(false);
             EventBus.submitTask(() -> {
                 try {
-                    Thread.sleep(1000);
                     SwingUtilities.invokeLater(() -> {
                         HomePage.cartPanel.addCartItemAsync(newCard);
                         addToCartButton.setEnabled(true);
