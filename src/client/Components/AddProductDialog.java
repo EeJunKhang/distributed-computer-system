@@ -186,7 +186,6 @@ class AddProductDialog extends JDialog {
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             imagePath = file.getName();
-//            System.out.println(ImagePathGetter.getImageFullPath(imagePath));
             imageLabel.setIcon(createIcon(ImagePathGetter.getImageFullPath(imagePath), IMAGE_SIZE));
         }
     }

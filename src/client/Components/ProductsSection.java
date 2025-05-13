@@ -173,7 +173,7 @@ public class ProductsSection extends JPanel {
                 Object idValue = productTable.getValueAt(selectedRow, 0); 
                 int productId = Integer.parseInt(idValue.toString());
                 
-                System.out.println(productId);
+
             
                 ProductClient client = new ProductClient(token);
                 client.deleteProduct(productId);

@@ -464,7 +464,6 @@ public class LoginPage extends javax.swing.JFrame {
         String contact = contactNumberField.getTextValue().strip();
         String address = addressField.getTextValue().strip();
         String email = emailField.getTextValue().strip();
-        System.out.println(password);
         if (username.isEmpty() || username.isBlank()) {
             JOptionPane.showMessageDialog(this,
                     "Username is empty",

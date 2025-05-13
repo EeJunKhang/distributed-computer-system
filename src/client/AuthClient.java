@@ -107,8 +107,7 @@ public class AuthClient extends ClientManager<AuthInterface> {
         try {
             AuthResult response = connectToServer().handleRegister(registerCredential);
             // credential valid and return a token
-            System.out.println("client");
-            System.out.println(registerCredential.getPassword());
+            
 
             return response;
         } catch (RemoteException | NotBoundException | MalformedURLException | UnknownHostException ex) {
