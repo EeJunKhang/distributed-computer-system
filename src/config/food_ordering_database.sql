@@ -119,10 +119,10 @@ VALUES
 INSERT INTO Payments (order_id, amount_paid, payment_method, transaction_id, payment_status, payment_info)
 VALUES
 (1, 30.00, 'Credit Card', 'trans123abc', 'Completed', 'info1'),
-(2, 35.50, 'PayPal', 'trans456xyz', 'Completed', 'info2'),
+(2, 35.50, 'Bank Transfer', 'trans456xyz', 'Completed', 'info2'),
 (3, 12.50, 'Credit Card', 'trans789xyz', 'Failed', 'info3'),
-(4, 45.00, 'PayPal', 'trans987abc', 'Pending', 'info4'),
-(5, 45.00, 'PayPal', 'trans987abac', 'Completed', 'info6'),  -- Payment for DELIVERED order
+(4, 45.00, 'Bank Transfer', 'trans987abc', 'Pending', 'info4'),
+(5, 45.00, 'Bank Transfer', 'trans987abac', 'Completed', 'info6'),  -- Payment for DELIVERED order
 (6, 45.00, 'Credit Card', 'trans987xyz', 'Completed', 'info5'); -- Payment for CANCELED order
 
 -- Inserting Logs (user actions for both orders of user_id = 5)
