@@ -88,11 +88,11 @@ VALUES
 
 INSERT INTO Products (name, description, price, category, image_url, stock_quantity)
 VALUES
-('Apple', 'Fresh and juicy red apple', 1.50, 'Fruits', 'apple.png', 200),
-('Banana', 'Ripe and sweet yellow banana', 0.75, 'Fruits', 'banana.png', 150),
-('Carrot', 'Crunchy and nutritious carrot', 1.20, 'Vegetables', 'carrot.png', 180),
-('Date', 'Sweet and chewy dates', 2.50, 'Fruits', 'date.png', 80),
-('Eggplant', 'Fresh purple eggplant', 1.75, 'Vegetables', 'date.png', 100);
+('Apple', 'Fresh and juicy red apple', 1.50, 'Fruits', 'apple.jpg', 200),
+('Banana', 'Ripe and sweet yellow banana', 0.75, 'Fruits', 'banana.jpg', 150),
+('Carrot', 'Crunchy and nutritious carrot', 1.20, 'Vegetables', 'carrot.jpg', 180),
+('Date', 'Sweet and chewy dates', 2.50, 'Fruits', 'date.jpg', 80),
+('Eggplant', 'Fresh purple eggplant', 1.75, 'Vegetables', 'date.jpg', 100);
 
 INSERT INTO Orders (user_id, total_price, status, order_time)
 VALUES
