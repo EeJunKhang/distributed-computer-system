@@ -88,11 +88,11 @@ VALUES
 
 INSERT INTO Products (name, description, price, category, image_url, stock_quantity)
 VALUES
-('Apple', 'Fresh and juicy red apple', 1.50, 'Fruits', 'apple.png', 200),
-('Banana', 'Ripe and sweet yellow banana', 0.75, 'Fruits', 'banana.png', 150),
-('Carrot', 'Crunchy and nutritious carrot', 1.20, 'Vegetables', 'carrot.png', 180),
-('Date', 'Sweet and chewy dates', 2.50, 'Fruits', 'date.png', 80),
-('Eggplant', 'Fresh purple eggplant', 1.75, 'Vegetables', 'date.png', 100);
+('Apple', 'Fresh and juicy red apple', 1.50, 'Fruits', 'apple.jpg', 200),
+('Banana', 'Ripe and sweet yellow banana', 0.75, 'Fruits', 'banana.jpg', 150),
+('Carrot', 'Crunchy and nutritious carrot', 1.20, 'Vegetables', 'carrot.jpg', 180),
+('Date', 'Sweet and chewy dates', 2.50, 'Fruits', 'date.jpg', 80),
+('Eggplant', 'Fresh purple eggplant', 1.75, 'Vegetables', 'date.jpg', 100);
 
 INSERT INTO Orders (user_id, total_price, status, order_time)
 VALUES
@@ -119,10 +119,10 @@ VALUES
 INSERT INTO Payments (order_id, amount_paid, payment_method, transaction_id, payment_status, payment_info)
 VALUES
 (1, 30.00, 'Credit Card', 'trans123abc', 'Completed', 'info1'),
-(2, 35.50, 'PayPal', 'trans456xyz', 'Completed', 'info2'),
+(2, 35.50, 'Bank Transfer', 'trans456xyz', 'Completed', 'info2'),
 (3, 12.50, 'Credit Card', 'trans789xyz', 'Failed', 'info3'),
-(4, 45.00, 'PayPal', 'trans987abc', 'Pending', 'info4'),
-(5, 45.00, 'PayPal', 'trans987abac', 'Completed', 'info6'),  -- Payment for DELIVERED order
+(4, 45.00, 'Bank Transfer', 'trans987abc', 'Pending', 'info4'),
+(5, 45.00, 'Bank Transfer', 'trans987abac', 'Completed', 'info6'),  -- Payment for DELIVERED order
 (6, 45.00, 'Credit Card', 'trans987xyz', 'Completed', 'info5'); -- Payment for CANCELED order
 
 -- Inserting Logs (user actions for both orders of user_id = 5)
