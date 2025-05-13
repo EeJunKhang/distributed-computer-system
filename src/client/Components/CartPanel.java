@@ -83,6 +83,7 @@ public class CartPanel extends JScrollPane implements QuantityChangeListener {
         }
 
         totalPrice = totalPrice.setScale(2, RoundingMode.HALF_UP); // Keep 2 decimal places
+        System.out.println(totalPrice);
         HomePage.totalPriceCart.setText("RM " + totalPrice.toString());
     }
 
