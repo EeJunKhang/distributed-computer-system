@@ -54,7 +54,7 @@ This application implements a 3-tier architecture:
    
    Default settings:
    ```
-   server.ip=192.168.114.114
+   server.ip=127.0.0.1
    client.ip=127.0.0.1
    rmi.port=1040
    ```
