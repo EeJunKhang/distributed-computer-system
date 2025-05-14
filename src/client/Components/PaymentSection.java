@@ -2,19 +2,15 @@ package client.Components;
 
 import client.OrderClient;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.AuthToken;
 import model.Payment;
@@ -22,9 +18,11 @@ import model.Products;
 
 public class PaymentSection extends JPanel {
 
+    @SuppressWarnings("unused")
     private final int IMAGE_SIZE = 64;
     private JTable productTable;
     private DefaultTableModel tableModel;
+    @SuppressWarnings("unused")
     private List<Products> products = new ArrayList<>();
     private AuthToken token;
 

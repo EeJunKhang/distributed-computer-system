@@ -124,9 +124,9 @@ class EditProductDialog extends JDialog {
         JButton saveButton = new JButton("Save");
         JButton cancelButton = new JButton("Cancel");
 
-        saveButton.addActionListener(e -> updateProduct());
+        saveButton.addActionListener(_ -> updateProduct());
 
-        cancelButton.addActionListener(e -> setVisible(false));
+        cancelButton.addActionListener(_ -> setVisible(false));
 
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
@@ -173,7 +173,7 @@ class EditProductDialog extends JDialog {
         imageLabel.setIcon(createIcon(ImagePathGetter.getImageFullPath(originalProduct.getImage()), IMAGE_SIZE));
 
         JButton uploadButton = new JButton("Upload Image");
-        uploadButton.addActionListener(e -> handleImageUpload());
+        uploadButton.addActionListener(_ -> handleImageUpload());
 
         imagePanel.add(new JLabel("Image:"), BorderLayout.NORTH);
         imagePanel.add(imageLabel, BorderLayout.CENTER);

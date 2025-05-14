@@ -25,6 +25,7 @@ public class OrderClient extends ClientManager<OrderInterface> {
 
     private final String bindObjectName = "OrderService";
     private Order order;
+    @SuppressWarnings("unused")
     private AuthToken token;
 
     @Override

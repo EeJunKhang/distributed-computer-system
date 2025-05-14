@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * Manager class for User-related operations
- * TODO: FIX Change password & Promote to admin
+ * todo: FIX Change password & Promote to admin
  */
 public class UserManager {
 

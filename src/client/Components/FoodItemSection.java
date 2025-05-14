@@ -202,7 +202,7 @@ public class FoodItemSection extends JPanel {
 
             addToCartButton.removeActionListener(addToCartButton.getActionListeners()[0]);
         }
-        addToCartButton.addActionListener(e -> {
+        addToCartButton.addActionListener(_ -> {
             Products cartItem = new Products(
                     currentItem.getId(),
                     currentItem.getItemName(),

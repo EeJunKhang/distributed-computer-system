@@ -2,7 +2,6 @@ package client;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
-import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

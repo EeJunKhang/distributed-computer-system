@@ -99,9 +99,9 @@ public class CartCard2 extends JPanel {
         quantityLabel.setFont(new Font("Arial", Font.BOLD, 12));
         quantityLabel.setBorder(new EmptyBorder(0, 4, 0, 4));
 
-        minusButton.addActionListener(e -> incrementQuantity(-1));
+        minusButton.addActionListener(_ -> incrementQuantity(-1));
 
-        plusButton.addActionListener(e -> incrementQuantity(1));
+        plusButton.addActionListener(_ -> incrementQuantity(1));
 
         quantityPanel.add(minusButton);
         quantityPanel.add(quantityLabel);

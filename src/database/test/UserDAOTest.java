@@ -1,7 +1,6 @@
 package database.test;
 
 import database.UserDAO;
-import enums.UserRole;
 import model.User;
 import model.Customer;
 

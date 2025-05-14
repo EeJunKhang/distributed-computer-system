@@ -27,6 +27,7 @@ public class OrderHistorySection extends JPanel {
 
     private JTable orderTable;
     private DefaultTableModel tableModel;
+    @SuppressWarnings("unused")
     private List<Order> orders = new ArrayList<>();
     private User user;
     private AuthToken token;

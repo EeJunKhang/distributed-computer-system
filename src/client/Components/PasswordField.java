@@ -65,6 +65,7 @@ public class PasswordField extends JPasswordField {
         
         // Add focus listeners to change border color
         addFocusListener(new FocusAdapter() {
+            @SuppressWarnings("deprecation")
             @Override
             public void focusGained(FocusEvent e) {
                 setBorder(BorderFactory.createCompoundBorder(
@@ -79,6 +80,7 @@ public class PasswordField extends JPasswordField {
                 }
             }
             
+            @SuppressWarnings("deprecation")
             @Override
             public void focusLost(FocusEvent e) {
                 setBorder(BorderFactory.createCompoundBorder(
@@ -99,6 +101,7 @@ public class PasswordField extends JPasswordField {
      * Set a placeholder text to display when the field is empty
      * @param placeholder the placeholder text
      */
+    @SuppressWarnings("deprecation")
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
         
@@ -114,6 +117,7 @@ public class PasswordField extends JPasswordField {
      * @return the actual text entered by the user
      */
     public String getTextValue() {
+        @SuppressWarnings("deprecation")
         String text = getText();
         
         // If the current text is the placeholder, return empty string

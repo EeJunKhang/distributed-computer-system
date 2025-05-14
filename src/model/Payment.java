@@ -16,6 +16,7 @@ public class Payment implements Serializable {
     private String paymentMethod;
     private String transactionId;
     private PaymentStatus paymentStatus;
+    @SuppressWarnings("unused")
     private Order order;
     private Map<String, String> paymentInfo;
 

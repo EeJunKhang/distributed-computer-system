@@ -4,6 +4,7 @@ import enums.UserRole;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@SuppressWarnings("unused")
 public class Admin extends User implements Serializable {
     private static final long serialVersionUID = 1L;
 

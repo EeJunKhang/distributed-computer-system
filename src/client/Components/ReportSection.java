@@ -190,7 +190,7 @@ public class ReportSection extends JPanel {
         errorLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
 
         JButton retryButton = new JButton("Retry");
-        retryButton.addActionListener(e -> {
+        retryButton.addActionListener(_ -> {
             remove(errorPanel);
             add(loadingPanel, BorderLayout.CENTER);
             loadingPanel.setVisible(true);

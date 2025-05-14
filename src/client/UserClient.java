@@ -4,17 +4,11 @@
  */
 package client;
 
-import enums.OrderStatus;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.List;
-import java.util.Map;
 import model.AuthToken;
-import model.Order;
-import model.Payment;
-import model.ReportData;
 import rmi.UserInterface;
 
 /**
@@ -25,6 +19,7 @@ public class UserClient extends ClientManager<UserInterface> {
 
     private final String bindObjectName = "UserService";
 //    private Order order;
+    @SuppressWarnings("unused")
     private AuthToken token;
 
     @Override

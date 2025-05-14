@@ -77,7 +77,7 @@ public class ProductsSection extends JPanel {
         errorLabel.setForeground(Color.RED);
 
         JButton retryButton = new JButton("Retry");
-        retryButton.addActionListener(e -> {
+        retryButton.addActionListener(_ -> {
             showLoadingScreen();
             loadData();
         });
@@ -118,12 +118,12 @@ public class ProductsSection extends JPanel {
         JButton addButton = new JButton("Add");
 
         // Delete button action
-        deleteButton.addActionListener(e -> handleDelete());
+        deleteButton.addActionListener(_ -> handleDelete());
 
         // Edit button action
-        editButton.addActionListener(e -> handleEdit());
+        editButton.addActionListener(_ -> handleEdit());
 
-        addButton.addActionListener(e -> handleAdd());
+        addButton.addActionListener(_ -> handleAdd());
 
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);

@@ -188,6 +188,7 @@ public class AuthClient {
         System.out.print("Enter contact number: ");
         String contactNumber = scanner.nextLine();
         
+        @SuppressWarnings("unused")
         RegisterCredential credential = new RegisterCredential(
             firstName, lastName, username, password, email, address, contactNumber
         );

@@ -69,8 +69,8 @@ public class RoundSpinner extends JSpinner {
         plusButton.setOpaque(false);
 
         // Add action listeners
-        minusButton.addActionListener(e -> adjustValue(-step));
-        plusButton.addActionListener(e -> adjustValue(step));
+        minusButton.addActionListener(_ -> adjustValue(-step));
+        plusButton.addActionListener(_ -> adjustValue(step));
 
         // Layout the components
         spinnerPanel.add(minusButton, BorderLayout.WEST);

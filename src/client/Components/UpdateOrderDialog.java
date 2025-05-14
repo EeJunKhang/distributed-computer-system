@@ -26,7 +26,9 @@ import utils.BackgroundTaskWithLoading;
 class UpdateOrderDialog extends JDialog {
 
     private final Order originalOrder;
+    @SuppressWarnings("rawtypes")
     private JComboBox dropDownField;
+    @SuppressWarnings("rawtypes")
     private JList itemList;
     private final AuthToken token;
     private boolean success;
@@ -40,6 +42,7 @@ class UpdateOrderDialog extends JDialog {
         setLocationRelativeTo(owner);
     }
 
+    @SuppressWarnings("rawtypes")
     private void initializeUI() {
         // Main panel with border for padding
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
@@ -100,9 +103,9 @@ class UpdateOrderDialog extends JDialog {
         JButton saveButton = new JButton("Save");
         JButton cancelButton = new JButton("Cancel");
 
-        saveButton.addActionListener(e -> updateOrder());
+        saveButton.addActionListener(_ -> updateOrder());
 
-        cancelButton.addActionListener(e -> setVisible(false));
+        cancelButton.addActionListener(_ -> setVisible(false));
 
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);

@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.List;
 
-import database.DBOperation.DatabaseTransaction;
 import manager.DatabaseManager;
 
 /**

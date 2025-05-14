@@ -58,6 +58,7 @@ public class OrderDAOTest {
         }
         OrderDAO orderDAO = new OrderDAO();
         UserDAO userDAO = new UserDAO();
+        @SuppressWarnings("unused")
         ProductsDAO productsDAO = new ProductsDAO();
 
         // Then, get a customer for the order

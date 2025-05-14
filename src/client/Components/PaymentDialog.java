@@ -1,7 +1,6 @@
 package client.Components;
 
 import client.OrderClient;
-import enums.PaymentStatus;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
@@ -27,7 +26,6 @@ import javax.swing.table.DefaultTableModel;
 import model.AuthToken;
 import model.Order;
 import model.OrderItem;
-import model.Payment;
 import utils.BackgroundTaskWithLoading;
 
 public class PaymentDialog extends JDialog {

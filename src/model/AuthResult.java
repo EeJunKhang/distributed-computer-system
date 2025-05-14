@@ -6,7 +6,6 @@ package model;
 
 import enums.UserRole;
 import java.io.Serializable;
-import model.AuthToken;
 
 public class AuthResult implements Serializable{
 

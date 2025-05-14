@@ -12,7 +12,6 @@ package manager;
 import database.OrderDAO;
 import database.PaymentDAO;
 import model.Order;
-import model.User;
 import enums.OrderStatus;
 import enums.PaymentStatus;
 import java.util.List;
