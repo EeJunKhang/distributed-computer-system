@@ -25,3 +25,6 @@ test/dist/
 
 # log files
 src/logs/
+
+# VSCode's build directory
+buildvs/

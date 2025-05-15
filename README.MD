@@ -134,3 +134,24 @@ Log files include:
 - stdout.log - Standard output
 - stderr.log - Error output
 - summary.log - Server startup summary
+
+
+
+---
+To use VS Code / External Editor to run the code. ensure
+ - `/lib` has 
+   - AbsoluteLayout.jar 
+   - mysqlconnector-j-9.2.0.jar
+ - `/buildvs` folder exist
+
+ - Run:
+```powershell
+
+$files = Get-ChildItem -Recurse -Filter *.java -Path src | ForEach-Object { $_.FullName }
+Copy-Item -Recurse -Path src/resources -Destination buildvs
+javac -d buildvs -cp "lib/*" $files
+
+
+java -cp "buildvs;lib/*" rmi.Registry
+java -cp "buildvs;lib/*" client.Client
+```
