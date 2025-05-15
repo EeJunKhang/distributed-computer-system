@@ -22,7 +22,7 @@ This application implements a 3-tier architecture:
 
 - Java Development Kit (JDK) 17 or higher
 - MySQL Server 8.0 or higher
-- NetBeans IDE (recommended)
+- NetBeans IDE (recommended) or VS Code/other external editors
 
 ## Setup Instructions
 
@@ -63,6 +63,8 @@ This application implements a 3-tier architecture:
 
 ### 3. Build and Run
 
+#### Using NetBeans IDE:
+
 1. Clean and Build the project in NetBeans
 
 2. Run the RMI Registry server first:
@@ -75,7 +77,39 @@ This application implements a 3-tier architecture:
    - Select "Run File"
    - The login screen should appear
 
-### 4. SSL Debugging (Optional)
+#### Using VS Code or External Editor:
+
+1. Ensure the following requirements are met:
+   - `/lib` folder contains:
+     - AbsoluteLayout.jar
+     - mysql-connector-j-9.2.0.jar
+   - `/buildvs` folder exists
+
+2. Run the following commands in PowerShell:
+
+```powershell
+# Compile all Java files
+$files = Get-ChildItem -Recurse -Filter *.java -Path src | ForEach-Object { $_.FullName }
+Copy-Item -Recurse -Path src/resources -Destination buildvs
+javac -d buildvs -cp "lib/*" $files
+
+# Run the server
+java -cp "buildvs;lib/*" rmi.Registry
+
+# Run the client (in a separate terminal)
+java -cp "buildvs;lib/*" client.Client
+```
+
+### 4. Running Tests
+
+The project includes DAO tests that can be run to verify database operations:
+
+1. Run the test suite:
+   ```
+   java -cp "buildvs;lib/*" database.test.DAOTestSuite
+   ```
+
+### 5. SSL Debugging (Optional)
 
 To view SSL handshake details, add the following VM option to your run configuration:
 ```
@@ -100,21 +134,22 @@ In NetBeans:
 
 ## Project Structure
 
-- `src/client/` - Client-side application code
-- `src/config/` - Configuration files
-- `src/database/` - Database access objects
-- `src/enums/` - Enumeration types
+- `src/client/` - Client-side application code and UI components
+- `src/config/` - Configuration files and database setup scripts
+- `src/database/` - Database access objects and DAO tests
+- `src/enums/` - Enumeration types for order status, payment status, etc.
 - `src/manager/` - Business logic managers
-- `src/model/` - Data models
+- `src/model/` - Data models and entity classes
 - `src/rmi/` - RMI interfaces and server implementations
-- `src/security/` - SSL socket factories
-- `src/utils/` - Utility classes
+- `src/security/` - SSL socket factories for secure communication
+- `src/utils/` - Utility classes for configuration, tokens, etc.
 
 ## Troubleshooting
 
 - If connection issues occur, verify network settings in NetworkProperties.properties
 - For database errors, check DatabaseProperties.properties and ensure MySQL is running
 - SSL errors may require regenerating the certificate (server.cert) and truststore (clienttruststore.jks)
+- If resources aren't found when running from VS Code, ensure the resources folder is properly copied to the build directory
 
 ## Security Features
 
@@ -134,24 +169,3 @@ Log files include:
 - stdout.log - Standard output
 - stderr.log - Error output
 - summary.log - Server startup summary
-
-
-
----
-To use VS Code / External Editor to run the code. ensure
- - `/lib` has 
-   - AbsoluteLayout.jar 
-   - mysqlconnector-j-9.2.0.jar
- - `/buildvs` folder exist
-
- - Run:
-```powershell
-
-$files = Get-ChildItem -Recurse -Filter *.java -Path src | ForEach-Object { $_.FullName }
-Copy-Item -Recurse -Path src/resources -Destination buildvs
-javac -d buildvs -cp "lib/*" $files
-
-
-java -cp "buildvs;lib/*" rmi.Registry
-java -cp "buildvs;lib/*" client.Client
-```
