@@ -38,7 +38,7 @@ public class FoodItemPanel extends JPanel {
         nameLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 
         // Price label
-        JLabel priceLabel = new JLabel("$" + item.getPrice());
+        JLabel priceLabel = new JLabel("RM " + item.getPrice());
         priceLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 

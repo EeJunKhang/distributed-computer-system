@@ -267,7 +267,6 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jPanel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseEntered
         jPanel10.setBackground(new Color(160, 160, 160));
-//        originalCursor = jPanel10.getCursor(); // Save current cursor
         jPanel10.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel10MouseEntered
 
@@ -292,7 +291,6 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void logoutPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseEntered
         logoutPanel.setBackground(new Color(160, 160, 160));
-//        originalCursor = jPanel8.getCursor(); // Save current cursor
         logoutPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_logoutPanelMouseEntered
 
@@ -303,12 +301,11 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
         mainTab.setSelectedIndex(2);
-
+        productSection.refreshProductData();
     }//GEN-LAST:event_jPanel11MouseClicked
 
     private void jPanel11MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseEntered
         jPanel11.setBackground(new Color(160, 160, 160));
-//        originalCursor = jPanel8.getCursor(); // Save current cursor
         jPanel11.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jPanel11MouseEntered
 

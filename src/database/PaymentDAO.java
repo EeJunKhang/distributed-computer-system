@@ -27,14 +27,11 @@ public class PaymentDAO extends DBOperation<Payment, Integer> {
         PaymentStatus status = PaymentStatus.valueOf(rs.getString("payment_status"));
         Order order = new OrderDAO().getOrderById(orderId);
         String paymentInfo = rs.getString("payment_info");
-        System.out.println(paymentInfo);
 
         Map<String, String> parsedMap = new HashMap<>();
         paymentInfo = paymentInfo.substring(1, paymentInfo.length() - 1); // remove braces
-        System.out.println(paymentInfo);
         
         for (String entry : paymentInfo.split(", ")) {
-            System.out.println(entry);
             String[] keyValue = entry.split("=", 2);
             parsedMap.put(keyValue[0], keyValue[1]);
         }

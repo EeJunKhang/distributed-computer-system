@@ -31,18 +31,23 @@ import utils.ImagePathGetter;
 
 class AddProductDialog extends JDialog {
 
+    public interface ProductAddedListener {
+
+        void onProductAdded();
+    }
+
+    private ProductAddedListener listener;
+
     private final int IMAGE_SIZE = 64;
-//    private Products newProduct;
-//    private Products updatedProduct;
     private TextField nameField, descField, priceField, categoryField, stockField;
     private JLabel imageLabel;
     private String imagePath;
     private final AuthToken token;
 
-    public AddProductDialog(Frame owner, AuthToken token) {
+    public AddProductDialog(Frame owner, AuthToken token, ProductAddedListener listener) {
         super(owner, "Add Product", true);
         this.token = token;
-//        originalProduct = product;
+        this.listener = listener;
         initializeUI();
         pack();
         setLocationRelativeTo(owner);
@@ -134,7 +139,6 @@ class AddProductDialog extends JDialog {
 
     private void addProduct() {
         if (validateInputs()) {
-//            newProduct = createNewProduct();
             ProductClient a = new ProductClient(token);
             new BackgroundTaskWithLoading<>(
                     this,
@@ -146,13 +150,16 @@ class AddProductDialog extends JDialog {
                                     "You successfully adding new product",
                                     "Adding Product Success",
                                     JOptionPane.INFORMATION_MESSAGE);
-//                            this.setVisible(true);
+
+                            // Notify listener that a product was added
+                            if (listener != null) {
+                                listener.onProductAdded();
+                            }
                         } else {
                             JOptionPane.showMessageDialog(this,
                                     "Something went wrong while adding new product",
                                     "Adding Product Error",
                                     JOptionPane.ERROR_MESSAGE);
-//                            this.dispose(); // Close the window if data is missing
                         }
                         setVisible(false);
                     }
@@ -263,8 +270,4 @@ class AddProductDialog extends JDialog {
                 Integer.parseInt(stockField.getText())
         );
     }
-
-//    public Products getNewProduct() {
-//        return newProduct;
-//    }
 }

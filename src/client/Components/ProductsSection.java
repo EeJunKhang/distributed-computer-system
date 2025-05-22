@@ -95,6 +95,8 @@ public class ProductsSection extends JPanel {
     private void showMainUI() {
         removeAll();
         initializeUI(); // This will create the complete UI with title, table, and buttons
+        revalidate();
+        repaint();
     }
 
     private void initializeUI() {
@@ -113,9 +115,9 @@ public class ProductsSection extends JPanel {
 
         // Buttons panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton editButton = new JButton("Edit");
-        JButton deleteButton = new JButton("Delete");
-        JButton addButton = new JButton("Add");
+        Button editButton = new Button("Edit");
+        Button deleteButton = new Button("Delete");
+        Button addButton = new Button("Add");
 
         // Delete button action
         deleteButton.addActionListener(_ -> handleDelete());
@@ -168,19 +170,25 @@ public class ProductsSection extends JPanel {
             );
 
             if (confirm == JOptionPane.YES_OPTION) {
-               
-                
-                Object idValue = productTable.getValueAt(selectedRow, 0); 
-                int productId = Integer.parseInt(idValue.toString());
-                
 
-            
+                Object idValue = productTable.getValueAt(selectedRow, 0);
+                int productId = Integer.parseInt(idValue.toString());
+
                 ProductClient client = new ProductClient(token);
-                client.deleteProduct(productId);
-                
+                boolean isSuccess = client.deleteProduct(productId);
+                if (isSuccess) {
+                    JOptionPane.showMessageDialog(this,
+                            "You successfully delete product",
+                            "Delete Product Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Something went wrong while deleting product",
+                            "Delete Product Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
                 products.remove(selectedRow);
                 tableModel.removeRow(selectedRow);
-                
             }
         } else {
             JOptionPane.showMessageDialog(this,
@@ -193,12 +201,21 @@ public class ProductsSection extends JPanel {
     private void handleAdd() {
         AddProductDialog dialog = new AddProductDialog(
                 (Frame) SwingUtilities.getWindowAncestor(this),
-                token
+                token,
+                () -> refreshProductData()
         );
+
         dialog.setVisible(true);
     }
 
+    // Add this new method to refresh product data
+    public void refreshProductData() {
+        showLoadingScreen();
+        loadData();  // This will reload all products from the server
+    }
+
     private void loadData() {
+        showLoadingScreen();
         // Create a loading panel that covers the whole section
         SwingWorker<List<Products>, Void> worker = new SwingWorker<>() {
             @Override
@@ -212,17 +229,22 @@ public class ProductsSection extends JPanel {
                 try {
                     List<Products> result = get();
 
-                    if (result != null && !result.isEmpty()) {
-                        products = result;
-                        for (Products product : products) {
-                            addProductToTable(product, -1);
+                    SwingUtilities.invokeLater(() -> {
+                        if (result != null && !result.isEmpty()) {
+                            products = result;
+                            tableModel.setRowCount(0);
+                            for (Products product : products) {
+                                addProductToTable(product, -1);
+                            }
+                            showMainUI(); // Show the complete UI only after data is loaded
+                        } else {
+                            showErrorScreen("No products found or error occurred while fetching data.");
                         }
-                        showMainUI(); // Show the complete UI only after data is loaded
-                    } else {
-                        showErrorScreen("No products found or error occurred while fetching data.");
-                    }
+                    });
                 } catch (InterruptedException | ExecutionException e) {
-                    showErrorScreen("Error fetching products: " + e.getMessage());
+                    SwingUtilities.invokeLater(() -> {
+                        showErrorScreen("Error fetching products: " + e.getMessage());
+                    });
                     e.printStackTrace();
                 }
             }
