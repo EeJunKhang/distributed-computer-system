@@ -28,3 +28,5 @@ src/logs/
 
 # VSCode's build directory
 buildvs/
+
+docs/
